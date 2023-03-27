@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.CodeAnalysis;
 
-namespace W4k.Either.CodeGenerator;
+namespace W4k.Either.CodeGeneration;
 
 [Generator]
 public class EitherGenerator : IIncrementalGenerator

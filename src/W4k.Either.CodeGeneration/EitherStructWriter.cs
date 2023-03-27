@@ -1,7 +1,7 @@
 ﻿using System.Linq;
 using System.Text;
 
-namespace W4k.Either.CodeGenerator;
+namespace W4k.Either.CodeGeneration;
 
 internal class EitherStructWriterContext
 {
