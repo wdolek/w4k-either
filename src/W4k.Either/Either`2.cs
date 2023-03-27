@@ -3,7 +3,8 @@ using System.Diagnostics.Contracts;
 
 namespace W4k.Either;
 
-public readonly struct Either<T0, T1> : IEquatable<Either<T0, T1>>
+[Serializable]
+public readonly struct Either<T0, T1> : IEquatable<Either<T0, T1>>, ISerializable
     where T0 : notnull
     where T1 : notnull
 {
@@ -16,6 +17,25 @@ public readonly struct Either<T0, T1> : IEquatable<Either<T0, T1>>
         _idx = idx;
         _v0 = v0;
         _v1 = v1;
+    }
+
+    private Either(SerializationInfo info, StreamingContext context)
+    {
+        _idx = info.GetByte(nameof(_idx));
+        switch (_idx)
+        {
+            case 0:
+                _v0 = (T0?)info.GetValue(nameof(_v0), typeof(T0));
+                break;
+
+            case 1:
+                _v1 = (T1?)info.GetValue(nameof(_v1), typeof(T1));
+                break;
+
+            default:
+                ThrowHelper.ThrowOnInvalidState();
+                break;
+        }
     }
 
     [Pure]
@@ -78,6 +98,25 @@ public readonly struct Either<T0, T1> : IEquatable<Either<T0, T1>>
             1 => _v1!.Equals(other._v1),
             _ => ThrowHelper.ThrowOnInvalidState<bool>(),
         };
+
+    public void GetObjectData(SerializationInfo info, StreamingContext context)
+    {
+        info.AddValue(nameof(_idx), _idx);
+        switch (_idx)
+        {
+            case 0:
+                info.AddValue(nameof(_v0), _v0);
+                break;
+
+            case 1:
+                info.AddValue(nameof(_v1), _v1);
+                break;
+
+            default:
+                ThrowHelper.ThrowOnInvalidState();
+                break;
+        }
+    }
 
     [Pure]
     public bool TryPick([NotNullWhen(true)] out T0? value)
