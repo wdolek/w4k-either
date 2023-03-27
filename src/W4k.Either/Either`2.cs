@@ -1,5 +1,6 @@
 using System.Diagnostics.CodeAnalysis;
 using System.Diagnostics.Contracts;
+using System.Runtime.Serialization;
 
 namespace W4k.Either;
 
@@ -12,10 +13,17 @@ public readonly struct Either<T0, T1> : IEquatable<Either<T0, T1>>, ISerializabl
     private readonly T0? _v0;
     private readonly T1? _v1;
 
-    internal Either(byte idx, T0? v0, T1? v1)
+    public Either(T0 v0)
     {
-        _idx = idx;
+        ArgumentNullException.ThrowIfNull(v0);
+        _idx = 0;
         _v0 = v0;
+    }
+
+    public Either(T1 v1)
+    {
+        ArgumentNullException.ThrowIfNull(v1);
+        _idx = 1;
         _v1 = v1;
     }
 
@@ -54,10 +62,10 @@ public readonly struct Either<T0, T1> : IEquatable<Either<T0, T1>>, ISerializabl
     public static bool operator !=(Either<T0, T1> left, Either<T0, T1> right) => !left.Equals(right);
 
     [Pure]
-    public static implicit operator Either<T0, T1>(T0 v0) => Either.From<T0, T1>(v0);
+    public static implicit operator Either<T0, T1>(T0 v0) => new(v0);
 
     [Pure]
-    public static implicit operator Either<T0, T1>(T1 v1) => Either.From<T0, T1>(v1);
+    public static implicit operator Either<T0, T1>(T1 v1) => new(v1);
 
     [Pure]
     public override int GetHashCode() =>
@@ -69,15 +77,13 @@ public readonly struct Either<T0, T1> : IEquatable<Either<T0, T1>>, ISerializabl
         };
 
     [Pure]
-    public override string ToString()
-    {
-        return _idx switch
+    public override string ToString() =>
+        _idx switch
         {
             0 => $"Either<{typeof(T0).Name}, _>({_v0})",
             1 => $"Either<_, {typeof(T1).Name}>({_v1})",
             _ => ThrowHelper.ThrowOnInvalidState<string>(),
         };
-    }
 
     [Pure]
     public override bool Equals([NotNullWhen(true)] object? obj)
