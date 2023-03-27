@@ -1,7 +1,8 @@
-﻿using System.Diagnostics.CodeAnalysis;
+﻿using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Diagnostics.Contracts;
 
-namespace W4k.Either;
+namespace W4k.Either.Abstractions;
 
 public readonly struct Unit : IEquatable<Unit>
 {

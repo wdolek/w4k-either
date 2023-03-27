@@ -1,8 +1,9 @@
-﻿using System.Diagnostics.CodeAnalysis;
+﻿using System;
+using System.Diagnostics.CodeAnalysis;
 
-namespace W4k.Either;
+namespace W4k.Either.Abstractions;
 
-internal static class ThrowHelper
+public static class ThrowHelper
 {
     [DoesNotReturn]
     public static void ThrowOnInvalidState() => throw new InvalidOperationException();
