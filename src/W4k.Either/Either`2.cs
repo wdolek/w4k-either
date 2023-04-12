@@ -51,13 +51,21 @@ namespace W4k.Either
         }
 
         [Pure]
-        public object? Case =>
-            _idx switch
+        public object? Case
+        {
+            get
             {
-                0 => _v0,
-                1 => _v1,
-                _ => ThrowHelper.ThrowOnInvalidState<object?>(),
-            };
+                switch (_idx)
+                {
+                    case 0:
+                        return _v0;
+                    case 1:
+                        return _v1;
+                    default:
+                        return ThrowHelper.ThrowOnInvalidState<object?>();
+                }
+            }
+        }
 
         [Pure]
         public static bool operator ==(Either<T0, T1> left, Either<T0, T1> right) => left.Equals(right);
@@ -72,22 +80,32 @@ namespace W4k.Either
         public static implicit operator Either<T0, T1>(T1 v1) => new(v1);
 
         [Pure]
-        public override int GetHashCode() =>
-            _idx switch
+        public override int GetHashCode()
+        {
+            switch (_idx)
             {
-                0 => _v0!.GetHashCode(),
-                1 => _v1!.GetHashCode(),
-                _ => ThrowHelper.ThrowOnInvalidState<int>(),
-            };
+                case 0:
+                    return _v0!.GetHashCode();
+                case 1:
+                    return _v1!.GetHashCode();
+                default:
+                    return ThrowHelper.ThrowOnInvalidState<int>();
+            }
+        }
 
         [Pure]
-        public override string ToString() =>
-            _idx switch
+        public override string ToString()
+        {
+            switch (_idx)
             {
-                0 => $"Either<{typeof(T0).Name}, _>({_v0})",
-                1 => $"Either<_, {typeof(T1).Name}>({_v1})",
-                _ => ThrowHelper.ThrowOnInvalidState<string>(),
-            };
+                case 0:
+                    return $"Either<{typeof(T0).Name}, _>({_v0})";
+                case 1:
+                    return $"Either<_, {typeof(T1).Name}>({_v1})";
+                default:
+                    return ThrowHelper.ThrowOnInvalidState<string>();
+            }
+        }
 
         [Pure]
         public override bool Equals([NotNullWhen(true)] object? obj)
@@ -101,15 +119,25 @@ namespace W4k.Either
         }
 
         [Pure]
-        public bool Equals(Either<T0, T1> other) =>
-            _idx == other._idx && _idx switch
+        public bool Equals(Either<T0, T1> other)
+        {
+            if (_idx != other._idx)
             {
-                0 => _v0!.Equals(other._v0),
-                1 => _v1!.Equals(other._v1),
-                _ => ThrowHelper.ThrowOnInvalidState<bool>(),
-            };
+                return false;
+            }
 
-        public void GetObjectData(SerializationInfo info, StreamingContext context)
+            switch (_idx)
+            {
+                case 0:
+                    return _v0!.Equals(other._v0);
+                case 1:
+                    return _v1!.Equals(other._v1);
+                default:
+                    return ThrowHelper.ThrowOnInvalidState<bool>();
+            }
+        }
+
+        void ISerializable.GetObjectData(SerializationInfo info, StreamingContext context)
         {
             info.AddValue(nameof(_idx), _idx);
             switch (_idx)
