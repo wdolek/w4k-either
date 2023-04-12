@@ -29,19 +29,16 @@ namespace W4k.Either.Abstractions;
 public class EitherAttribute : Attribute
 {
     public EitherAttribute()
-        : this(0, null, null, null, null, null, null, null, null)
     {
     }
 
     public EitherAttribute(Type t0, Type t1)
-        : this(2, t0, t1, null, null, null, null, null, null)
     {
         ThrowHelper.ThrowIfNull(t0);
         ThrowHelper.ThrowIfNull(t1);
     }
 
     public EitherAttribute(Type t0, Type t1, Type t2)
-        : this(3, t0, t1, t2, null, null, null, null, null)
     {
         ThrowHelper.ThrowIfNull(t0);
         ThrowHelper.ThrowIfNull(t1);
@@ -49,7 +46,6 @@ public class EitherAttribute : Attribute
     }
 
     public EitherAttribute(Type t0, Type t1, Type t2, Type t3)
-        : this(4, t0, t1, t2, t3, null, null, null, null)
     {
         ThrowHelper.ThrowIfNull(t0);
         ThrowHelper.ThrowIfNull(t1);
@@ -58,7 +54,6 @@ public class EitherAttribute : Attribute
     }
 
     public EitherAttribute(Type t0, Type t1, Type t2, Type t3, Type t4)
-        : this(5, t0, t1, t2, t3, t4, null, null, null)
     {
         ThrowHelper.ThrowIfNull(t0);
         ThrowHelper.ThrowIfNull(t1);
@@ -68,7 +63,6 @@ public class EitherAttribute : Attribute
     }
 
     public EitherAttribute(Type t0, Type t1, Type t2, Type t3, Type t4, Type t5)
-        : this(6, t0, t1, t2, t3, t4, t5, null, null)
     {
         ThrowHelper.ThrowIfNull(t0);
         ThrowHelper.ThrowIfNull(t1);
@@ -79,7 +73,6 @@ public class EitherAttribute : Attribute
     }
 
     public EitherAttribute(Type t0, Type t1, Type t2, Type t3, Type t4, Type t5, Type t6)
-        : this(7, t0, t1, t2, t3, t4, t5, t6, null)
     {
         ThrowHelper.ThrowIfNull(t0);
         ThrowHelper.ThrowIfNull(t1);
@@ -91,7 +84,6 @@ public class EitherAttribute : Attribute
     }
 
     public EitherAttribute(Type t0, Type t1, Type t2, Type t3, Type t4, Type t5, Type t6, Type t7)
-        : this(8, t0, t1, t2, t3, t4, t5, t6, t7)
     {
         ThrowHelper.ThrowIfNull(t0);
         ThrowHelper.ThrowIfNull(t1);
@@ -102,36 +94,4 @@ public class EitherAttribute : Attribute
         ThrowHelper.ThrowIfNull(t6);
         ThrowHelper.ThrowIfNull(t7);
     }
-
-    private EitherAttribute(
-        byte numOfGenericTypes,
-        Type? t0,
-        Type? t1,
-        Type? t2,
-        Type? t3,
-        Type? t4,
-        Type? t5,
-        Type? t6,
-        Type? t7)
-    {
-        NumOfGenericTypes = numOfGenericTypes;
-        T0 = t0;
-        T1 = t1;
-        T2 = t2;
-        T3 = t3;
-        T4 = t4;
-        T5 = t5;
-        T6 = t6;
-        T7 = t7;
-    }
-
-    public byte NumOfGenericTypes { get; }
-    public Type? T0 { get; }
-    public Type? T1 { get; }
-    public Type? T2 { get; }
-    public Type? T3 { get; }
-    public Type? T4 { get; }
-    public Type? T5 { get; }
-    public Type? T6 { get; }
-    public Type? T7 { get; }
 }
