@@ -19,14 +19,14 @@ namespace W4k.Either
 
         public Either(T0 v0)
         {
-            ArgumentNullException.ThrowIfNull(v0);
+            ThrowHelper.ThrowIfNull(v0);
             _idx = 0;
             _v0 = v0;
         }
 
         public Either(T1 v1)
         {
-            ArgumentNullException.ThrowIfNull(v1);
+            ThrowHelper.ThrowIfNull(v1);
             _idx = 1;
             _v1 = v1;
         }
@@ -156,8 +156,8 @@ namespace W4k.Either
 
         public TResult Match<TResult>(Func<T0, TResult> f0, Func<T1, TResult> f1)
         {
-            ArgumentNullException.ThrowIfNull(f0);
-            ArgumentNullException.ThrowIfNull(f1);
+            ThrowHelper.ThrowIfNull(f0);
+            ThrowHelper.ThrowIfNull(f1);
 
             return _idx switch
             {
@@ -169,8 +169,8 @@ namespace W4k.Either
 
         public TResult Match<TState, TResult>(TState state, Func<TState, T0, TResult> f0, Func<TState, T1, TResult> f1)
         {
-            ArgumentNullException.ThrowIfNull(f0);
-            ArgumentNullException.ThrowIfNull(f1);
+            ThrowHelper.ThrowIfNull(f0);
+            ThrowHelper.ThrowIfNull(f1);
 
             return _idx switch
             {
@@ -182,8 +182,8 @@ namespace W4k.Either
 
         public Task<TResult> MatchAsync<TResult>(Func<T0, CancellationToken, Task<TResult>> f0, Func<T1, CancellationToken, Task<TResult>> f1, CancellationToken cancellationToken = default)
         {
-            ArgumentNullException.ThrowIfNull(f0);
-            ArgumentNullException.ThrowIfNull(f1);
+            ThrowHelper.ThrowIfNull(f0);
+            ThrowHelper.ThrowIfNull(f1);
 
             return _idx switch
             {
@@ -195,8 +195,8 @@ namespace W4k.Either
 
         public Task<TResult> MatchAsync<TState, TResult>(TState state, Func<TState, T0, CancellationToken, Task<TResult>> f0, Func<TState, T1, CancellationToken, Task<TResult>> f1, CancellationToken cancellationToken = default)
         {
-            ArgumentNullException.ThrowIfNull(f0);
-            ArgumentNullException.ThrowIfNull(f1);
+            ThrowHelper.ThrowIfNull(f0);
+            ThrowHelper.ThrowIfNull(f1);
 
             return _idx switch
             {
