@@ -109,11 +109,9 @@ public class EitherGenerator : IIncrementalGenerator
         }
 
         var sb = new StringBuilder(4096);
+        EitherStructWriter.Write(structToGenerate, sb);
         
-        var writer = new EitherStructWriter(structToGenerate, sb);
-        writer.Write();
-        
-        context.AddSource($"{structToGenerate.TargetTypeName}.generated.cs", sb.ToString());
+        context.AddSource(CreateGeneratedFileName(structToGenerate), sb.ToString());
     }
 
     private static bool IsPartial(INamedTypeSymbol namedTypeSymbol, CancellationToken cancellationToken)
@@ -133,8 +131,8 @@ public class EitherGenerator : IIncrementalGenerator
         }
 
         return false;
-    }    
- 
+    }
+
     private static string[] GetAttributeTypeParameters(AttributeData attribute, CancellationToken cancellationToken)
     {
         cancellationToken.ThrowIfCancellationRequested();
@@ -199,5 +197,12 @@ public class EitherGenerator : IIncrementalGenerator
         }
 
         return (@params, null);
+    }
+
+    private static string CreateGeneratedFileName(EitherStructGenerationContext structToGenerate)
+    {
+        return structToGenerate.IsGenericType
+            ? $"{structToGenerate.TargetTypeName}`{structToGenerate.TypeParameters.Count}.generated.cs"
+            : $"{structToGenerate.TargetTypeName}.generated.cs";
     }
 }
