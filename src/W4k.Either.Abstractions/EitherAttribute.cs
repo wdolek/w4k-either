@@ -19,11 +19,6 @@ namespace W4k.Either.Abstractions;
 /// [Either(typeof(int), typeof(string))]
 /// partial struct IntOrString { }
 /// </code>
-/// Or with C# 11.0 generic attributes:
-/// <code>
-/// [Either&gt;int, string&lt;]
-/// partial struct IntOrString { }
-/// </code>
 /// </example>
 [AttributeUsage(AttributeTargets.Struct, AllowMultiple = false, Inherited = false)]
 public class EitherAttribute : Attribute
