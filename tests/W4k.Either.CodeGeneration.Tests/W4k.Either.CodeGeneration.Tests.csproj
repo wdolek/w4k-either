@@ -34,4 +34,8 @@
     <ProjectReference Include="..\..\src\W4k.Either.CodeGeneration\W4k.Either.CodeGeneration.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Snapshots\" />
+  </ItemGroup>
+
 </Project>

@@ -26,6 +26,6 @@ public static class TestHelper
 
         return Verifier
             .Verify(driver)
-            .UseDirectory("snapshots");
+            .UseDirectory("Snapshots");
     }
 }
