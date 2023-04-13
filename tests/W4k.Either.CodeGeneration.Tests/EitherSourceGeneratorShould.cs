@@ -9,7 +9,7 @@ public class EitherSourceGeneratorShould
         var source = @"
 using W4k.Either.Abstractions;
 
-namespace EitherTest
+namespace MyLittleEither.MyLittleEitherMonad
 {
     [Either]
     public partial struct MyEither<TLeft, TRight>
