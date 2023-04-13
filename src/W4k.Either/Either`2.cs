@@ -187,12 +187,15 @@ namespace W4k.Either
             ThrowHelper.ThrowIfNull(f0);
             ThrowHelper.ThrowIfNull(f1);
 
-            return _idx switch
+            switch (_idx)
             {
-                0 => f0(_v0!),
-                1 => f1(_v1!),
-                _ => ThrowHelper.ThrowOnInvalidState<TResult>(),
-            };
+                case 0: 
+                    return f0(_v0!);
+                case 1: 
+                    return f1(_v1!);
+                default: 
+                    return ThrowHelper.ThrowOnInvalidState<TResult>();
+            }
         }
 
         public TResult Match<TState, TResult>(TState state, Func<TState, T0, TResult> f0, Func<TState, T1, TResult> f1)
@@ -200,12 +203,15 @@ namespace W4k.Either
             ThrowHelper.ThrowIfNull(f0);
             ThrowHelper.ThrowIfNull(f1);
 
-            return _idx switch
+            switch (_idx)
             {
-                0 => f0(state, _v0!),
-                1 => f1(state, _v1!),
-                _ => ThrowHelper.ThrowOnInvalidState<TResult>(),
-            };
+                case 0:
+                    return f0(state, _v0!);
+                case 1:
+                    return f1(state, _v1!);
+                default:
+                    return ThrowHelper.ThrowOnInvalidState<TResult>();
+            }
         }
 
         public Task<TResult> MatchAsync<TResult>(Func<T0, CancellationToken, Task<TResult>> f0, Func<T1, CancellationToken, Task<TResult>> f1, CancellationToken cancellationToken = default)
@@ -213,12 +219,15 @@ namespace W4k.Either
             ThrowHelper.ThrowIfNull(f0);
             ThrowHelper.ThrowIfNull(f1);
 
-            return _idx switch
+            switch (_idx)
             {
-                0 => f0(_v0!, cancellationToken),
-                1 => f1(_v1!, cancellationToken),
-                _ => ThrowHelper.ThrowOnInvalidState<Task<TResult>>(),
-            };
+                case 0:
+                    return f0(_v0!, cancellationToken);
+                case 1:
+                    return f1(_v1!, cancellationToken);
+                default:
+                    return ThrowHelper.ThrowOnInvalidState<Task<TResult>>();
+            }
         }
 
         public Task<TResult> MatchAsync<TState, TResult>(TState state, Func<TState, T0, CancellationToken, Task<TResult>> f0, Func<TState, T1, CancellationToken, Task<TResult>> f1, CancellationToken cancellationToken = default)
@@ -226,36 +235,54 @@ namespace W4k.Either
             ThrowHelper.ThrowIfNull(f0);
             ThrowHelper.ThrowIfNull(f1);
 
-            return _idx switch
+            switch (_idx)
             {
-                0 => f0(state, _v0!, cancellationToken),
-                1 => f1(state, _v1!, cancellationToken),
-                _ => ThrowHelper.ThrowOnInvalidState<Task<TResult>>(),
-            };
+                case 0:
+                    return f0(state, _v0!, cancellationToken);
+                case 1:
+                    return f1(state, _v1!, cancellationToken);
+                default:
+                    return ThrowHelper.ThrowOnInvalidState<Task<TResult>>();
+            }
         }
 
-        public void Switch(Action<T0> a0, Action<T1> a1) =>
+        public void Switch(Action<T0> a0, Action<T1> a1)
+        {
             Match(
-                v0 => { a0(v0); return Unit.Default; },
-                v1 => { a1(v1); return Unit.Default; });
+                value => { a0(value); return Unit.Default; },
+                value => { a1(value); return Unit.Default; });
+        }
 
-        public void Switch<TState>(TState state, Action<TState, T0> a0, Action<TState, T1> a1) =>
+        public void Switch<TState>(TState state, Action<TState, T0> a0, Action<TState, T1> a1)
+        {
             Match(
                 state,
                 (s, v0) => { a0(s, v0); return Unit.Default; },
                 (s, v1) => { a1(s, v1); return Unit.Default; });
+        }
 
-        public Task SwitchAsync(Func<T0, CancellationToken, Task> a0, Func<T1, CancellationToken, Task> a1, CancellationToken cancellationToken = default) =>
-            MatchAsync(
+        public Task SwitchAsync(
+            Func<T0, CancellationToken, Task> a0,
+            Func<T1, CancellationToken, Task> a1,
+            CancellationToken cancellationToken = default)
+        {
+            return MatchAsync(
                 async (v0, ct) => { await a0(v0, ct); return Unit.Default; },
                 async (v1, ct) => { await a1(v1, ct); return Unit.Default; },
                 cancellationToken);
+        }
 
-        public Task SwitchAsync<TState>(TState state, Func<TState, T0, CancellationToken, Task> a0, Func<TState, T1, CancellationToken, Task> a1, CancellationToken cancellationToken = default) =>
-            MatchAsync(
+        public Task SwitchAsync<TState>(
+            TState state,
+            Func<TState, T0, CancellationToken, Task> a0,
+            Func<TState, T1, CancellationToken, Task> a1,
+            CancellationToken cancellationToken = default)
+        {
+            return MatchAsync(
                 state,
                 async (s, v0, ct) => { await a0(s, v0, ct); return Unit.Default; },
                 async (s, v1, ct) => { await a1(s, v1, ct); return Unit.Default; },
                 cancellationToken);
+        }
     }
 }
