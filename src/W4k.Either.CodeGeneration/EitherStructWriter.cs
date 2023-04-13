@@ -13,11 +13,8 @@ internal static class EitherStructWriter
         
         WriteFileHeader(sb);
         WriteUsing(sb);
-
         StartNamespace(context, sb);
-        
         StartTypeDeclaration(context, sb, typeName);
-        
         WriteFields(context, sb);
         WriteConstructors(context, sb);
         WriteProperties(context, sb);
@@ -25,9 +22,16 @@ internal static class EitherStructWriter
         WriteObjectOverrides(context, sb, typeName);
         WriteEquatableEquals(context, sb, typeName);
         WriteGetObjectData(context, sb);
-        
+        WriteTryPick(context, sb);
+        WriteMatch(context, sb);
+        WriteMatchWithState(context, sb);
+        WriteAsyncMatch(context, sb);
+        WriteAsyncMatchWithState(context, sb);
+        WriteSwitch(context, sb);
+        WriteSwitchWithState(context, sb);
+        WriteAsyncSwitch(context, sb);
+        WriteAsyncSwitchWithState(context, sb);
         EndTypeDeclaration(sb);
-        
         EndNamespace(sb);
     }
 
@@ -72,7 +76,7 @@ internal static class EitherStructWriter
     private static void StartTypeDeclaration(EitherStructGenerationContext context, StringBuilder sb, string typeName)
     {
         sb.AppendLine("    [Serializable]");
-        sb.AppendLine($"    readonly struct {typeName} : IEquatable<{typeName}>, ISerializable");
+        sb.AppendLine($"    readonly partial struct {typeName} : IEquatable<{typeName}>, ISerializable");
 
         foreach (var t in context.TypeParameters)
         {
@@ -194,13 +198,13 @@ internal static class EitherStructWriter
         sb.AppendLine();
 
         sb.AppendLine("        [Pure]");
-        sb.AppendLine($"        public static bool operator !=({typeName} left, {typeName} right) => !left.Equals(right)");
+        sb.AppendLine($"        public static bool operator !=({typeName} left, {typeName} right) => !left.Equals(right);");
         sb.AppendLine();
 
         foreach (var t in types)
         {
             sb.AppendLine("        [Pure]");
-            sb.AppendLine($"        public static implicit operator ${typeName}({t} v) => new(v);");
+            sb.AppendLine($"        public static implicit operator {typeName}({t} v) => new(v);");
             sb.AppendLine();
         }
     }
@@ -337,6 +341,327 @@ internal static class EitherStructWriter
         sb.AppendLine("            }");
         sb.AppendLine("        }");
         sb.AppendLine();
+    }
+
+#endregion
+
+    private static void WriteTryPick(EitherStructGenerationContext context, StringBuilder sb)
+    {
+        var types = context.TypeParameters;
+
+        for (var i = 0; i < types.Count; i++)
+        {
+            sb.AppendLine("        [Pure]");
+            sb.AppendLine($"        public bool TryPick([NotNullWhen(true)] out {types[i]}? value)");
+            sb.AppendLine("        {");
+            sb.AppendLine($"            if (_idx == {i})");
+            sb.AppendLine("            {");
+            sb.AppendLine($"                value = _v{i}!;");
+            sb.AppendLine("                return true;");
+            sb.AppendLine("            }");
+            sb.AppendLine();
+            sb.AppendLine("            value = default;");
+            sb.AppendLine("            return false;");
+            sb.AppendLine("        }");
+            sb.AppendLine();
+        }
+    }
+
+#region Match
+    
+    private static void WriteMatch(EitherStructGenerationContext context, StringBuilder sb)
+    {
+        var types = context.TypeParameters;
+
+        sb.AppendLine("        public TResult Match<TResult>(");
+
+        // parameters
+        for (var i = 0; i < types.Count; i++)
+        {
+            sb.Append($"            Func<{types[i]}, TResult> f{i}");
+            sb.AppendLine(
+                i < types.Count - 1
+                    ? ","
+                    : ")");
+        }
+        
+        sb.AppendLine("        {");
+
+        // null checks
+        for (var i = 0; i < types.Count; i++)
+        {
+            sb.AppendLine($"            ThrowHelper.ThrowIfNull(f{i});");
+        }
+
+        sb.AppendLine();
+        
+        // switch
+        sb.AppendLine("            switch(_idx)");
+        sb.AppendLine("            {");
+
+        for (var i = 0; i < types.Count; i++)
+        {
+            sb.AppendLine($"                case {i}:");
+            sb.AppendLine($"                    return f{i}(_v{i}!);");
+        }
+
+        sb.AppendLine("                default:");
+        sb.AppendLine("                    return ThrowHelper.ThrowOnInvalidState<TResult>();");
+        sb.AppendLine("            };");
+        sb.AppendLine("        }");
+        sb.AppendLine();
+    }
+    
+    private static void WriteMatchWithState(EitherStructGenerationContext context, StringBuilder sb)
+    {
+        var types = context.TypeParameters;
+
+        sb.AppendLine("        public TResult Match<TState, TResult>(");
+
+        // parameters
+        sb.AppendLine("            TState state,");
+        for (var i = 0; i < types.Count; i++)
+        {
+            sb.Append($"            Func<TState, {types[i]}, TResult> f{i}");
+            sb.AppendLine(
+                i < types.Count - 1
+                    ? ","
+                    : ")");
+        }
+        
+        sb.AppendLine("        {");
+
+        // null checks
+        for (var i = 0; i < types.Count; i++)
+        {
+            sb.AppendLine($"            ThrowHelper.ThrowIfNull(f{i});");
+        }
+
+        sb.AppendLine();
+        
+        // switch
+        sb.AppendLine("            switch(_idx)");
+        sb.AppendLine("            {");
+
+        for (var i = 0; i < types.Count; i++)
+        {
+            sb.AppendLine($"                case {i}:");
+            sb.AppendLine($"                    return f{i}(state, _v{i}!);");
+        }
+
+        sb.AppendLine("                default:");
+        sb.AppendLine("                    return ThrowHelper.ThrowOnInvalidState<TResult>();");
+        sb.AppendLine("            };");
+        sb.AppendLine("        }");
+        sb.AppendLine();
+    }
+    
+#endregion
+
+#region MatchAsync
+
+    private static void WriteAsyncMatch(EitherStructGenerationContext context, StringBuilder sb)
+    {
+        var types = context.TypeParameters;
+
+        sb.AppendLine("        public Task<TResult> MatchAsync<TResult>(");
+
+        // parameters
+        for (var i = 0; i < types.Count; i++)
+        {
+            sb.AppendLine($"            Func<{types[i]}, CancellationToken, Task<TResult>> f{i},");
+        }
+
+        sb.AppendLine("            CancellationToken cancellationToken = default)");
+        sb.AppendLine("        {");
+
+        // null checks
+        for (var i = 0; i < types.Count; i++)
+        {
+            sb.AppendLine($"            ThrowHelper.ThrowIfNull(f{i});");
+        }
+
+        sb.AppendLine();
+        
+        // switch
+        sb.AppendLine("            switch(_idx)");
+        sb.AppendLine("            {");
+
+        for (var i = 0; i < types.Count; i++)
+        {
+            sb.AppendLine($"                case {i}:");
+            sb.AppendLine($"                    return f{i}(_v{i}!, cancellationToken);");
+        }
+
+        sb.AppendLine("                default:");
+        sb.AppendLine("                    return ThrowHelper.ThrowOnInvalidState<Task<TResult>>();");
+        sb.AppendLine("            };");
+        sb.AppendLine("        }");
+        sb.AppendLine();
+    }
+    
+    private static void WriteAsyncMatchWithState(EitherStructGenerationContext context, StringBuilder sb)
+    {
+        var types = context.TypeParameters;
+
+        sb.AppendLine("        public Task<TResult> MatchAsync<TState, TResult>(");
+
+        // parameters
+        sb.AppendLine("            TState state,");
+        for (var i = 0; i < types.Count; i++)
+        {
+            sb.AppendLine($"            Func<TState, {types[i]}, CancellationToken, Task<TResult>> f{i},");
+        }
+
+        sb.AppendLine("            CancellationToken cancellationToken = default)");
+        sb.AppendLine("        {");
+
+        // null checks
+        for (var i = 0; i < types.Count; i++)
+        {
+            sb.AppendLine($"            ThrowHelper.ThrowIfNull(f{i});");
+        }
+
+        sb.AppendLine();
+        
+        // switch
+        sb.AppendLine("            switch(_idx)");
+        sb.AppendLine("            {");
+
+        for (var i = 0; i < types.Count; i++)
+        {
+            sb.AppendLine($"                case {i}:");
+            sb.AppendLine($"                    return f{i}(state, _v{i}!, cancellationToken);");
+        }
+
+        sb.AppendLine("                default:");
+        sb.AppendLine("                    return ThrowHelper.ThrowOnInvalidState<Task<TResult>>();");
+        sb.AppendLine("            };");
+        sb.AppendLine("        }");
+        sb.AppendLine();
+    }
+
+#endregion
+
+#region Switch (all)
+
+    private static void WriteSwitch(EitherStructGenerationContext context, StringBuilder sb)
+    {
+        var types = context.TypeParameters;
+        
+        sb.AppendLine("        public void Switch(");
+
+        // parameters
+        for (var i = 0; i < types.Count; i++)
+        {
+            sb.Append($"            Action<{types[i]}> a{i}");
+            sb.AppendLine(
+                i < types.Count - 1
+                    ? ","
+                    : ")");
+        }
+        
+        sb.AppendLine("        {");
+        sb.AppendLine("            Match(");
+
+        for (var i = 0; i < types.Count; i++)
+        {
+            sb.Append($"                v => {{ a{i}(v); return Unit.Default; }}");
+            sb.AppendLine(
+                i < types.Count - 1
+                    ? ","
+                    : ");");
+        }
+
+        sb.AppendLine("        }");
+        sb.AppendLine();
+    }
+    
+    private static void WriteSwitchWithState(EitherStructGenerationContext context, StringBuilder sb)
+    {
+        var types = context.TypeParameters;
+        
+        sb.AppendLine("        public void Switch<TState>(");
+
+        // parameters
+        sb.AppendLine("            TState state,");
+        for (var i = 0; i < types.Count; i++)
+        {
+            sb.Append($"            Action<TState, {types[i]}> a{i}");
+            sb.AppendLine(
+                i < types.Count - 1
+                    ? ","
+                    : ")");
+        }
+        
+        sb.AppendLine("        {");
+        sb.AppendLine("            Match(");
+        sb.AppendLine("                state,");
+
+        for (var i = 0; i < types.Count; i++)
+        {
+            sb.Append($"                (s, v) => {{ a{i}(s, v); return Unit.Default; }}");
+            sb.AppendLine(
+                i < types.Count - 1
+                    ? ","
+                    : ");");
+        }
+
+        sb.AppendLine("        }");
+        sb.AppendLine();
+    }
+    
+    private static void WriteAsyncSwitch(EitherStructGenerationContext context, StringBuilder sb)
+    {
+        var types = context.TypeParameters;
+        
+        sb.AppendLine("        public Task SwitchAsync(");
+
+        // parameters
+        for (var i = 0; i < types.Count; i++)
+        {
+            sb.AppendLine($"            Func<{types[i]}, CancellationToken, Task> a{i},");
+        }
+
+        sb.AppendLine("            CancellationToken cancellationToken = default)");
+        sb.AppendLine("        {");
+        sb.AppendLine("            return MatchAsync(");
+
+        for (var i = 0; i < types.Count; i++)
+        {
+            sb.AppendLine($"                async (v, ct) => {{ await a{i}(v, ct); return Unit.Default; }},");
+        }
+
+        sb.AppendLine("                cancellationToken);");
+        sb.AppendLine("        }");
+        sb.AppendLine();
+    }
+    
+    private static void WriteAsyncSwitchWithState(EitherStructGenerationContext context, StringBuilder sb)
+    {
+        var types = context.TypeParameters;
+        
+        sb.AppendLine("        public Task SwitchAsync<TState>(");
+
+        // parameters
+        sb.AppendLine("            TState state,");
+        for (var i = 0; i < types.Count; i++)
+        {
+            sb.AppendLine($"            Func<TState, {types[i]}, CancellationToken, Task> a{i},");
+        }
+
+        sb.AppendLine("            CancellationToken cancellationToken = default)");
+        sb.AppendLine("        {");
+        sb.AppendLine("            return MatchAsync(");
+        sb.AppendLine("                state,");
+
+        for (var i = 0; i < types.Count; i++)
+        {
+            sb.AppendLine($"                async (s, v, ct) => {{ await a{i}(s, v, ct); return Unit.Default; }},");
+        }
+
+        sb.AppendLine("                cancellationToken);");
+        sb.AppendLine("        }");
     }
 
 #endregion
