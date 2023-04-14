@@ -58,7 +58,7 @@ public class EitherGenerator : IIncrementalGenerator
         }
 
         // get type parameters
-        var attrTypeParams = GetAttributeTypeParameters(context.Attributes[0], context.SemanticModel, cancellationToken);
+        var attrTypeParams = GetAttributeTypeParameters(context.Attributes[0], cancellationToken);
         var (targetTypeParams, diagnostic) = GetTargetTypeParameters(typeSymbol, cancellationToken);
 
         if (diagnostic is not null)
@@ -135,7 +135,6 @@ public class EitherGenerator : IIncrementalGenerator
 
     private static EitherStructGenerationContext.TypeParameter[] GetAttributeTypeParameters(
         AttributeData attribute,
-        SemanticModel semanticModel,
         CancellationToken cancellationToken)
     {
         cancellationToken.ThrowIfCancellationRequested();
@@ -147,6 +146,7 @@ public class EitherGenerator : IIncrementalGenerator
         }
 
         var displayFormat = new SymbolDisplayFormat(
+            typeQualificationStyle: SymbolDisplayTypeQualificationStyle.NameAndContainingTypesAndNamespaces,
             genericsOptions: SymbolDisplayGenericsOptions.IncludeTypeParameters,
             miscellaneousOptions: SymbolDisplayMiscellaneousOptions.UseSpecialTypes);
 
@@ -160,7 +160,7 @@ public class EitherGenerator : IIncrementalGenerator
             {
                 @params[i] = new EitherStructGenerationContext.TypeParameter(
                     index: i + 1,
-                    name: typeSymbol.ToMinimalDisplayString(semanticModel, 0, displayFormat),
+                    name: typeSymbol.ToDisplayString(displayFormat),
                     isValueType: typeSymbol.IsValueType,
                     isNullable: false);
             }
@@ -195,14 +195,14 @@ public class EitherGenerator : IIncrementalGenerator
 
         for (var i = 0; i < @params.Length; i++)
         {
-            var p = typeParameters[i];
+            var param = typeParameters[i];
 
-            var isValueType = p.HasValueTypeConstraint || p.IsValueType;
-            var isNullable = !isValueType && !p.HasNotNullConstraint;
+            var isValueType = param.HasValueTypeConstraint || param.IsValueType;
+            var isNullable = !isValueType && !param.HasNotNullConstraint;
             
             @params[i] = new EitherStructGenerationContext.TypeParameter(
                 index: i + 1,
-                name: p.Name,
+                name: param.Name,
                 isValueType: isValueType,
                 isNullable: isNullable);
         }

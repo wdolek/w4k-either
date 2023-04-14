@@ -17,7 +17,7 @@ namespace MyLittleEither.MyLittleEitherMonad
     {
         private readonly byte _idx;
         private readonly string? _v1;
-        private readonly List<int>? _v2;
+        private readonly System.Collections.Generic.List<int>? _v2;
 
         public MyEither(string value)
         {
@@ -26,7 +26,7 @@ namespace MyLittleEither.MyLittleEitherMonad
             _v1 = value;
         }
 
-        public MyEither(List<int> value)
+        public MyEither(System.Collections.Generic.List<int> value)
         {
             ThrowHelper.ThrowIfNull(value);
             _idx = 2;
@@ -42,7 +42,7 @@ namespace MyLittleEither.MyLittleEitherMonad
                     _v1 = (string)info.GetValue(nameof(_v1), typeof(string));
                     break;
                 case 2:
-                    _v2 = (List<int>)info.GetValue(nameof(_v2), typeof(List<int>));
+                    _v2 = (System.Collections.Generic.List<int>)info.GetValue(nameof(_v2), typeof(System.Collections.Generic.List<int>));
                     break;
                 default:
                     ThrowHelper.ThrowOnInvalidState();
@@ -77,7 +77,7 @@ namespace MyLittleEither.MyLittleEitherMonad
         public static implicit operator MyEither(string value) => new(value);
 
         [Pure]
-        public static implicit operator MyEither(List<int> value) => new(value);
+        public static implicit operator MyEither(System.Collections.Generic.List<int> value) => new(value);
 
         [Pure]
         public override int GetHashCode()
@@ -169,7 +169,7 @@ namespace MyLittleEither.MyLittleEitherMonad
         }
 
         [Pure]
-        public bool TryPick([NotNullWhen(true)] out List<int>? value)
+        public bool TryPick([NotNullWhen(true)] out System.Collections.Generic.List<int>? value)
         {
             if (_idx == 2)
             {
@@ -183,7 +183,7 @@ namespace MyLittleEither.MyLittleEitherMonad
 
         public TResult Match<TResult>(
             Func<string, TResult> f1,
-            Func<List<int>, TResult> f2)
+            Func<System.Collections.Generic.List<int>, TResult> f2)
         {
             ThrowHelper.ThrowIfNull(f1);
             ThrowHelper.ThrowIfNull(f2);
@@ -202,7 +202,7 @@ namespace MyLittleEither.MyLittleEitherMonad
         public TResult Match<TState, TResult>(
             TState state,
             Func<TState, string, TResult> f1,
-            Func<TState, List<int>, TResult> f2)
+            Func<TState, System.Collections.Generic.List<int>, TResult> f2)
         {
             ThrowHelper.ThrowIfNull(f1);
             ThrowHelper.ThrowIfNull(f2);
@@ -220,7 +220,7 @@ namespace MyLittleEither.MyLittleEitherMonad
 
         public Task<TResult> MatchAsync<TResult>(
             Func<string, CancellationToken, Task<TResult>> f1,
-            Func<List<int>, CancellationToken, Task<TResult>> f2,
+            Func<System.Collections.Generic.List<int>, CancellationToken, Task<TResult>> f2,
             CancellationToken cancellationToken = default)
         {
             ThrowHelper.ThrowIfNull(f1);
@@ -240,7 +240,7 @@ namespace MyLittleEither.MyLittleEitherMonad
         public Task<TResult> MatchAsync<TState, TResult>(
             TState state,
             Func<TState, string, CancellationToken, Task<TResult>> f1,
-            Func<TState, List<int>, CancellationToken, Task<TResult>> f2,
+            Func<TState, System.Collections.Generic.List<int>, CancellationToken, Task<TResult>> f2,
             CancellationToken cancellationToken = default)
         {
             ThrowHelper.ThrowIfNull(f1);
@@ -259,7 +259,7 @@ namespace MyLittleEither.MyLittleEitherMonad
 
         public void Switch(
             Action<string> a1,
-            Action<List<int>> a2)
+            Action<System.Collections.Generic.List<int>> a2)
         {
             Match(
                 v => { a1(v); return Unit.Default; },
@@ -269,7 +269,7 @@ namespace MyLittleEither.MyLittleEitherMonad
         public void Switch<TState>(
             TState state,
             Action<TState, string> a1,
-            Action<TState, List<int>> a2)
+            Action<TState, System.Collections.Generic.List<int>> a2)
         {
             Match(
                 state,
@@ -279,7 +279,7 @@ namespace MyLittleEither.MyLittleEitherMonad
 
         public Task SwitchAsync(
             Func<string, CancellationToken, Task> a1,
-            Func<List<int>, CancellationToken, Task> a2,
+            Func<System.Collections.Generic.List<int>, CancellationToken, Task> a2,
             CancellationToken cancellationToken = default)
         {
             return MatchAsync(
@@ -291,7 +291,7 @@ namespace MyLittleEither.MyLittleEitherMonad
         public Task SwitchAsync<TState>(
             TState state,
             Func<TState, string, CancellationToken, Task> a1,
-            Func<TState, List<int>, CancellationToken, Task> a2,
+            Func<TState, System.Collections.Generic.List<int>, CancellationToken, Task> a2,
             CancellationToken cancellationToken = default)
         {
             return MatchAsync(
