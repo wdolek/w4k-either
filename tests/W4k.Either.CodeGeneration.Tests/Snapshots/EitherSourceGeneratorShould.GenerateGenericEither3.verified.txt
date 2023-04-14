@@ -47,13 +47,13 @@ namespace MyLittleEither.MyLittleEitherMonad
             switch (_idx)
             {
                 case 1:
-                    _v1 = (TLeft)info.GetValue(nameof(_v1), typeof(TLeft));
+                    _v1 = (TLeft?)info.GetValue(nameof(_v1), typeof(TLeft));
                     break;
                 case 2:
-                    _v2 = (TMiddle)info.GetValue(nameof(_v2), typeof(TMiddle));
+                    _v2 = (TMiddle?)info.GetValue(nameof(_v2), typeof(TMiddle));
                     break;
                 case 3:
-                    _v3 = (TRight)info.GetValue(nameof(_v3), typeof(TRight));
+                    _v3 = (TRight?)info.GetValue(nameof(_v3), typeof(TRight));
                     break;
                 default:
                     ThrowHelper.ThrowOnInvalidState();
@@ -185,7 +185,7 @@ namespace MyLittleEither.MyLittleEitherMonad
         {
             if (_idx == 1)
             {
-                value = _v1;
+                value = _v1!;
                 return true;
             }
 
@@ -198,7 +198,7 @@ namespace MyLittleEither.MyLittleEitherMonad
         {
             if (_idx == 2)
             {
-                value = _v2;
+                value = _v2!;
                 return true;
             }
 
@@ -211,7 +211,7 @@ namespace MyLittleEither.MyLittleEitherMonad
         {
             if (_idx == 3)
             {
-                value = _v3;
+                value = _v3!;
                 return true;
             }
 
@@ -238,7 +238,7 @@ namespace MyLittleEither.MyLittleEitherMonad
                     return f3(_v3!);
                 default:
                     return ThrowHelper.ThrowOnInvalidState<TResult>();
-            };
+            }
         }
 
         public TResult Match<TState, TResult>(
@@ -261,7 +261,7 @@ namespace MyLittleEither.MyLittleEitherMonad
                     return f3(state, _v3!);
                 default:
                     return ThrowHelper.ThrowOnInvalidState<TResult>();
-            };
+            }
         }
 
         public Task<TResult> MatchAsync<TResult>(
@@ -284,7 +284,7 @@ namespace MyLittleEither.MyLittleEitherMonad
                     return f3(_v3!, cancellationToken);
                 default:
                     return ThrowHelper.ThrowOnInvalidState<Task<TResult>>();
-            };
+            }
         }
 
         public Task<TResult> MatchAsync<TState, TResult>(
@@ -308,7 +308,7 @@ namespace MyLittleEither.MyLittleEitherMonad
                     return f3(state, _v3!, cancellationToken);
                 default:
                     return ThrowHelper.ThrowOnInvalidState<Task<TResult>>();
-            };
+            }
         }
 
         public void Switch(

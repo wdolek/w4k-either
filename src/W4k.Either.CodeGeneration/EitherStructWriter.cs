@@ -164,7 +164,18 @@ internal static class EitherStructWriter
         foreach (var typeParam in context.TypeParameters)
         {
             sb.AppendLine($"                case {typeParam.Index}:");
-            sb.AppendLine($"                    _v{typeParam.Index} = ({typeParam.ArgumentName})info.GetValue(nameof(_v{typeParam.Index}), typeof({typeParam.ParameterName}));");
+            
+            if (typeParam.IsValueType && !typeParam.IsNullable)
+            {
+                // don't turn value type into `Nullable<T>`
+                sb.AppendLine($"                    _v{typeParam.Index} = ({typeParam.ArgumentName})info.GetValue(nameof(_v{typeParam.Index}), typeof({typeParam.ParameterName}));");
+            }
+            else
+            {
+                // intentionally making nullable any reference type (no matter of constraints)
+                sb.AppendLine($"                    _v{typeParam.Index} = ({typeParam.ArgumentName}?)info.GetValue(nameof(_v{typeParam.Index}), typeof({typeParam.ParameterName}));");
+            }            
+
             sb.AppendLine("                    break;");
         }
         
@@ -371,13 +382,17 @@ internal static class EitherStructWriter
             var notNullWhenTrue = typeParam.IsNullable
                 ? string.Empty
                 : "[NotNullWhen(true)] ";
+            
+            var nullForgivingOperator = !typeParam.IsValueType && !typeParam.IsNullable
+                ? "!"
+                : string.Empty;
 
             sb.AppendLine("        [Pure]");
             sb.AppendLine($"        public bool TryPick({notNullWhenTrue}out {typeParam.ArgumentName}? value)");
             sb.AppendLine("        {");
             sb.AppendLine($"            if (_idx == {typeParam.Index})");
             sb.AppendLine("            {");
-            sb.AppendLine($"                value = _v{typeParam.Index};");
+            sb.AppendLine($"                value = _v{typeParam.Index}{nullForgivingOperator};");
             sb.AppendLine("                return true;");
             sb.AppendLine("            }");
             sb.AppendLine();
@@ -431,7 +446,7 @@ internal static class EitherStructWriter
 
         sb.AppendLine("                default:");
         sb.AppendLine("                    return ThrowHelper.ThrowOnInvalidState<TResult>();");
-        sb.AppendLine("            };");
+        sb.AppendLine("            }");
         sb.AppendLine("        }");
         sb.AppendLine();
     }
@@ -478,7 +493,7 @@ internal static class EitherStructWriter
 
         sb.AppendLine("                default:");
         sb.AppendLine("                    return ThrowHelper.ThrowOnInvalidState<TResult>();");
-        sb.AppendLine("            };");
+        sb.AppendLine("            }");
         sb.AppendLine("        }");
         sb.AppendLine();
     }
@@ -523,7 +538,7 @@ internal static class EitherStructWriter
 
         sb.AppendLine("                default:");
         sb.AppendLine("                    return ThrowHelper.ThrowOnInvalidState<Task<TResult>>();");
-        sb.AppendLine("            };");
+        sb.AppendLine("            }");
         sb.AppendLine("        }");
         sb.AppendLine();
     }
@@ -565,7 +580,7 @@ internal static class EitherStructWriter
 
         sb.AppendLine("                default:");
         sb.AppendLine("                    return ThrowHelper.ThrowOnInvalidState<Task<TResult>>();");
-        sb.AppendLine("            };");
+        sb.AppendLine("            }");
         sb.AppendLine("        }");
         sb.AppendLine();
     }
