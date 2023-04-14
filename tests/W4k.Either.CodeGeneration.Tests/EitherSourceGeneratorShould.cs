@@ -4,6 +4,27 @@
 public class EitherSourceGeneratorShould
 {
     [Fact]
+    public Task GenerateIntOrStr()
+    {
+        var source = @"
+using System;
+using W4k.Either.Abstractions;
+
+namespace MyLittleEither.MyLittleEitherMonad
+{
+    [Either(typeof(int), typeof(string))]
+    public partial struct IntOrStr
+    {
+    }
+}";
+
+        var (diagnostics, output) = TestHelper.GenerateSourceCode(source);
+        Assert.Empty(diagnostics);
+
+        return Verify(output).UseDirectory("Snapshots");
+    }    
+
+    [Fact]
     public Task GenerateEither2()
     {
         var source = @"
@@ -19,7 +40,10 @@ namespace MyLittleEither.MyLittleEitherMonad
     }
 }";
 
-        return TestHelper.Verify(source);
+        var (diagnostics, output) = TestHelper.GenerateSourceCode(source);
+        Assert.Empty(diagnostics);
+
+        return Verify(output).UseDirectory("Snapshots");
     }
     
     [Fact]
@@ -39,6 +63,9 @@ namespace MyLittleEither.MyLittleEitherMonad
     }
 }";
 
-        return TestHelper.Verify(source);
+        var (diagnostics, output) = TestHelper.GenerateSourceCode(source);
+        Assert.Empty(diagnostics);
+
+        return Verify(output).UseDirectory("Snapshots");
     }    
 }
