@@ -158,6 +158,7 @@ public class EitherGenerator : IIncrementalGenerator
             var arg = ctorArguments[i];
             if (arg.Value is INamedTypeSymbol typeSymbol)
             {
+                // TODO: detect same type
                 @params[i] = new EitherStructGenerationContext.TypeParameter(
                     index: i + 1,
                     name: typeSymbol.ToDisplayString(displayFormat),
@@ -200,6 +201,7 @@ public class EitherGenerator : IIncrementalGenerator
             var isValueType = param.HasValueTypeConstraint || param.IsValueType;
             var isNullable = !isValueType && !param.HasNotNullConstraint;
             
+            // TODO: detect same type
             @params[i] = new EitherStructGenerationContext.TypeParameter(
                 index: i + 1,
                 name: param.Name,
