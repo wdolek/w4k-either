@@ -18,7 +18,7 @@ public class EitherGenerator : IIncrementalGenerator
         IncrementalValuesProvider<EitherStructGenerationContext> structsToGenerate = context.SyntaxProvider
             .ForAttributeWithMetadataName(
                 EitherAttributeFullyQualifiedName,
-                static (node, ct) => IsStructDeclarationSyntax(node, ct),
+                static (node, _) => IsStructDeclarationSyntax(node),
                 static (ctx, ct) => GetTypeToGenerate(ctx, ct))
             .Where(c => c is not null)!;
         
@@ -27,7 +27,7 @@ public class EitherGenerator : IIncrementalGenerator
             static (ctx, structToGenerate) => Execute(ctx, structToGenerate));
     }
 
-    private static bool IsStructDeclarationSyntax(SyntaxNode node, CancellationToken cancellationToken) =>
+    private static bool IsStructDeclarationSyntax(SyntaxNode node) =>
         node is StructDeclarationSyntax;
 
     private static EitherStructGenerationContext? GetTypeToGenerate(
@@ -58,7 +58,7 @@ public class EitherGenerator : IIncrementalGenerator
         }
 
         // get type parameters
-        var attrTypeParams = GetAttributeTypeParameters(context.Attributes[0], cancellationToken);
+        var attrTypeParams = GetAttributeTypeParameters(context.Attributes[0], context.SemanticModel, cancellationToken);
         var (targetTypeParams, diagnostic) = GetTargetTypeParameters(typeSymbol, cancellationToken);
 
         if (diagnostic is not null)
@@ -133,29 +133,43 @@ public class EitherGenerator : IIncrementalGenerator
         return false;
     }
 
-    private static string[] GetAttributeTypeParameters(AttributeData attribute, CancellationToken cancellationToken)
+    private static EitherStructGenerationContext.TypeParameter[] GetAttributeTypeParameters(
+        AttributeData attribute,
+        SemanticModel semanticModel,
+        CancellationToken cancellationToken)
     {
         cancellationToken.ThrowIfCancellationRequested();
-        
+
         var ctor = attribute.AttributeConstructor;
         if (ctor is null || ctor.Parameters.Length == 0)
         {
-            return Array.Empty<string>();
+            return Array.Empty<EitherStructGenerationContext.TypeParameter>();
         }
 
-        var ctorParameters = ctor.Parameters;
-        var @params = new string[ctorParameters.Length];
+        var displayFormat = new SymbolDisplayFormat(
+            genericsOptions: SymbolDisplayGenericsOptions.IncludeTypeParameters,
+            miscellaneousOptions: SymbolDisplayMiscellaneousOptions.UseSpecialTypes);
+
+        var ctorArguments = attribute.ConstructorArguments;
+        var @params = new EitherStructGenerationContext.TypeParameter[ctorArguments.Length];
 
         for (var i = 0; i < @params.Length; i++)
         {
-            var p = ctorParameters[i];
-            @params[i] = p.Type.ToDisplayString();
+            var arg = ctorArguments[i];
+            if (arg.Value is INamedTypeSymbol typeSymbol)
+            {
+                @params[i] = new EitherStructGenerationContext.TypeParameter(
+                    index: i + 1,
+                    name: typeSymbol.ToMinimalDisplayString(semanticModel, 0, displayFormat),
+                    isValueType: typeSymbol.IsValueType,
+                    isNullable: false);
+            }
         }
 
         return @params;
     }
 
-    private static (string[], Diagnostic?) GetTargetTypeParameters(
+    private static (EitherStructGenerationContext.TypeParameter[] TypeParameters, Diagnostic? Diagnostic) GetTargetTypeParameters(
         INamedTypeSymbol typeSymbol,
         CancellationToken cancellationToken)
     {
@@ -163,7 +177,7 @@ public class EitherGenerator : IIncrementalGenerator
 
         if (typeSymbol.Arity == 0)
         {
-            return (Array.Empty<string>(), null);
+            return (Array.Empty<EitherStructGenerationContext.TypeParameter>(), null);
         }
 
         if (typeSymbol.Arity < 2)
@@ -173,36 +187,27 @@ public class EitherGenerator : IIncrementalGenerator
                 location: typeSymbol.Locations[0],
                 messageArgs: typeSymbol.Name);
 
-            return (Array.Empty<string>(), diagnostic);
+            return (Array.Empty<EitherStructGenerationContext.TypeParameter>(), diagnostic);
         }
 
         var typeParameters = typeSymbol.TypeParameters;
-        var @params = new string[typeParameters.Length];
+        var @params = new EitherStructGenerationContext.TypeParameter[typeParameters.Length];
 
         for (var i = 0; i < @params.Length; i++)
         {
             var p = typeParameters[i];
-            @params[i] = p.Name;
-
-            // check if the type parameter has a notnull constraint
-            if (!p.HasNotNullConstraint)
-            {
-                var diagnostic = Diagnostic.Create(
-                    descriptor: DiagnosticDescriptors.NotNullConstraintMissing,
-                    location: p.Locations[0],
-                    messageArgs: p.Name);
-
-                return (Array.Empty<string>(), diagnostic);
-            }
+            @params[i] = new EitherStructGenerationContext.TypeParameter(
+                index: i + 1,
+                name: p.Name,
+                isValueType: p.HasValueTypeConstraint || p.IsValueType,
+                isNullable: !p.HasNotNullConstraint);
         }
 
         return (@params, null);
     }
 
-    private static string CreateGeneratedFileName(EitherStructGenerationContext structToGenerate)
-    {
-        return structToGenerate.IsGenericType
-            ? $"{structToGenerate.TargetTypeName}`{structToGenerate.TypeParameters.Count}.generated.cs"
-            : $"{structToGenerate.TargetTypeName}.generated.cs";
-    }
+    private static string CreateGeneratedFileName(EitherStructGenerationContext structToGenerate) =>
+        structToGenerate.IsGenericType
+            ? $"{structToGenerate.TargetTypeName}`{structToGenerate.TypeParameters.Count}.g.cs"
+            : $"{structToGenerate.TargetTypeName}.g.cs";
 }

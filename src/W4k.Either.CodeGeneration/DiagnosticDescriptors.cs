@@ -35,12 +35,4 @@ internal static class DiagnosticDescriptors
         category: "Usage",
         defaultSeverity: DiagnosticSeverity.Error,
         isEnabledByDefault: true);
-
-    public static readonly DiagnosticDescriptor NotNullConstraintMissing = new(
-        id: "W4KE005",
-        title: "NotNull constraint missing",
-        messageFormat: "The type parameter '{0}' must have the notnull constraint",
-        category: "Usage",
-        defaultSeverity: DiagnosticSeverity.Error,
-        isEnabledByDefault: true);
 }
