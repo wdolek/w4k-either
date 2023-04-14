@@ -196,11 +196,15 @@ public class EitherGenerator : IIncrementalGenerator
         for (var i = 0; i < @params.Length; i++)
         {
             var p = typeParameters[i];
+
+            var isValueType = p.HasValueTypeConstraint || p.IsValueType;
+            var isNullable = !isValueType && !p.HasNotNullConstraint;
+            
             @params[i] = new EitherStructGenerationContext.TypeParameter(
                 index: i + 1,
                 name: p.Name,
-                isValueType: p.HasValueTypeConstraint || p.IsValueType,
-                isNullable: !p.HasNotNullConstraint);
+                isValueType: isValueType,
+                isNullable: isNullable);
         }
 
         return (@params, null);
