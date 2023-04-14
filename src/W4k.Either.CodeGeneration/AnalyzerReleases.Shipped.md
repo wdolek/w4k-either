@@ -4,4 +4,3 @@
 | W4KE002 | Usage    | Error    | TooFewTypeParameters     |
 | W4KE003 | Usage    | Error    | AmbiguousTypeParameters  |
 | W4KE004 | Usage    | Error    | NoTypeParameter          |
-| W4KE005 | Usage    | Error    | NotNullConstraintMissing |
