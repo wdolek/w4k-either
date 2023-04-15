@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Text;
 using System.Threading;
 using Microsoft.CodeAnalysis;
@@ -58,12 +59,16 @@ public class EitherGenerator : IIncrementalGenerator
         }
 
         // get type parameters
-        var attrTypeParams = GetAttributeTypeParameters(context.Attributes[0], cancellationToken);
-        var (targetTypeParams, diagnostic) = GetTargetTypeParameters(typeSymbol, cancellationToken);
-
-        if (diagnostic is not null)
+        var (attrTypeParams, attrDiagnostic) = GetAttributeTypeParameters(context.Attributes[0], cancellationToken);
+        if (attrDiagnostic is not null)
         {
-            return EitherStructGenerationContext.Invalid(targetNamespace, targetName, diagnostic);
+            return EitherStructGenerationContext.Invalid(targetNamespace, targetName, attrDiagnostic);
+        }
+        
+        var (targetTypeParams, genericsDiagnostic) = GetTargetTypeParameters(typeSymbol, cancellationToken);
+        if (genericsDiagnostic is not null)
+        {
+            return EitherStructGenerationContext.Invalid(targetNamespace, targetName, genericsDiagnostic);
         }
 
         // user has not specified any type parameter
@@ -133,7 +138,7 @@ public class EitherGenerator : IIncrementalGenerator
         return false;
     }
 
-    private static EitherStructGenerationContext.TypeParameter[] GetAttributeTypeParameters(
+    private static (EitherStructGenerationContext.TypeParameter[] TypeParameters, Diagnostic? Diagnostic) GetAttributeTypeParameters(
         AttributeData attribute,
         CancellationToken cancellationToken)
     {
@@ -142,7 +147,7 @@ public class EitherGenerator : IIncrementalGenerator
         var ctor = attribute.AttributeConstructor;
         if (ctor is null || ctor.Parameters.Length == 0)
         {
-            return Array.Empty<EitherStructGenerationContext.TypeParameter>();
+            return (Array.Empty<EitherStructGenerationContext.TypeParameter>(), null);
         }
 
         var displayFormat = new SymbolDisplayFormat(
@@ -151,23 +156,34 @@ public class EitherGenerator : IIncrementalGenerator
             miscellaneousOptions: SymbolDisplayMiscellaneousOptions.UseSpecialTypes);
 
         var ctorArguments = attribute.ConstructorArguments;
-        var @params = new EitherStructGenerationContext.TypeParameter[ctorArguments.Length];
+        
+        var typeParams = new EitherStructGenerationContext.TypeParameter[ctorArguments.Length];
+        var typeParamsSpan = typeParams.AsSpan();
 
-        for (var i = 0; i < @params.Length; i++)
+        for (var i = 0; i < typeParams.Length; i++)
         {
             var arg = ctorArguments[i];
             if (arg.Value is INamedTypeSymbol typeSymbol)
             {
-                // TODO: detect same type
-                @params[i] = new EitherStructGenerationContext.TypeParameter(
+                var typeParamName = typeSymbol.ToDisplayString(displayFormat);
+                var attributeLocation =
+                    attribute.ApplicationSyntaxReference?.SyntaxTree.GetLocation(attribute.ApplicationSyntaxReference.Span)
+                    ?? typeSymbol.Locations[0];
+
+                if (IsTypeUsed(typeParamsSpan.Slice(0, i), typeSymbol, attributeLocation, typeParamName, out var diagnostic))
+                {
+                    return (Array.Empty<EitherStructGenerationContext.TypeParameter>(), diagnostic);
+                }
+
+                typeParams[i] = new EitherStructGenerationContext.TypeParameter(
                     index: i + 1,
-                    name: typeSymbol.ToDisplayString(displayFormat),
+                    name: typeParamName,
                     isValueType: typeSymbol.IsValueType,
                     isNullable: false);
             }
         }
 
-        return @params;
+        return (typeParams, null);
     }
 
     private static (EitherStructGenerationContext.TypeParameter[] TypeParameters, Diagnostic? Diagnostic) GetTargetTypeParameters(
@@ -191,25 +207,57 @@ public class EitherGenerator : IIncrementalGenerator
             return (Array.Empty<EitherStructGenerationContext.TypeParameter>(), diagnostic);
         }
 
-        var typeParameters = typeSymbol.TypeParameters;
-        var @params = new EitherStructGenerationContext.TypeParameter[typeParameters.Length];
+        var typeParams = new EitherStructGenerationContext.TypeParameter[typeSymbol.TypeParameters.Length];
+        var typeParamsSpan = typeParams.AsSpan();
 
-        for (var i = 0; i < @params.Length; i++)
+        for (var i = 0; i < typeParams.Length; i++)
         {
-            var param = typeParameters[i];
-
-            var isValueType = param.HasValueTypeConstraint || param.IsValueType;
-            var isNullable = !isValueType && !param.HasNotNullConstraint;
+            var typeParam = typeSymbol.TypeParameters[i];
+            var typeParamName = typeParam.Name;
             
-            // TODO: detect same type
-            @params[i] = new EitherStructGenerationContext.TypeParameter(
+            // TODO: check for same constraint on different type parameters
+            if (IsTypeUsed(typeParamsSpan.Slice(0, i), typeSymbol, typeParam.Locations[0], typeParamName, out var diagnostic))
+            {
+                return (Array.Empty<EitherStructGenerationContext.TypeParameter>(), diagnostic);
+            }
+
+            var isValueType = typeParam.HasValueTypeConstraint || typeParam.IsValueType;
+            var isNullable = !isValueType && !typeParam.HasNotNullConstraint;
+
+            typeParams[i] = new EitherStructGenerationContext.TypeParameter(
                 index: i + 1,
-                name: param.Name,
+                name: typeParamName,
                 isValueType: isValueType,
                 isNullable: isNullable);
         }
 
-        return (@params, null);
+        return (typeParams, null);
+    }
+
+    private static bool IsTypeUsed(
+        Span<EitherStructGenerationContext.TypeParameter> collectedParams,
+        INamedTypeSymbol typeSymbol,
+        Location location,
+        string typeParamName,
+        [NotNullWhen(true)] out Diagnostic? diagnostic)
+    {
+        foreach (var typeParameter in collectedParams)
+        {
+            if (typeParameter.ParameterName != typeParamName)
+            {
+                continue;
+            }
+                      
+            diagnostic = Diagnostic.Create(
+                descriptor: DiagnosticDescriptors.TypeMustBeUnique,
+                location: location,
+                messageArgs: typeSymbol.Name);
+                        
+            return true;
+        }
+
+        diagnostic = null;
+        return false;
     }
 
     private static string CreateGeneratedFileName(EitherStructGenerationContext structToGenerate) =>

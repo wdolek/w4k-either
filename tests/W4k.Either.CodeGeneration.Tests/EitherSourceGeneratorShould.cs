@@ -110,4 +110,96 @@ namespace MyLittleEither.MyLittleEitherMonad
 
         return Verify(output).UseDirectory("Snapshots");
     }
+
+    [Theory]
+    [MemberData(nameof(CreateDiagnosticErrorProducingSourceCode))]
+    public void ReportErrorWhenTypeIsNotPartial(string source, string expectedDiagnosticId)
+    {
+        var (diagnostics, _) = TestHelper.GenerateSourceCode(source);
+
+        Assert.NotEmpty(diagnostics);
+        Assert.Equal(expectedDiagnosticId, diagnostics[0].Id);
+    }
+
+    public static TheoryData<string, string> CreateDiagnosticErrorProducingSourceCode()
+    {
+        const string notPartial = @"
+using W4k.Either.Abstractions;
+
+namespace MyLittleEither.MyLittleEitherMonad
+{
+    [Either]
+    public struct MyEither<T0, T1>
+    {
+    }
+}";
+        
+        const string tooFewTypeParams = @"
+using W4k.Either.Abstractions;
+
+namespace MyLittleEither.MyLittleEitherMonad
+{
+    [Either]
+    public partial struct MyEither<T0>
+    {
+    }
+}";
+
+        const string ambiguousTypeParams = @"
+using W4k.Either.Abstractions;
+
+namespace MyLittleEither.MyLittleEitherMonad
+{
+    [Either(typeof(int), typeof(string))]
+    public partial struct MyEither<T0, T1>
+    {
+    }
+}";
+        
+        const string noTypeParam = @"
+using W4k.Either.Abstractions;
+
+namespace MyLittleEither.MyLittleEitherMonad
+{
+    [Either]
+    public partial struct MyEither
+    {
+    }
+}";
+        
+        const string typeParamsNotUnique = @"
+using W4k.Either.Abstractions;
+
+namespace MyLittleEither.MyLittleEitherMonad
+{
+    [Either]
+    public partial struct MyEither<T0, T1>
+    {
+    }
+}";
+
+        return new TheoryData<string, string>
+        {
+            {
+                notPartial,
+                "W4KE001"
+            },
+            {
+                tooFewTypeParams,
+                "W4KE002"
+            },
+            {
+                ambiguousTypeParams,
+                "W4KE003"
+            },
+            {
+                noTypeParam,
+                "W4KE004"
+            },
+            {
+                typeParamsNotUnique,
+                "W4KE005"
+            }
+        };
+    }
 }

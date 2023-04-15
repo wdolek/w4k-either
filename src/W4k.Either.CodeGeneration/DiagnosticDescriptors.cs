@@ -35,4 +35,12 @@ internal static class DiagnosticDescriptors
         category: "Usage",
         defaultSeverity: DiagnosticSeverity.Error,
         isEnabledByDefault: true);
+    
+    public static readonly DiagnosticDescriptor TypeMustBeUnique = new(
+        id: "W4KE005",
+        title: "Using one type twice is not allowed",
+        messageFormat: "The type {0} is already used",
+        category: "Usage",
+        defaultSeverity: DiagnosticSeverity.Error,
+        isEnabledByDefault: true);
 }
