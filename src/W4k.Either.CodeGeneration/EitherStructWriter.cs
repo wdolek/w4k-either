@@ -259,9 +259,18 @@ internal static class EitherStructWriter
         foreach (var typeParam in context.TypeParameters)
         {
             sb.AppendLine($"                case {typeParam.Index}:");
-            sb.AppendLine(typeParam.IsReferenceType
-                ? $"                    return _v{typeParam.Index}?.GetHashCode() ?? 0;"
-                : $"                    return _v{typeParam.Index}.GetHashCode();");
+            if (typeParam.IsNullableReferenceType)
+            {
+                sb.AppendLine($"                    return _v{typeParam.Index}?.GetHashCode() ?? 0;");
+            } 
+            else if (typeParam.IsNonNullableReferenceType)
+            {
+                sb.AppendLine($"                    return _v{typeParam.Index}!.GetHashCode();");
+            }
+            else
+            {
+                sb.AppendLine($"                    return _v{typeParam.Index}.GetHashCode();");
+            }
         }
         
         sb.AppendLine("                default:");
@@ -282,10 +291,18 @@ internal static class EitherStructWriter
         foreach (var typeParam in context.TypeParameters)
         {
             sb.AppendLine($"                case {typeParam.Index}:");
-            sb.AppendLine(
-                typeParam.IsReferenceType
-                    ? $"                    return _v{typeParam.Index}?.ToString() ?? string.Empty;"
-                    : $"                    return _v{typeParam.Index}.ToString();");
+            if (typeParam.IsNullableReferenceType)
+            {
+                sb.AppendLine($"                    return _v{typeParam.Index}?.ToString() ?? string.Empty;");
+            } 
+            else if (typeParam.IsNonNullableReferenceType)
+            {
+                sb.AppendLine($"                    return _v{typeParam.Index}!.ToString();");
+            }
+            else
+            {
+                sb.AppendLine($"                    return _v{typeParam.Index}.ToString();");
+            }
         }
         
         sb.AppendLine("                default:");
@@ -330,10 +347,18 @@ internal static class EitherStructWriter
         foreach (var typeParam in context.TypeParameters)
         {
             sb.AppendLine($"                case {typeParam.Index}:");
-            sb.AppendLine(
-                typeParam.IsReferenceType
-                    ? $"                    return _v{typeParam.Index}?.Equals(other._v{typeParam.Index}) ?? false;"
-                    : $"                    return _v{typeParam.Index}.Equals(other._v{typeParam.Index});");
+            if (typeParam.IsNullableReferenceType)
+            {
+                sb.AppendLine($"                    return _v{typeParam.Index}?.Equals(other._v{typeParam.Index}) ?? false;");
+            } 
+            else if (typeParam.IsNonNullableReferenceType)
+            {
+                sb.AppendLine($"                    return _v{typeParam.Index}!.Equals(other._v{typeParam.Index});");
+            }
+            else
+            {
+                sb.AppendLine($"                    return _v{typeParam.Index}.Equals(other._v{typeParam.Index});");
+            }
         }
         
         sb.AppendLine("                default:");

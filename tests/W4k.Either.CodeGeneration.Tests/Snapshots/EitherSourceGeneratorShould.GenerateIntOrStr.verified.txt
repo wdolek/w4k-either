@@ -86,7 +86,7 @@ namespace MyLittleEither.MyLittleEitherMonad
                 case 1:
                     return _v1.GetHashCode();
                 case 2:
-                    return _v2?.GetHashCode() ?? 0;
+                    return _v2!.GetHashCode();
                 default:
                     return ThrowHelper.ThrowOnInvalidState<int>();
             }
@@ -100,7 +100,7 @@ namespace MyLittleEither.MyLittleEitherMonad
                 case 1:
                     return _v1.ToString();
                 case 2:
-                    return _v2?.ToString() ?? string.Empty;
+                    return _v2!.ToString();
                 default:
                     return ThrowHelper.ThrowOnInvalidState<string>();
             }
@@ -130,7 +130,7 @@ namespace MyLittleEither.MyLittleEitherMonad
                 case 1:
                     return _v1.Equals(other._v1);
                 case 2:
-                    return _v2?.Equals(other._v2) ?? false;
+                    return _v2!.Equals(other._v2);
                 default:
                     return ThrowHelper.ThrowOnInvalidState<bool>();
             }
