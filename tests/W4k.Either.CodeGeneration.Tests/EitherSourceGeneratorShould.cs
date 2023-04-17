@@ -113,7 +113,7 @@ namespace MyLittleEither.MyLittleEitherMonad
 
     [Theory]
     [MemberData(nameof(CreateDiagnosticErrorProducingSourceCode))]
-    public void ReportErrorWhenTypeIsNotPartial(string source, string expectedDiagnosticId)
+    public void ReportErrorForInvalidCode(string source, string expectedDiagnosticId)
     {
         var (diagnostics, _) = TestHelper.GenerateSourceCode(source);
 
@@ -166,17 +166,6 @@ namespace MyLittleEither.MyLittleEitherMonad
     {
     }
 }";
-        
-        const string typeParamsNotUnique = @"
-using W4k.Either.Abstractions;
-
-namespace MyLittleEither.MyLittleEitherMonad
-{
-    [Either]
-    public partial struct MyEither<T0, T1>
-    {
-    }
-}";
 
         return new TheoryData<string, string>
         {
@@ -196,10 +185,6 @@ namespace MyLittleEither.MyLittleEitherMonad
                 noTypeParam,
                 "W4KE004"
             },
-            {
-                typeParamsNotUnique,
-                "W4KE005"
-            }
         };
     }
 }

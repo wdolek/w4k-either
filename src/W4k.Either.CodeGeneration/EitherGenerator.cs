@@ -208,18 +208,11 @@ public class EitherGenerator : IIncrementalGenerator
         }
 
         var typeParams = new EitherStructGenerationContext.TypeParameter[typeSymbol.TypeParameters.Length];
-        var typeParamsSpan = typeParams.AsSpan();
 
         for (var i = 0; i < typeParams.Length; i++)
         {
             var typeParam = typeSymbol.TypeParameters[i];
             var typeParamName = typeParam.Name;
-            
-            // TODO: check for same constraint on different type parameters
-            if (IsTypeUsed(typeParamsSpan.Slice(0, i), typeSymbol, typeParam.Locations[0], typeParamName, out var diagnostic))
-            {
-                return (Array.Empty<EitherStructGenerationContext.TypeParameter>(), diagnostic);
-            }
 
             var isValueType = typeParam.HasValueTypeConstraint || typeParam.IsValueType;
             var isNullable = !isValueType && !typeParam.HasNotNullConstraint;
