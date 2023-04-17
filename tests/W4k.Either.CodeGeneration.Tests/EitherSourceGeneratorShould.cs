@@ -166,6 +166,29 @@ namespace MyLittleEither.MyLittleEitherMonad
     {
     }
 }";
+        
+        const string typesNotUnique = @"
+using W4k.Either.Abstractions;
+
+namespace MyLittleEither.MyLittleEitherMonad
+{
+    [Either(typeof(int), typeof(int))]
+    public partial struct MyEither
+    {
+    }
+}";
+        
+        const string attrWithOpenGenerics = @"
+using W4k.Either.Abstractions;
+using System.Collections.Generic;
+
+namespace MyLittleEither.MyLittleEitherMonad
+{
+    [Either(typeof(int), typeof(List<>))]
+    public partial struct MyEither
+    {
+    }
+}";
 
         return new TheoryData<string, string>
         {
@@ -185,6 +208,14 @@ namespace MyLittleEither.MyLittleEitherMonad
                 noTypeParam,
                 "W4KE004"
             },
+            {
+                typesNotUnique,
+                "W4KE005"
+            },
+            {
+                attrWithOpenGenerics,
+                "W4KE006"
+            }
         };
     }
 }

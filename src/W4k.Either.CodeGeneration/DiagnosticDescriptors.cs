@@ -43,4 +43,12 @@ internal static class DiagnosticDescriptors
         category: "Usage",
         defaultSeverity: DiagnosticSeverity.Error,
         isEnabledByDefault: true);
+    
+    public static readonly DiagnosticDescriptor TypeParameterMustBeBound = new(
+        id: "W4KE006",
+        title: "Using open generics is not allowed",
+        messageFormat: "The type {0} must have all type parameters bound",
+        category: "Usage",
+        defaultSeverity: DiagnosticSeverity.Error,
+        isEnabledByDefault: true);
 }

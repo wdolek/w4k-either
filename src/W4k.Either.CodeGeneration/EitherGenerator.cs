@@ -163,25 +163,33 @@ public class EitherGenerator : IIncrementalGenerator
         for (var i = 0; i < typeParams.Length; i++)
         {
             var arg = ctorArguments[i];
-            if (arg.Value is INamedTypeSymbol typeSymbol)
+            if (arg.Value is not INamedTypeSymbol typeSymbol)
             {
-                var typeParamName = typeSymbol.ToDisplayString(displayFormat);
-                var attributeLocation =
-                    attribute.ApplicationSyntaxReference?.SyntaxTree.GetLocation(attribute.ApplicationSyntaxReference.Span)
-                    ?? typeSymbol.Locations[0];
-
-                if (IsTypeUsed(typeParamsSpan.Slice(0, i), typeSymbol, attributeLocation, typeParamName, out var diagnostic))
-                {
-                    return (Array.Empty<EitherStructGenerationContext.TypeParameter>(), diagnostic);
-                }
-
-                typeParams[i] = new EitherStructGenerationContext.TypeParameter(
-                    index: i + 1,
-                    name: typeParamName,
-                    isReferenceType: typeSymbol.IsReferenceType,
-                    isValueType: typeSymbol.IsValueType,
-                    isNullable: false);
+                continue;
             }
+
+            var typeParamName = typeSymbol.ToDisplayString(displayFormat);
+
+            var attributeLocation =
+                attribute.ApplicationSyntaxReference?.SyntaxTree.GetLocation(attribute.ApplicationSyntaxReference.Span)
+                ?? typeSymbol.Locations[0];
+
+            if (IsUnboundGenericType(typeSymbol, attributeLocation, out var diagnostic))
+            {
+                return (Array.Empty<EitherStructGenerationContext.TypeParameter>(), diagnostic);
+            }
+
+            if (IsTypeUsed(typeParamsSpan.Slice(0, i), typeSymbol, attributeLocation, typeParamName, out diagnostic))
+            {
+                return (Array.Empty<EitherStructGenerationContext.TypeParameter>(), diagnostic);
+            }
+
+            typeParams[i] = new EitherStructGenerationContext.TypeParameter(
+                index: i + 1,
+                name: typeParamName,
+                isReferenceType: typeSymbol.IsReferenceType,
+                isValueType: typeSymbol.IsValueType,
+                isNullable: false);
         }
 
         return (typeParams, null);
@@ -228,6 +236,22 @@ public class EitherGenerator : IIncrementalGenerator
         }
 
         return (typeParams, null);
+    }
+
+    private static bool IsUnboundGenericType(INamedTypeSymbol typeSymbol, Location location, [NotNullWhen(true)] out Diagnostic? diagnostic)
+    {
+        if (typeSymbol.IsUnboundGenericType)
+        {
+            diagnostic = Diagnostic.Create(
+                descriptor: DiagnosticDescriptors.TypeParameterMustBeBound,
+                location: location,
+                messageArgs: typeSymbol.Name);
+
+            return true;
+        }
+
+        diagnostic = null;
+        return false;
     }
 
     private static bool IsTypeUsed(
