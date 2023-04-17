@@ -50,28 +50,33 @@ internal sealed class EitherStructGenerationContext
         return this;
     }
 
-    [DebuggerDisplay("{Index} -> {ParameterName} ({ArgumentName})")]
+    [DebuggerDisplay("{Index} -> {Name} ({ArgumentName})")]
     public class TypeParameter
     {
-        private readonly string _name;
+        private readonly bool _isNullable;
 
-        public TypeParameter(int index, string name, bool isValueType, bool isNullable)
+        public TypeParameter(int index, string name, bool isReferenceType, bool isValueType, bool isNullable)
         {
-            _name = name;
-
             Index = index;
+
+            Name = name;
+            ArgumentName = isNullable
+                ? name + "?"
+                : name;
+
+            // for unconstrained type parameters, both `isReferenceType` and `isValueType` are false -> treat as reference type
+            IsReferenceType = isReferenceType || (!isReferenceType && !isValueType);
             IsValueType = isValueType;
-            IsNullable = isNullable;
+
+            _isNullable = isNullable;
         }
 
         public int Index { get; }
+        public string Name { get; }
+        public string ArgumentName { get; }
+        public bool IsReferenceType { get; }
         public bool IsValueType { get; }
-        public bool IsNullable { get; }
-
-        public string ParameterName => _name;
-
-        public string ArgumentName => IsNullable
-            ? _name + "?"
-            : _name;
+        public bool IsNullableReferenceType => IsReferenceType && _isNullable;
+        public bool IsNonNullableReferenceType => IsReferenceType && !_isNullable;
     }
 }

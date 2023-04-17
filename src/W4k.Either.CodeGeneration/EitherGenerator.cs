@@ -178,6 +178,7 @@ public class EitherGenerator : IIncrementalGenerator
                 typeParams[i] = new EitherStructGenerationContext.TypeParameter(
                     index: i + 1,
                     name: typeParamName,
+                    isReferenceType: typeSymbol.IsReferenceType,
                     isValueType: typeSymbol.IsValueType,
                     isNullable: false);
             }
@@ -214,12 +215,14 @@ public class EitherGenerator : IIncrementalGenerator
             var typeParam = typeSymbol.TypeParameters[i];
             var typeParamName = typeParam.Name;
 
+            var isReferenceType = typeParam.HasReferenceTypeConstraint || typeParam.IsReferenceType;
             var isValueType = typeParam.HasValueTypeConstraint || typeParam.IsValueType;
-            var isNullable = !isValueType && !typeParam.HasNotNullConstraint;
+            var isNullable = !typeParam.HasNotNullConstraint;
 
             typeParams[i] = new EitherStructGenerationContext.TypeParameter(
                 index: i + 1,
                 name: typeParamName,
+                isReferenceType: isReferenceType,
                 isValueType: isValueType,
                 isNullable: isNullable);
         }
@@ -236,7 +239,7 @@ public class EitherGenerator : IIncrementalGenerator
     {
         foreach (var typeParameter in collectedParams)
         {
-            if (typeParameter.ParameterName != typeParamName)
+            if (typeParameter.Name != typeParamName)
             {
                 continue;
             }

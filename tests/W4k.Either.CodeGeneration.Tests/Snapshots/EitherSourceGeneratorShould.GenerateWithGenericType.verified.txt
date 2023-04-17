@@ -156,7 +156,7 @@ namespace MyLittleEither.MyLittleEitherMonad
         }
 
         [Pure]
-        public bool TryPick([NotNullWhen(true)] out string? value)
+        public bool TryPick([NotNullWhen(true)] out string value)
         {
             if (_idx == 1)
             {
@@ -169,7 +169,7 @@ namespace MyLittleEither.MyLittleEitherMonad
         }
 
         [Pure]
-        public bool TryPick([NotNullWhen(true)] out System.Collections.Generic.List<int>? value)
+        public bool TryPick([NotNullWhen(true)] out System.Collections.Generic.List<int> value)
         {
             if (_idx == 2)
             {

@@ -19,16 +19,14 @@ namespace MyLittleEither.MyLittleEitherMonad
         private readonly TLeft _v1;
         private readonly TRight? _v2;
 
-        public MyEither(TLeft value)
+        public MyEither(TLeft? value)
         {
-            ThrowHelper.ThrowIfNull(value);
             _idx = 1;
             _v1 = value;
         }
 
         public MyEither(TRight? value)
         {
-            ThrowHelper.ThrowIfNull(value);
             _idx = 2;
             _v2 = value;
         }
@@ -39,7 +37,7 @@ namespace MyLittleEither.MyLittleEitherMonad
             switch (_idx)
             {
                 case 1:
-                    _v1 = (TLeft)info.GetValue(nameof(_v1), typeof(TLeft));
+                    _v1 = (TLeft?)info.GetValue(nameof(_v1), typeof(TLeft));
                     break;
                 case 2:
                     _v2 = (TRight??)info.GetValue(nameof(_v2), typeof(TRight));
@@ -74,7 +72,7 @@ namespace MyLittleEither.MyLittleEitherMonad
         public static bool operator !=(MyEither<TLeft, TRight> left, MyEither<TLeft, TRight> right) => !left.Equals(right);
 
         [Pure]
-        public static implicit operator MyEither<TLeft, TRight>(TLeft value) => new(value);
+        public static implicit operator MyEither<TLeft, TRight>(TLeft? value) => new(value);
 
         [Pure]
         public static implicit operator MyEither<TLeft, TRight>(TRight? value) => new(value);
@@ -85,7 +83,7 @@ namespace MyLittleEither.MyLittleEitherMonad
             switch (_idx)
             {
                 case 1:
-                    return _v1?.GetHashCode() ?? 0;
+                    return _v1.GetHashCode();
                 case 2:
                     return _v2?.GetHashCode() ?? 0;
                 default:
@@ -99,7 +97,7 @@ namespace MyLittleEither.MyLittleEitherMonad
             switch (_idx)
             {
                 case 1:
-                    return _v1?.ToString() ?? string.Empty;
+                    return _v1.ToString();
                 case 2:
                     return _v2?.ToString() ?? string.Empty;
                 default:
@@ -129,7 +127,7 @@ namespace MyLittleEither.MyLittleEitherMonad
             switch (_idx)
             {
                 case 1:
-                    return _v1?.Equals(other._v1) ?? false;
+                    return _v1.Equals(other._v1);
                 case 2:
                     return _v2?.Equals(other._v2) ?? false;
                 default:
@@ -156,7 +154,7 @@ namespace MyLittleEither.MyLittleEitherMonad
         }
 
         [Pure]
-        public bool TryPick([NotNullWhen(true)] out TLeft? value)
+        public bool TryPick(out TLeft? value)
         {
             if (_idx == 1)
             {
@@ -169,7 +167,7 @@ namespace MyLittleEither.MyLittleEitherMonad
         }
 
         [Pure]
-        public bool TryPick(out TRight?? value)
+        public bool TryPick(out TRight? value)
         {
             if (_idx == 2)
             {
@@ -182,7 +180,7 @@ namespace MyLittleEither.MyLittleEitherMonad
         }
 
         public TResult Match<TResult>(
-            Func<TLeft, TResult> f1,
+            Func<TLeft?, TResult> f1,
             Func<TRight?, TResult> f2)
         {
             ThrowHelper.ThrowIfNull(f1);
@@ -201,7 +199,7 @@ namespace MyLittleEither.MyLittleEitherMonad
 
         public TResult Match<TState, TResult>(
             TState state,
-            Func<TState, TLeft, TResult> f1,
+            Func<TState, TLeft?, TResult> f1,
             Func<TState, TRight?, TResult> f2)
         {
             ThrowHelper.ThrowIfNull(f1);
@@ -219,7 +217,7 @@ namespace MyLittleEither.MyLittleEitherMonad
         }
 
         public Task<TResult> MatchAsync<TResult>(
-            Func<TLeft, CancellationToken, Task<TResult>> f1,
+            Func<TLeft?, CancellationToken, Task<TResult>> f1,
             Func<TRight?, CancellationToken, Task<TResult>> f2,
             CancellationToken cancellationToken = default)
         {
@@ -239,7 +237,7 @@ namespace MyLittleEither.MyLittleEitherMonad
 
         public Task<TResult> MatchAsync<TState, TResult>(
             TState state,
-            Func<TState, TLeft, CancellationToken, Task<TResult>> f1,
+            Func<TState, TLeft?, CancellationToken, Task<TResult>> f1,
             Func<TState, TRight?, CancellationToken, Task<TResult>> f2,
             CancellationToken cancellationToken = default)
         {
@@ -258,7 +256,7 @@ namespace MyLittleEither.MyLittleEitherMonad
         }
 
         public void Switch(
-            Action<TLeft> a1,
+            Action<TLeft?> a1,
             Action<TRight?> a2)
         {
             Match(
@@ -268,7 +266,7 @@ namespace MyLittleEither.MyLittleEitherMonad
 
         public void Switch<TState>(
             TState state,
-            Action<TState, TLeft> a1,
+            Action<TState, TLeft?> a1,
             Action<TState, TRight?> a2)
         {
             Match(
@@ -278,7 +276,7 @@ namespace MyLittleEither.MyLittleEitherMonad
         }
 
         public Task SwitchAsync(
-            Func<TLeft, CancellationToken, Task> a1,
+            Func<TLeft?, CancellationToken, Task> a1,
             Func<TRight?, CancellationToken, Task> a2,
             CancellationToken cancellationToken = default)
         {
@@ -290,7 +288,7 @@ namespace MyLittleEither.MyLittleEitherMonad
 
         public Task SwitchAsync<TState>(
             TState state,
-            Func<TState, TLeft, CancellationToken, Task> a1,
+            Func<TState, TLeft?, CancellationToken, Task> a1,
             Func<TState, TRight?, CancellationToken, Task> a2,
             CancellationToken cancellationToken = default)
         {

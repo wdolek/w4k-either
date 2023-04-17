@@ -181,7 +181,7 @@ namespace MyLittleEither.MyLittleEitherMonad
         }
 
         [Pure]
-        public bool TryPick([NotNullWhen(true)] out TLeft? value)
+        public bool TryPick([NotNullWhen(true)] out TLeft value)
         {
             if (_idx == 1)
             {
@@ -194,7 +194,7 @@ namespace MyLittleEither.MyLittleEitherMonad
         }
 
         [Pure]
-        public bool TryPick([NotNullWhen(true)] out TMiddle? value)
+        public bool TryPick([NotNullWhen(true)] out TMiddle value)
         {
             if (_idx == 2)
             {
@@ -207,7 +207,7 @@ namespace MyLittleEither.MyLittleEitherMonad
         }
 
         [Pure]
-        public bool TryPick([NotNullWhen(true)] out TRight? value)
+        public bool TryPick([NotNullWhen(true)] out TRight value)
         {
             if (_idx == 3)
             {

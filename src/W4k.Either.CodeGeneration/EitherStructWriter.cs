@@ -47,7 +47,7 @@ internal static class EitherStructWriter
 
         for (var i = 0; i < typeParams.Count; i++)
         {
-            sb.Append(typeParams[i].ParameterName);
+            sb.Append(typeParams[i].Name);
             if (i < typeParams.Count - 1)
             {
                 sb.Append(", ");
@@ -116,18 +116,15 @@ internal static class EitherStructWriter
     private static void WriteFields(EitherStructGenerationContext context, StringBuilder sb)
     {
         sb.AppendLine("        private readonly byte _idx;");
+
+        // reference type: always saved as nullable (we don't know which field is holding value of monad);
+        // value type: always saved as is since making it nullable would completely change type (Nullable<T>)
         foreach (var typeParam in context.TypeParameters)
         {
-            if (typeParam.IsValueType && !typeParam.IsNullable)
-            {
-                // don't turn value type into `Nullable<T>`
-                sb.AppendLine($"        private readonly {typeParam.ParameterName} _v{typeParam.Index};");
-            }
-            else
-            {
-                // intentionally making nullable any reference type (no matter of constraints)
-                sb.AppendLine($"        private readonly {typeParam.ParameterName}? _v{typeParam.Index};");
-            }
+            sb.AppendLine(
+                typeParam.IsReferenceType
+                    ? $"        private readonly {typeParam.Name}? _v{typeParam.Index};"
+                    : $"        private readonly {typeParam.Name} _v{typeParam.Index};");
         }
 
         sb.AppendLine();
@@ -143,7 +140,12 @@ internal static class EitherStructWriter
         {
             sb.AppendLine($"        public {context.TargetTypeName}({typeParam.ArgumentName} value)");
             sb.AppendLine("        {");
-            sb.AppendLine("            ThrowHelper.ThrowIfNull(value);");
+
+            if (typeParam.IsNonNullableReferenceType)
+            {
+                sb.AppendLine("            ThrowHelper.ThrowIfNull(value);");                
+            }
+
             sb.AppendLine($"            _idx = {typeParam.Index};");
             sb.AppendLine($"            _v{typeParam.Index} = value;");
             sb.AppendLine("        }");
@@ -164,17 +166,13 @@ internal static class EitherStructWriter
         foreach (var typeParam in context.TypeParameters)
         {
             sb.AppendLine($"                case {typeParam.Index}:");
-            
-            if (typeParam.IsValueType && !typeParam.IsNullable)
-            {
-                // don't turn value type into `Nullable<T>`
-                sb.AppendLine($"                    _v{typeParam.Index} = ({typeParam.ArgumentName})info.GetValue(nameof(_v{typeParam.Index}), typeof({typeParam.ParameterName}));");
-            }
-            else
-            {
-                // intentionally making nullable any reference type (no matter of constraints)
-                sb.AppendLine($"                    _v{typeParam.Index} = ({typeParam.ArgumentName}?)info.GetValue(nameof(_v{typeParam.Index}), typeof({typeParam.ParameterName}));");
-            }            
+
+            // reference type: always saved as nullable (we don't know which field is holding value of monad);
+            // value type: always saved as is since making it nullable would completely change type (Nullable<T>)
+            sb.AppendLine(
+                typeParam.IsReferenceType
+                    ? $"                    _v{typeParam.Index} = ({typeParam.ArgumentName}?)info.GetValue(nameof(_v{typeParam.Index}), typeof({typeParam.Name}));"
+                    : $"                    _v{typeParam.Index} = ({typeParam.ArgumentName})info.GetValue(nameof(_v{typeParam.Index}), typeof({typeParam.Name}));");
 
             sb.AppendLine("                    break;");
         }
@@ -252,18 +250,18 @@ internal static class EitherStructWriter
 
     private static void WriteGetHashCode(EitherStructGenerationContext context, StringBuilder sb)
     {
-        var arity = context.TypeParameters.Count;
-
         sb.AppendLine("        [Pure]");
         sb.AppendLine("        public override int GetHashCode()");
         sb.AppendLine("        {");
         sb.AppendLine("            switch (_idx)");
         sb.AppendLine("            {");
-        
-        for (var i = 1; i <= arity; i++)
+
+        foreach (var typeParam in context.TypeParameters)
         {
-            sb.AppendLine($"                case {i}:");
-            sb.AppendLine($"                    return _v{i}?.GetHashCode() ?? 0;");
+            sb.AppendLine($"                case {typeParam.Index}:");
+            sb.AppendLine(typeParam.IsReferenceType
+                ? $"                    return _v{typeParam.Index}?.GetHashCode() ?? 0;"
+                : $"                    return _v{typeParam.Index}.GetHashCode();");
         }
         
         sb.AppendLine("                default:");
@@ -275,18 +273,19 @@ internal static class EitherStructWriter
     
     private static void WriteToString(EitherStructGenerationContext context, StringBuilder sb)
     {
-        var arity = context.TypeParameters.Count;
-
         sb.AppendLine("        [Pure]");
         sb.AppendLine("        public override string ToString()");
         sb.AppendLine("        {");
         sb.AppendLine("            switch (_idx)");
         sb.AppendLine("            {");
-        
-        for (var i = 1; i <= arity; i++)
+
+        foreach (var typeParam in context.TypeParameters)
         {
-            sb.AppendLine($"                case {i}:");
-            sb.AppendLine($"                    return _v{i}?.ToString() ?? string.Empty;");
+            sb.AppendLine($"                case {typeParam.Index}:");
+            sb.AppendLine(
+                typeParam.IsReferenceType
+                    ? $"                    return _v{typeParam.Index}?.ToString() ?? string.Empty;"
+                    : $"                    return _v{typeParam.Index}.ToString();");
         }
         
         sb.AppendLine("                default:");
@@ -317,8 +316,6 @@ internal static class EitherStructWriter
 
     private static void WriteEquatableEquals(EitherStructGenerationContext context, StringBuilder sb, string typeName)
     {
-        var arity = context.TypeParameters.Count;
-
         sb.AppendLine("        [Pure]");
         sb.AppendLine($"        public bool Equals({typeName} other)");
         sb.AppendLine("        {");
@@ -330,10 +327,13 @@ internal static class EitherStructWriter
         sb.AppendLine("            switch (_idx)");
         sb.AppendLine("            {");
 
-        for (var i = 1; i <= arity; i++)
+        foreach (var typeParam in context.TypeParameters)
         {
-            sb.AppendLine($"                case {i}:");
-            sb.AppendLine($"                    return _v{i}?.Equals(other._v{i}) ?? false;");
+            sb.AppendLine($"                case {typeParam.Index}:");
+            sb.AppendLine(
+                typeParam.IsReferenceType
+                    ? $"                    return _v{typeParam.Index}?.Equals(other._v{typeParam.Index}) ?? false;"
+                    : $"                    return _v{typeParam.Index}.Equals(other._v{typeParam.Index});");
         }
         
         sb.AppendLine("                default:");
@@ -379,16 +379,16 @@ internal static class EitherStructWriter
     {
         foreach (var typeParam in context.TypeParameters)
         {
-            var notNullWhenTrue = typeParam.IsNullable
-                ? string.Empty
-                : "[NotNullWhen(true)] ";
+            var notNullWhenTrue = typeParam.IsNonNullableReferenceType
+                ? "[NotNullWhen(true)] " 
+                : string.Empty;
             
-            var nullForgivingOperator = !typeParam.IsValueType && !typeParam.IsNullable
+            var nullForgivingOperator = typeParam.IsNonNullableReferenceType
                 ? "!"
                 : string.Empty;
 
             sb.AppendLine("        [Pure]");
-            sb.AppendLine($"        public bool TryPick({notNullWhenTrue}out {typeParam.ArgumentName}? value)");
+            sb.AppendLine($"        public bool TryPick({notNullWhenTrue}out {typeParam.ArgumentName} value)");
             sb.AppendLine("        {");
             sb.AppendLine($"            if (_idx == {typeParam.Index})");
             sb.AppendLine("            {");
@@ -413,13 +413,11 @@ internal static class EitherStructWriter
         sb.AppendLine("        public TResult Match<TResult>(");
 
         // parameters
-        for (var i = 0; i < typeParams.Count; i++)
+        foreach (var typeParam in typeParams)
         {
-            var tp = typeParams[i];
-
-            sb.Append($"            Func<{tp.ArgumentName}, TResult> f{tp.Index}");
+            sb.Append($"            Func<{typeParam.ArgumentName}, TResult> f{typeParam.Index}");
             sb.AppendLine(
-                i < typeParams.Count - 1
+                typeParam.Index < arity
                     ? ","
                     : ")");
         }
@@ -460,16 +458,14 @@ internal static class EitherStructWriter
 
         // parameters
         sb.AppendLine("            TState state,");
-        for (var i = 0; i < typeParams.Count; i++)
+        foreach (var typeParam in typeParams)
         {
-            var tp = typeParams[i];
-
-            sb.Append($"            Func<TState, {tp.ArgumentName}, TResult> f{tp.Index}");
+            sb.Append($"            Func<TState, {typeParam.ArgumentName}, TResult> f{typeParam.Index}");
             sb.AppendLine(
-                i < typeParams.Count - 1
+                typeParam.Index < arity
                     ? ","
                     : ")");
-        }
+        }        
         
         sb.AppendLine("        {");
 
@@ -597,16 +593,14 @@ internal static class EitherStructWriter
         sb.AppendLine("        public void Switch(");
 
         // parameters
-        for (var i = 0; i < typeParams.Count; i++)
+        foreach (var typeParam in typeParams)
         {
-            var tp = typeParams[i];
-
-            sb.Append($"            Action<{tp.ArgumentName}> a{tp.Index}");
+            sb.Append($"            Action<{typeParam.ArgumentName}> a{typeParam.Index}");
             sb.AppendLine(
-                i < typeParams.Count - 1
+                typeParam.Index < arity
                     ? ","
                     : ")");
-        }
+        }        
         
         sb.AppendLine("        {");
         sb.AppendLine("            Match(");
@@ -633,16 +627,14 @@ internal static class EitherStructWriter
 
         // parameters
         sb.AppendLine("            TState state,");
-        for (var i = 0; i < typeParams.Count; i++)
+        foreach (var typeParam in typeParams)
         {
-            var tp = typeParams[i];
-
-            sb.Append($"            Action<TState, {tp.ArgumentName}> a{tp.Index}");
+            sb.Append($"            Action<TState, {typeParam.ArgumentName}> a{typeParam.Index}");
             sb.AppendLine(
-                i < typeParams.Count - 1
+                typeParam.Index < arity
                     ? ","
                     : ")");
-        }
+        }      
         
         sb.AppendLine("        {");
         sb.AppendLine("            Match(");

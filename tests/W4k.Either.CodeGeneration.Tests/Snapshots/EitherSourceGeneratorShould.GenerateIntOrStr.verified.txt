@@ -21,7 +21,6 @@ namespace MyLittleEither.MyLittleEitherMonad
 
         public IntOrStr(int value)
         {
-            ThrowHelper.ThrowIfNull(value);
             _idx = 1;
             _v1 = value;
         }
@@ -85,7 +84,7 @@ namespace MyLittleEither.MyLittleEitherMonad
             switch (_idx)
             {
                 case 1:
-                    return _v1?.GetHashCode() ?? 0;
+                    return _v1.GetHashCode();
                 case 2:
                     return _v2?.GetHashCode() ?? 0;
                 default:
@@ -99,7 +98,7 @@ namespace MyLittleEither.MyLittleEitherMonad
             switch (_idx)
             {
                 case 1:
-                    return _v1?.ToString() ?? string.Empty;
+                    return _v1.ToString();
                 case 2:
                     return _v2?.ToString() ?? string.Empty;
                 default:
@@ -129,7 +128,7 @@ namespace MyLittleEither.MyLittleEitherMonad
             switch (_idx)
             {
                 case 1:
-                    return _v1?.Equals(other._v1) ?? false;
+                    return _v1.Equals(other._v1);
                 case 2:
                     return _v2?.Equals(other._v2) ?? false;
                 default:
@@ -156,7 +155,7 @@ namespace MyLittleEither.MyLittleEitherMonad
         }
 
         [Pure]
-        public bool TryPick([NotNullWhen(true)] out int? value)
+        public bool TryPick(out int value)
         {
             if (_idx == 1)
             {
@@ -169,7 +168,7 @@ namespace MyLittleEither.MyLittleEitherMonad
         }
 
         [Pure]
-        public bool TryPick([NotNullWhen(true)] out string? value)
+        public bool TryPick([NotNullWhen(true)] out string value)
         {
             if (_idx == 2)
             {
