@@ -159,7 +159,7 @@ namespace W4k.Either
         {
             if (_idx == 1)
             {
-                value = _v1;
+                value = _v1!;
                 return true;
             }
 
@@ -172,7 +172,7 @@ namespace W4k.Either
         {
             if (_idx == 2)
             {
-                value = _v2;
+                value = _v2!;
                 return true;
             }
 
@@ -188,9 +188,9 @@ namespace W4k.Either
             switch (_idx)
             {
                 case 1: 
-                    return f1(_v1);
+                    return f1(_v1!);
                 case 2: 
-                    return f2(_v2);
+                    return f2(_v2!);
                 default: 
                     return ThrowHelper.ThrowOnInvalidState<TResult>();
             }
@@ -204,9 +204,9 @@ namespace W4k.Either
             switch (_idx)
             {
                 case 1:
-                    return f1(state, _v1);
+                    return f1(state, _v1!);
                 case 2:
-                    return f2(state, _v2);
+                    return f2(state, _v2!);
                 default:
                     return ThrowHelper.ThrowOnInvalidState<TResult>();
             }
@@ -223,9 +223,9 @@ namespace W4k.Either
             switch (_idx)
             {
                 case 1:
-                    return f1(_v1, cancellationToken);
+                    return f1(_v1!, cancellationToken);
                 case 2:
-                    return f2(_v2, cancellationToken);
+                    return f2(_v2!, cancellationToken);
                 default:
                     return ThrowHelper.ThrowOnInvalidState<Task<TResult>>();
             }
@@ -243,9 +243,9 @@ namespace W4k.Either
             switch (_idx)
             {
                 case 1:
-                    return f1(state, _v1, cancellationToken);
+                    return f1(state, _v1!, cancellationToken);
                 case 2:
-                    return f2(state, _v2, cancellationToken);
+                    return f2(state, _v2!, cancellationToken);
                 default:
                     return ThrowHelper.ThrowOnInvalidState<Task<TResult>>();
             }
