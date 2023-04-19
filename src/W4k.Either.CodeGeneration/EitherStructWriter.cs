@@ -461,10 +461,14 @@ internal static class EitherStructWriter
         sb.AppendLine("            switch(_idx)");
         sb.AppendLine("            {");
 
-        for (var i = 1; i <= arity; i++)
+        foreach (var typeParam in context.TypeParameters)
         {
-            sb.AppendLine($"                case {i}:");
-            sb.AppendLine($"                    return f{i}(_v{i}!);");
+            var nullForgivingOperator = typeParam.IsNonNullableReferenceType
+                ? "!"
+                : string.Empty;            
+            
+            sb.AppendLine($"                case {typeParam.Index}:");
+            sb.AppendLine($"                    return f{typeParam.Index}(_v{typeParam.Index}{nullForgivingOperator});");
         }
 
         sb.AppendLine("                default:");
@@ -505,12 +509,16 @@ internal static class EitherStructWriter
         // switch
         sb.AppendLine("            switch(_idx)");
         sb.AppendLine("            {");
-
-        for (var i = 1; i <= arity; i++)
+        
+        foreach (var typeParam in context.TypeParameters)
         {
-            sb.AppendLine($"                case {i}:");
-            sb.AppendLine($"                    return f{i}(state, _v{i}!);");
-        }
+            var nullForgivingOperator = typeParam.IsNonNullableReferenceType
+                ? "!"
+                : string.Empty;            
+            
+            sb.AppendLine($"                case {typeParam.Index}:");
+            sb.AppendLine($"                    return f{typeParam.Index}(state, _v{typeParam.Index}{nullForgivingOperator});");
+        }        
 
         sb.AppendLine("                default:");
         sb.AppendLine("                    return ThrowHelper.ThrowOnInvalidState<TResult>();");
@@ -550,12 +558,16 @@ internal static class EitherStructWriter
         // switch
         sb.AppendLine("            switch(_idx)");
         sb.AppendLine("            {");
-
-        for (var i = 1; i <= arity; i++)
+        
+        foreach (var typeParam in context.TypeParameters)
         {
-            sb.AppendLine($"                case {i}:");
-            sb.AppendLine($"                    return f{i}(_v{i}!, cancellationToken);");
-        }
+            var nullForgivingOperator = typeParam.IsNonNullableReferenceType
+                ? "!"
+                : string.Empty;            
+            
+            sb.AppendLine($"                case {typeParam.Index}:");
+            sb.AppendLine($"                    return f{typeParam.Index}(_v{typeParam.Index}{nullForgivingOperator}, cancellationToken);");
+        }        
 
         sb.AppendLine("                default:");
         sb.AppendLine("                    return ThrowHelper.ThrowOnInvalidState<Task<TResult>>();");
@@ -592,11 +604,15 @@ internal static class EitherStructWriter
         // switch
         sb.AppendLine("            switch(_idx)");
         sb.AppendLine("            {");
-
-        for (var i = 1; i <= arity; i++)
+        
+        foreach (var typeParam in context.TypeParameters)
         {
-            sb.AppendLine($"                case {i}:");
-            sb.AppendLine($"                    return f{i}(state, _v{i}!, cancellationToken);");
+            var nullForgivingOperator = typeParam.IsNonNullableReferenceType
+                ? "!"
+                : string.Empty;            
+            
+            sb.AppendLine($"                case {typeParam.Index}:");
+            sb.AppendLine($"                    return f{typeParam.Index}(state, _v{typeParam.Index}{nullForgivingOperator}, cancellationToken);");
         }
 
         sb.AppendLine("                default:");

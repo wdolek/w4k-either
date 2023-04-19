@@ -190,7 +190,7 @@ namespace MyLittleEither.MyLittleEitherMonad
             switch(_idx)
             {
                 case 1:
-                    return f1(_v1!);
+                    return f1(_v1);
                 case 2:
                     return f2(_v2!);
                 default:
@@ -209,7 +209,7 @@ namespace MyLittleEither.MyLittleEitherMonad
             switch(_idx)
             {
                 case 1:
-                    return f1(state, _v1!);
+                    return f1(state, _v1);
                 case 2:
                     return f2(state, _v2!);
                 default:
@@ -228,7 +228,7 @@ namespace MyLittleEither.MyLittleEitherMonad
             switch(_idx)
             {
                 case 1:
-                    return f1(_v1!, cancellationToken);
+                    return f1(_v1, cancellationToken);
                 case 2:
                     return f2(_v2!, cancellationToken);
                 default:
@@ -248,7 +248,7 @@ namespace MyLittleEither.MyLittleEitherMonad
             switch(_idx)
             {
                 case 1:
-                    return f1(state, _v1!, cancellationToken);
+                    return f1(state, _v1, cancellationToken);
                 case 2:
                     return f2(state, _v2!, cancellationToken);
                 default:
