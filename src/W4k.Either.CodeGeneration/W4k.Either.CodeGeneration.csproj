@@ -6,6 +6,7 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>false</ImplicitUsings>
     <EnforceExtendedAnalyzerRules>true</EnforceExtendedAnalyzerRules>
+    <NoWarn>RS2007</NoWarn>
   </PropertyGroup>
 
   <PropertyGroup>
