@@ -4,103 +4,75 @@
 public class EitherSourceGeneratorShould
 {
     [Fact]
-    public Task GenerateIntOrStr()
+    public Task GenerateWithAttributeAndNullableEnabled()
     {
         var source = @"
-using System;
+#nullable enable
 using W4k.Either.Abstractions;
 
 namespace MyLittleEither.MyLittleEitherMonad
 {
-    [Either(typeof(int), typeof(string))]
-    public partial struct IntOrStr
-    {
-    }
-}";
-
-        var (diagnostics, output) = TestHelper.GenerateSourceCode(source);
-        Assert.Empty(diagnostics);
-
-        return Verify(output).UseDirectory("Snapshots");
-    }    
-
-    [Fact]
-    public Task GenerateGenericEither2()
-    {
-        var source = @"
-using W4k.Either.Abstractions;
-
-namespace MyLittleEither.MyLittleEitherMonad
-{
-    [Either]
-    public partial struct MyEither<TLeft, TRight>
-        where TLeft : notnull
-        where TRight : notnull
-    {
-    }
-}";
-
-        var (diagnostics, output) = TestHelper.GenerateSourceCode(source);
-        Assert.Empty(diagnostics);
-
-        return Verify(output).UseDirectory("Snapshots");
-    }
-    
-    [Fact]
-    public Task GenerateGenericEither3()
-    {
-        var source = @"
-using W4k.Either.Abstractions;
-
-namespace MyLittleEither.MyLittleEitherMonad
-{
-    [Either]
-    public partial struct MyEither<TLeft, TMiddle, TRight>
-        where TLeft : notnull
-        where TMiddle: notnull
-        where TRight : notnull
-    {
-    }
-}";
-
-        var (diagnostics, output) = TestHelper.GenerateSourceCode(source);
-        Assert.Empty(diagnostics);
-
-        return Verify(output).UseDirectory("Snapshots");
-    }
-
-    [Fact]
-    public Task GenerateGenericWithOneValueAndNullableRefType()
-    {
-        var source = @"
-using W4k.Either.Abstractions;
-
-namespace MyLittleEither.MyLittleEitherMonad
-{
-    [Either]
-    public partial struct MyEither<TLeft, TRight>
-        where TLeft : struct
-    {
-    }
-}";
-
-        var (diagnostics, output) = TestHelper.GenerateSourceCode(source);
-        Assert.Empty(diagnostics);
-
-        return Verify(output).UseDirectory("Snapshots");
-    }
-    
-    [Fact]
-    public Task GenerateWithGenericType()
-    {
-        var source = @"
-using System.Collections.Generic;
-using W4k.Either.Abstractions;
-
-namespace MyLittleEither.MyLittleEitherMonad
-{
-    [Either(typeof(string), typeof(List<int>))]
+    [Either(typeof(string), typeof(int), typeof(int?))]
     public partial struct MyEither
+    {
+    }
+}";
+
+        var (diagnostics, output) = TestHelper.GenerateSourceCode(source);
+        Assert.Empty(diagnostics);
+
+        return Verify(output).UseDirectory("Snapshots");
+    }
+    
+    [Fact]
+    public Task GenerateWithAttributeAndNullableDisabled()
+    {
+        var source = @"
+#nullable disable
+using W4k.Either.Abstractions;
+
+namespace MyLittleEither.MyLittleEitherMonad
+{
+    [Either(typeof(string), typeof(int), typeof(int?))]
+    public partial struct MyEither
+    {
+    }
+}";
+
+        var (diagnostics, output) = TestHelper.GenerateSourceCode(source);
+        Assert.Empty(diagnostics);
+
+        return Verify(output).UseDirectory("Snapshots");
+    }
+    
+    [Fact]
+    public Task GenerateWithGenericWithConstraints()
+    {
+        // intentionally not setting any constraint for `TAny` -> it can be anything
+        var source = @"
+using W4k.Either.Abstractions;
+
+namespace MyLittleEither.MyLittleEitherMonad
+{
+    [Either]
+    public partial struct MyEither<TAny, TNonNullRef, TNullRef, TStruct, TNotNull, TObj, TNullObj, TIFace, TNullIFace, TUnmanaged>
+        where TNonNullRef : class
+        where TNullRef : class?
+        where TStruct : struct
+        where TNotNull : notnull
+        where TObj : LeObject
+        where TNullObj : LeObject?
+        where TIFace : IAmInterface
+        where TNullIFace : IAmInterface?
+        where TUnmanaged : unmanaged
+    {
+    }
+
+    public class LeObject
+    {
+    }
+
+    public interface IAmInterface
     {
     }
 }";

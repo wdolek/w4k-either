@@ -171,8 +171,8 @@ internal static class EitherStructWriter
             // value type: always saved as is since making it nullable would completely change type (Nullable<T>)
             sb.AppendLine(
                 typeParam.IsReferenceType
-                    ? $"                    _v{typeParam.Index} = ({typeParam.ArgumentName}?)info.GetValue(nameof(_v{typeParam.Index}), typeof({typeParam.Name}));"
-                    : $"                    _v{typeParam.Index} = ({typeParam.ArgumentName})info.GetValue(nameof(_v{typeParam.Index}), typeof({typeParam.Name}));");
+                    ? $"                    _v{typeParam.Index} = ({typeParam.Name}?)info.GetValue(nameof(_v{typeParam.Index}), typeof({typeParam.Name}));"
+                    : $"                    _v{typeParam.Index} = ({typeParam.Name})info.GetValue(nameof(_v{typeParam.Index}), typeof({typeParam.Name}));");
 
             sb.AppendLine("                    break;");
         }
@@ -283,7 +283,7 @@ internal static class EitherStructWriter
     private static void WriteToString(EitherStructGenerationContext context, StringBuilder sb)
     {
         sb.AppendLine("        [Pure]");
-        sb.AppendLine("        public override string ToString()");
+        sb.AppendLine("        public override string? ToString()");
         sb.AppendLine("        {");
         sb.AppendLine("            switch (_idx)");
         sb.AppendLine("            {");
@@ -297,11 +297,11 @@ internal static class EitherStructWriter
             } 
             else if (typeParam.IsNonNullableReferenceType)
             {
-                sb.AppendLine($"                    return _v{typeParam.Index}!.ToString();");
+                sb.AppendLine($"                    return _v{typeParam.Index}!.ToString() ?? string.Empty;");
             }
             else
             {
-                sb.AppendLine($"                    return _v{typeParam.Index}.ToString();");
+                sb.AppendLine($"                    return _v{typeParam.Index}.ToString() ?? string.Empty;");
             }
         }
         
@@ -376,7 +376,6 @@ internal static class EitherStructWriter
     {
         var arity = context.TypeParameters.Count;
 
-        sb.AppendLine("        [Pure]");
         sb.AppendLine("        void ISerializable.GetObjectData(SerializationInfo info, StreamingContext context)");
         sb.AppendLine("        {");
         sb.AppendLine("            info.AddValue(nameof(_idx), _idx);");
@@ -404,16 +403,26 @@ internal static class EitherStructWriter
     {
         foreach (var typeParam in context.TypeParameters)
         {
-            var notNullWhenTrue = typeParam.IsNonNullableReferenceType
-                ? "[NotNullWhen(true)] " 
-                : string.Empty;
-            
-            var nullForgivingOperator = typeParam.IsNonNullableReferenceType
-                ? "!"
-                : string.Empty;
+            string? notNullWhenTrue = null;
+            string? nullForgivingOperator = null;
 
             sb.AppendLine("        [Pure]");
-            sb.AppendLine($"        public bool TryPick({notNullWhenTrue}out {typeParam.ArgumentName} value)");
+
+            if (typeParam.IsReferenceType)
+            {
+                if (typeParam.IsNonNullableReferenceType)
+                {
+                    notNullWhenTrue = "[NotNullWhen(true)] ";
+                    nullForgivingOperator = "!";
+                }
+
+                sb.AppendLine($"        public bool TryPick({notNullWhenTrue}out {typeParam.Name}? value)");
+            }
+            else
+            {
+                sb.AppendLine($"        public bool TryPick(out {typeParam.ArgumentName} value)");
+            }
+
             sb.AppendLine("        {");
             sb.AppendLine($"            if (_idx == {typeParam.Index})");
             sb.AppendLine("            {");
@@ -421,7 +430,7 @@ internal static class EitherStructWriter
             sb.AppendLine("                return true;");
             sb.AppendLine("            }");
             sb.AppendLine();
-            sb.AppendLine("            value = default;");
+            sb.AppendLine($"            value = default{nullForgivingOperator};");
             sb.AppendLine("            return false;");
             sb.AppendLine("        }");
             sb.AppendLine();

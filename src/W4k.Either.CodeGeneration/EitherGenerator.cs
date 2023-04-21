@@ -1,11 +1,10 @@
 ﻿using System;
-using System.Diagnostics.CodeAnalysis;
 using System.Text;
 using System.Threading;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
-using W4k.Either.Abstractions;
+using Microsoft.CodeAnalysis.Text;
 
 namespace W4k.Either.CodeGeneration;
 
@@ -59,7 +58,7 @@ public class EitherGenerator : IIncrementalGenerator
         }
 
         // get type parameters
-        var (attrTypeParams, attrDiagnostic) = GetAttributeTypeParameters(context.Attributes[0], cancellationToken);
+        var (attrTypeParams, attrDiagnostic) = GetAttributeTypeParameters(context.Attributes[0], context.SemanticModel, cancellationToken);
         if (attrDiagnostic is not null)
         {
             return EitherStructGenerationContext.Invalid(targetNamespace, targetName, attrDiagnostic);
@@ -142,6 +141,7 @@ public class EitherGenerator : IIncrementalGenerator
 
     private static (EitherStructGenerationContext.TypeParameter[] TypeParameters, Diagnostic? Diagnostic) GetAttributeTypeParameters(
         AttributeData attribute,
+        SemanticModel semanticModel,
         CancellationToken cancellationToken)
     {
         cancellationToken.ThrowIfCancellationRequested();
@@ -157,10 +157,14 @@ public class EitherGenerator : IIncrementalGenerator
             genericsOptions: SymbolDisplayGenericsOptions.IncludeTypeParameters,
             miscellaneousOptions: SymbolDisplayMiscellaneousOptions.UseSpecialTypes);
 
-        var ctorArguments = attribute.ConstructorArguments;
+        var attributeLocation = attribute.ApplicationSyntaxReference!.SyntaxTree.GetLocation(attribute.ApplicationSyntaxReference.Span);
         
+        var ctorArguments = attribute.ConstructorArguments;
+
         var typeParams = new EitherStructGenerationContext.TypeParameter[ctorArguments.Length];
         var typeParamsSpan = typeParams.AsSpan();
+        
+        var isNullableEnabled = IsNullableReferenceTypesEnabled(semanticModel, attributeLocation);
 
         for (var i = 0; i < typeParams.Length; i++)
         {
@@ -172,15 +176,14 @@ public class EitherGenerator : IIncrementalGenerator
 
             var typeParamName = typeSymbol.ToDisplayString(displayFormat);
 
-            var attributeLocation =
-                attribute.ApplicationSyntaxReference?.SyntaxTree.GetLocation(attribute.ApplicationSyntaxReference.Span)
-                ?? typeSymbol.Locations[0];
-
+            // use of `[Either(typeof(MyGenericType<>))]` is forbidden, type using open generics couldn't be generated
             if (IsUnboundGenericType(typeSymbol, attributeLocation, out var diagnostic))
             {
                 return (Array.Empty<EitherStructGenerationContext.TypeParameter>(), diagnostic);
             }
 
+            // check that types are unique, `[Either(typeof(int), typeof(int))]` is forbidden,
+            // it wouldn't be possible to determine which field to use based on its type
             if (IsTypeUsed(typeParamsSpan.Slice(0, i), typeSymbol, attributeLocation, typeParamName, out diagnostic))
             {
                 return (Array.Empty<EitherStructGenerationContext.TypeParameter>(), diagnostic);
@@ -191,7 +194,7 @@ public class EitherGenerator : IIncrementalGenerator
                 name: typeParamName,
                 isReferenceType: typeSymbol.IsReferenceType,
                 isValueType: typeSymbol.IsValueType,
-                isNullable: false);
+                isNullable: IsTypeNullable(typeSymbol, isNullableEnabled));
         }
 
         return (typeParams, null);
@@ -240,7 +243,7 @@ public class EitherGenerator : IIncrementalGenerator
         return (typeParams, null);
     }
 
-    private static bool IsUnboundGenericType(INamedTypeSymbol typeSymbol, Location location, [NotNullWhen(true)] out Diagnostic? diagnostic)
+    private static bool IsUnboundGenericType(INamedTypeSymbol typeSymbol, Location location, out Diagnostic? diagnostic)
     {
         if (typeSymbol.IsUnboundGenericType)
         {
@@ -261,7 +264,7 @@ public class EitherGenerator : IIncrementalGenerator
         INamedTypeSymbol typeSymbol,
         Location location,
         string typeParamName,
-        [NotNullWhen(true)] out Diagnostic? diagnostic)
+        out Diagnostic? diagnostic)
     {
         foreach (var typeParameter in collectedParams)
         {
@@ -282,8 +285,24 @@ public class EitherGenerator : IIncrementalGenerator
         return false;
     }
 
-    private static string CreateGeneratedFileName(EitherStructGenerationContext structToGenerate) =>
-        structToGenerate.IsGenericType
-            ? $"{structToGenerate.TargetTypeName}`{structToGenerate.TypeParameters.Count}.g.cs"
-            : $"{structToGenerate.TargetTypeName}.g.cs";
+    private static bool IsNullableReferenceTypesEnabled(SemanticModel semanticModel, Location location)
+    {
+        var nullableContext = semanticModel.GetNullableContext(location.SourceSpan.Start);
+        return nullableContext.AnnotationsEnabled();
+    }
+
+    private static bool IsTypeNullable(INamedTypeSymbol typeSymbol, bool isNullableEnabled)
+    {
+        var isNullable = false;
+        if (typeSymbol.IsReferenceType)
+        {
+            isNullable = !isNullableEnabled;
+        }
+        else if (typeSymbol.IsValueType)
+        {
+            isNullable = typeSymbol.IsGenericType && typeSymbol.ConstructedFrom.SpecialType == SpecialType.System_Nullable_T;
+        }
+
+        return isNullable;
+    }
 }

@@ -31,6 +31,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\src\W4k.Either.Abstractions\W4k.Either.Abstractions.csproj" />
     <ProjectReference Include="..\..\src\W4k.Either.CodeGeneration\W4k.Either.CodeGeneration.csproj" />
   </ItemGroup>
 
