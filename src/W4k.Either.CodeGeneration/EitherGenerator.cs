@@ -12,7 +12,7 @@ namespace W4k.Either.CodeGeneration;
 [Generator]
 public class EitherGenerator : IIncrementalGenerator
 {
-    private static readonly string EitherAttributeFullyQualifiedName = typeof(EitherAttribute).FullName!;
+    private const string EitherAttributeFullyQualifiedName = "W4k.Either.Abstractions.EitherAttribute";
 
     public void Initialize(IncrementalGeneratorInitializationContext context)
     {
