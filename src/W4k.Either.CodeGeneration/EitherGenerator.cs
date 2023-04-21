@@ -115,8 +115,10 @@ public class EitherGenerator : IIncrementalGenerator
 
         var sb = new StringBuilder(4096);
         EitherStructWriter.Write(structToGenerate, sb);
-        
-        context.AddSource(CreateGeneratedFileName(structToGenerate), sb.ToString());
+
+        context.AddSource(
+            structToGenerate.FileName,
+            SourceText.From(sb.ToString(), Encoding.UTF8));
     }
 
     private static bool IsPartial(INamedTypeSymbol namedTypeSymbol, CancellationToken cancellationToken)

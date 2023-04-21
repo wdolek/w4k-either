@@ -27,6 +27,9 @@ internal sealed class EitherStructGenerationContext
     public string TargetTypeName { get; }
     public IReadOnlyList<TypeParameter> TypeParameters { get; }
     public IReadOnlyList<Diagnostic> Diagnostics => _diagnostics;
+    public string FileName => IsGenericType
+        ? $"{TargetTypeName}`{TypeParameters.Count}.g.cs"
+        : $"{TargetTypeName}.g.cs";
 
     public static EitherStructGenerationContext Generic(
         string @namespace,
