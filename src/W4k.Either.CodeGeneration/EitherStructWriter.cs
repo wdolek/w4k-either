@@ -117,14 +117,9 @@ internal static class EitherStructWriter
     {
         sb.AppendLine("        private readonly byte _idx;");
 
-        // reference type: always saved as nullable (we don't know which field is holding value of monad);
-        // value type: always saved as is since making it nullable would completely change type (Nullable<T>)
         foreach (var typeParam in context.TypeParameters)
         {
-            sb.AppendLine(
-                typeParam.IsReferenceType
-                    ? $"        private readonly {typeParam.Name}? _v{typeParam.Index};"
-                    : $"        private readonly {typeParam.Name} _v{typeParam.Index};");
+            sb.AppendLine($"        private readonly {typeParam.AsFieldType} {typeParam.FieldName};");
         }
 
         sb.AppendLine();
@@ -138,7 +133,7 @@ internal static class EitherStructWriter
     {
         foreach (var typeParam in context.TypeParameters)
         {
-            sb.AppendLine($"        public {context.TargetTypeName}({typeParam.ArgumentName} value)");
+            sb.AppendLine($"        public {context.TargetTypeName}({typeParam.AsArgument} value)");
             sb.AppendLine("        {");
 
             if (typeParam.IsNonNullableReferenceType)
@@ -147,7 +142,7 @@ internal static class EitherStructWriter
             }
 
             sb.AppendLine($"            _idx = {typeParam.Index};");
-            sb.AppendLine($"            _v{typeParam.Index} = value;");
+            sb.AppendLine($"            {typeParam.FieldName} = value;");
             sb.AppendLine("        }");
             sb.AppendLine();
         }
@@ -165,15 +160,13 @@ internal static class EitherStructWriter
 
         foreach (var typeParam in context.TypeParameters)
         {
+            // specifying type using attribute: for value types we want to avoid "Unboxing a possibly null value" warning
+            var nullForgiving = typeParam.IsValueType && !typeParam.IsNullable
+                ? "!"
+                : string.Empty;
+            
             sb.AppendLine($"                case {typeParam.Index}:");
-
-            // reference type: always saved as nullable (we don't know which field is holding value of monad);
-            // value type: always saved as is since making it nullable would completely change type (Nullable<T>)
-            sb.AppendLine(
-                typeParam.IsReferenceType
-                    ? $"                    _v{typeParam.Index} = ({typeParam.Name}?)info.GetValue(nameof(_v{typeParam.Index}), typeof({typeParam.Name}));"
-                    : $"                    _v{typeParam.Index} = ({typeParam.Name})info.GetValue(nameof(_v{typeParam.Index}), typeof({typeParam.Name}));");
-
+            sb.AppendLine($"                    {typeParam.FieldName} = ({typeParam.AsFieldType})info.GetValue(\"{typeParam.FieldName}\", typeof({typeParam.Name})){nullForgiving};");
             sb.AppendLine("                    break;");
         }
         
@@ -191,8 +184,6 @@ internal static class EitherStructWriter
 
     private static void WriteProperties(EitherStructGenerationContext context, StringBuilder sb)
     {
-        var arity = context.TypeParameters.Count;
-
         sb.AppendLine("        [Pure]");
         sb.AppendLine("        public object? Case");
         sb.AppendLine("        {");
@@ -201,12 +192,12 @@ internal static class EitherStructWriter
         sb.AppendLine("                switch (_idx)");
         sb.AppendLine("                {");
 
-        for (var i = 1; i <= arity; i++)
+        foreach (var typeParam in context.TypeParameters)
         {
-            sb.AppendLine($"                    case {i}:");
-            sb.AppendLine($"                        return _v{i};");
+            sb.AppendLine($"                    case {typeParam.Index}:");
+            sb.AppendLine($"                        return {typeParam.FieldName};");            
         }
-        
+
         sb.AppendLine("                    default:");
         sb.AppendLine("                        return ThrowHelper.ThrowOnInvalidState<object?>();");
         sb.AppendLine("                }");
@@ -232,7 +223,7 @@ internal static class EitherStructWriter
         foreach (var typeParam in context.TypeParameters)
         {
             sb.AppendLine("        [Pure]");
-            sb.AppendLine($"        public static implicit operator {typeName}({typeParam.ArgumentName} value) => new(value);");
+            sb.AppendLine($"        public static implicit operator {typeName}({typeParam.AsArgument} value) => new(value);");
             sb.AppendLine();
         }
     }
@@ -259,18 +250,10 @@ internal static class EitherStructWriter
         foreach (var typeParam in context.TypeParameters)
         {
             sb.AppendLine($"                case {typeParam.Index}:");
-            if (typeParam.IsNullableReferenceType)
-            {
-                sb.AppendLine($"                    return _v{typeParam.Index}?.GetHashCode() ?? 0;");
-            } 
-            else if (typeParam.IsNonNullableReferenceType)
-            {
-                sb.AppendLine($"                    return _v{typeParam.Index}!.GetHashCode();");
-            }
-            else
-            {
-                sb.AppendLine($"                    return _v{typeParam.Index}.GetHashCode();");
-            }
+            sb.AppendLine(
+                typeParam.IsNullable
+                    ? $"                    return {typeParam.AsFieldInvoker}.GetHashCode() ?? 0;"
+                    : $"                    return {typeParam.AsFieldInvoker}.GetHashCode();");
         }
         
         sb.AppendLine("                default:");
@@ -283,7 +266,7 @@ internal static class EitherStructWriter
     private static void WriteToString(EitherStructGenerationContext context, StringBuilder sb)
     {
         sb.AppendLine("        [Pure]");
-        sb.AppendLine("        public override string? ToString()");
+        sb.AppendLine("        public override string ToString()");
         sb.AppendLine("        {");
         sb.AppendLine("            switch (_idx)");
         sb.AppendLine("            {");
@@ -291,18 +274,7 @@ internal static class EitherStructWriter
         foreach (var typeParam in context.TypeParameters)
         {
             sb.AppendLine($"                case {typeParam.Index}:");
-            if (typeParam.IsNullableReferenceType)
-            {
-                sb.AppendLine($"                    return _v{typeParam.Index}?.ToString() ?? string.Empty;");
-            } 
-            else if (typeParam.IsNonNullableReferenceType)
-            {
-                sb.AppendLine($"                    return _v{typeParam.Index}!.ToString() ?? string.Empty;");
-            }
-            else
-            {
-                sb.AppendLine($"                    return _v{typeParam.Index}.ToString() ?? string.Empty;");
-            }
+            sb.AppendLine($"                    return {typeParam.AsFieldInvoker}.ToString() ?? string.Empty;");
         }
         
         sb.AppendLine("                default:");
@@ -347,18 +319,10 @@ internal static class EitherStructWriter
         foreach (var typeParam in context.TypeParameters)
         {
             sb.AppendLine($"                case {typeParam.Index}:");
-            if (typeParam.IsNullableReferenceType)
-            {
-                sb.AppendLine($"                    return _v{typeParam.Index}?.Equals(other._v{typeParam.Index}) ?? false;");
-            } 
-            else if (typeParam.IsNonNullableReferenceType)
-            {
-                sb.AppendLine($"                    return _v{typeParam.Index}!.Equals(other._v{typeParam.Index});");
-            }
-            else
-            {
-                sb.AppendLine($"                    return _v{typeParam.Index}.Equals(other._v{typeParam.Index});");
-            }
+            sb.AppendLine(
+                typeParam.IsNullable
+                    ? $"                    return {typeParam.AsFieldInvoker}.Equals(other.{typeParam.FieldName}) ?? false;"
+                    : $"                    return {typeParam.AsFieldInvoker}.Equals(other.{typeParam.FieldName});");
         }
         
         sb.AppendLine("                default:");
@@ -374,18 +338,16 @@ internal static class EitherStructWriter
 
     private static void WriteGetObjectData(EitherStructGenerationContext context, StringBuilder sb)
     {
-        var arity = context.TypeParameters.Count;
-
         sb.AppendLine("        void ISerializable.GetObjectData(SerializationInfo info, StreamingContext context)");
         sb.AppendLine("        {");
-        sb.AppendLine("            info.AddValue(nameof(_idx), _idx);");
+        sb.AppendLine("            info.AddValue(\"_idx\", _idx);");
         sb.AppendLine("            switch (_idx)");
         sb.AppendLine("            {");
-        
-        for (var i = 1; i <= arity; i++)
+
+        foreach (var typeParam in context.TypeParameters)
         {
-            sb.AppendLine($"                case {i}:");
-            sb.AppendLine($"                    info.AddValue(nameof(_v{i}), _v{i});");
+            sb.AppendLine($"                case {typeParam.Index}:");
+            sb.AppendLine($"                    info.AddValue(\"{typeParam.FieldName}\", {typeParam.FieldName});");
             sb.AppendLine("                    break;");
         }
         
@@ -403,34 +365,20 @@ internal static class EitherStructWriter
     {
         foreach (var typeParam in context.TypeParameters)
         {
-            string? notNullWhenTrue = null;
-            string? nullForgivingOperator = null;
+            var notNullWhenTrue = typeParam.IsNonNullableReferenceType
+                ? "[NotNullWhen(true)] "
+                : string.Empty;
 
             sb.AppendLine("        [Pure]");
-
-            if (typeParam.IsReferenceType)
-            {
-                if (typeParam.IsNonNullableReferenceType)
-                {
-                    notNullWhenTrue = "[NotNullWhen(true)] ";
-                    nullForgivingOperator = "!";
-                }
-
-                sb.AppendLine($"        public bool TryPick({notNullWhenTrue}out {typeParam.Name}? value)");
-            }
-            else
-            {
-                sb.AppendLine($"        public bool TryPick(out {typeParam.ArgumentName} value)");
-            }
-
+            sb.AppendLine($"        public bool TryPick({notNullWhenTrue}out {typeParam.AsFieldType} value)");
             sb.AppendLine("        {");
             sb.AppendLine($"            if (_idx == {typeParam.Index})");
             sb.AppendLine("            {");
-            sb.AppendLine($"                value = _v{typeParam.Index}{nullForgivingOperator};");
+            sb.AppendLine($"                value = {typeParam.AsFieldReceiver};");
             sb.AppendLine("                return true;");
             sb.AppendLine("            }");
             sb.AppendLine();
-            sb.AppendLine($"            value = default{nullForgivingOperator};");
+            sb.AppendLine($"            value = {typeParam.AsDefault};");
             sb.AppendLine("            return false;");
             sb.AppendLine("        }");
             sb.AppendLine();
@@ -449,7 +397,7 @@ internal static class EitherStructWriter
         // parameters
         foreach (var typeParam in typeParams)
         {
-            sb.Append($"            Func<{typeParam.ArgumentName}, TResult> f{typeParam.Index}");
+            sb.Append($"            Func<{typeParam.AsArgument}, TResult> f{typeParam.Index}");
             sb.AppendLine(
                 typeParam.Index < arity
                     ? ","
@@ -472,12 +420,8 @@ internal static class EitherStructWriter
 
         foreach (var typeParam in context.TypeParameters)
         {
-            var nullForgivingOperator = typeParam.IsNonNullableReferenceType
-                ? "!"
-                : string.Empty;            
-            
             sb.AppendLine($"                case {typeParam.Index}:");
-            sb.AppendLine($"                    return f{typeParam.Index}(_v{typeParam.Index}{nullForgivingOperator});");
+            sb.AppendLine($"                    return f{typeParam.Index}({typeParam.AsFieldReceiver});");
         }
 
         sb.AppendLine("                default:");
@@ -498,7 +442,7 @@ internal static class EitherStructWriter
         sb.AppendLine("            TState state,");
         foreach (var typeParam in typeParams)
         {
-            sb.Append($"            Func<TState, {typeParam.ArgumentName}, TResult> f{typeParam.Index}");
+            sb.Append($"            Func<TState, {typeParam.AsArgument}, TResult> f{typeParam.Index}");
             sb.AppendLine(
                 typeParam.Index < arity
                     ? ","
@@ -521,12 +465,8 @@ internal static class EitherStructWriter
         
         foreach (var typeParam in context.TypeParameters)
         {
-            var nullForgivingOperator = typeParam.IsNonNullableReferenceType
-                ? "!"
-                : string.Empty;            
-            
             sb.AppendLine($"                case {typeParam.Index}:");
-            sb.AppendLine($"                    return f{typeParam.Index}(state, _v{typeParam.Index}{nullForgivingOperator});");
+            sb.AppendLine($"                    return f{typeParam.Index}(state, {typeParam.AsFieldReceiver});");
         }        
 
         sb.AppendLine("                default:");
@@ -550,7 +490,7 @@ internal static class EitherStructWriter
         // parameters
         foreach (var typeParam in typeParams)
         {
-            sb.AppendLine($"            Func<{typeParam.ArgumentName}, CancellationToken, Task<TResult>> f{typeParam.Index},");
+            sb.AppendLine($"            Func<{typeParam.AsArgument}, CancellationToken, Task<TResult>> f{typeParam.Index},");
         }
 
         sb.AppendLine("            CancellationToken cancellationToken = default)");
@@ -570,12 +510,8 @@ internal static class EitherStructWriter
         
         foreach (var typeParam in context.TypeParameters)
         {
-            var nullForgivingOperator = typeParam.IsNonNullableReferenceType
-                ? "!"
-                : string.Empty;            
-            
             sb.AppendLine($"                case {typeParam.Index}:");
-            sb.AppendLine($"                    return f{typeParam.Index}(_v{typeParam.Index}{nullForgivingOperator}, cancellationToken);");
+            sb.AppendLine($"                    return f{typeParam.Index}({typeParam.AsFieldReceiver}, cancellationToken);");
         }        
 
         sb.AppendLine("                default:");
@@ -596,7 +532,7 @@ internal static class EitherStructWriter
         sb.AppendLine("            TState state,");
         foreach (var typeParam in typeParams)
         {
-            sb.AppendLine($"            Func<TState, {typeParam.ArgumentName}, CancellationToken, Task<TResult>> f{typeParam.Index},");
+            sb.AppendLine($"            Func<TState, {typeParam.AsArgument}, CancellationToken, Task<TResult>> f{typeParam.Index},");
         }
 
         sb.AppendLine("            CancellationToken cancellationToken = default)");
@@ -616,12 +552,8 @@ internal static class EitherStructWriter
         
         foreach (var typeParam in context.TypeParameters)
         {
-            var nullForgivingOperator = typeParam.IsNonNullableReferenceType
-                ? "!"
-                : string.Empty;            
-            
             sb.AppendLine($"                case {typeParam.Index}:");
-            sb.AppendLine($"                    return f{typeParam.Index}(state, _v{typeParam.Index}{nullForgivingOperator}, cancellationToken);");
+            sb.AppendLine($"                    return f{typeParam.Index}(state, {typeParam.AsFieldReceiver}, cancellationToken);");
         }
 
         sb.AppendLine("                default:");
@@ -645,7 +577,7 @@ internal static class EitherStructWriter
         // parameters
         foreach (var typeParam in typeParams)
         {
-            sb.Append($"            Action<{typeParam.ArgumentName}> a{typeParam.Index}");
+            sb.Append($"            Action<{typeParam.AsArgument}> a{typeParam.Index}");
             sb.AppendLine(
                 typeParam.Index < arity
                     ? ","
@@ -679,7 +611,7 @@ internal static class EitherStructWriter
         sb.AppendLine("            TState state,");
         foreach (var typeParam in typeParams)
         {
-            sb.Append($"            Action<TState, {typeParam.ArgumentName}> a{typeParam.Index}");
+            sb.Append($"            Action<TState, {typeParam.AsArgument}> a{typeParam.Index}");
             sb.AppendLine(
                 typeParam.Index < arity
                     ? ","
@@ -713,7 +645,7 @@ internal static class EitherStructWriter
         // parameters
         foreach (var typeParam in typeParams)
         {
-            sb.AppendLine($"            Func<{typeParam.ArgumentName}, CancellationToken, Task> a{typeParam.Index},");
+            sb.AppendLine($"            Func<{typeParam.AsArgument}, CancellationToken, Task> a{typeParam.Index},");
         }
 
         sb.AppendLine("            CancellationToken cancellationToken = default)");
@@ -741,7 +673,7 @@ internal static class EitherStructWriter
         sb.AppendLine("            TState state,");
         foreach (var typeParam in typeParams)
         {
-            sb.AppendLine($"            Func<TState, {typeParam.ArgumentName}, CancellationToken, Task> a{typeParam.Index},");
+            sb.AppendLine($"            Func<TState, {typeParam.AsArgument}, CancellationToken, Task> a{typeParam.Index},");
         }
 
         sb.AppendLine("            CancellationToken cancellationToken = default)");

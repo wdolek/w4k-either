@@ -5,6 +5,7 @@ using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.Text;
+// ReSharper disable All
 
 namespace W4k.Either.CodeGeneration;
 
@@ -228,10 +229,11 @@ public class EitherGenerator : IIncrementalGenerator
             var typeParam = typeSymbol.TypeParameters[i];
             var typeParamName = typeParam.Name;
 
+            // NB! it's not possible to combine `notnull` and `class`/`struct` constraints
             var isReferenceType = typeParam.HasReferenceTypeConstraint || typeParam.IsReferenceType;
             var isValueType = typeParam.HasValueTypeConstraint || typeParam.IsValueType;
-            var isNullable = !typeParam.HasNotNullConstraint;
-
+            var isNullable = IsGenericTypeParameterNullable(typeParam, isReferenceType);
+            
             typeParams[i] = new EitherStructGenerationContext.TypeParameter(
                 index: i + 1,
                 name: typeParamName,
@@ -304,5 +306,23 @@ public class EitherGenerator : IIncrementalGenerator
         }
 
         return isNullable;
+    }
+
+    private static bool IsGenericTypeParameterNullable(ITypeParameterSymbol typeParam, bool isReferenceType)
+    {
+        // `notnull` contraint is present
+        if (typeParam.HasNotNullConstraint)
+        {
+            return false;
+        }
+
+        // it's not possible to declare nullable value type when using generics
+        if (!isReferenceType)
+        {
+            return false;
+        }
+
+        // special case of nullable reference type constraint: `class?`
+        return typeParam.ReferenceTypeConstraintNullableAnnotation == NullableAnnotation.Annotated;
     }
 }
