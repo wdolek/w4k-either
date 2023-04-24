@@ -57,19 +57,23 @@ public class EitherGenerator : IIncrementalGenerator
                     location: typeSymbol.Locations[0],
                     messageArgs: typeSymbol.Name));
         }
-
-        // get type parameters
-        var (attrTypeParams, attrDiagnostic) = AttributeTypeParamsProcessor.GetAttributeTypeParameters(context.Attributes[0], context.SemanticModel, cancellationToken);
-        if (attrDiagnostic is not null)
-        {
-            return EitherStructGenerationContext.Invalid(targetNamespace, targetName, attrDiagnostic);
-        }
         
-        var (targetTypeParams, genericsDiagnostic) = GenericTypeParamsProcessor.GetTargetTypeParameters(typeSymbol, cancellationToken);
-        if (genericsDiagnostic is not null)
+        var processingContext = new ProcessorContext(context.Attributes[0], context.SemanticModel, typeSymbol);
+
+        var attrTypeParamsResult = AttributeTypeParamsProcessor.GetAttributeTypeParameters(processingContext, cancellationToken);
+        if (!attrTypeParamsResult.IsSuccess)
         {
-            return EitherStructGenerationContext.Invalid(targetNamespace, targetName, genericsDiagnostic);
+            return EitherStructGenerationContext.Invalid(targetNamespace, targetName, attrTypeParamsResult.Diagnostic!);
         }
+
+        var targetTypeParamsResult = GenericTypeParamsProcessor.GetTargetTypeParameters(processingContext, cancellationToken);
+        if (!targetTypeParamsResult.IsSuccess)
+        {
+            return EitherStructGenerationContext.Invalid(targetNamespace, targetName, targetTypeParamsResult.Diagnostic!);
+        }
+
+        var attrTypeParams = attrTypeParamsResult.TypeParameters!;
+        var targetTypeParams = targetTypeParamsResult.TypeParameters!;
 
         // user has not specified any type parameter
         if (attrTypeParams.Length == 0 && targetTypeParams.Length == 0)

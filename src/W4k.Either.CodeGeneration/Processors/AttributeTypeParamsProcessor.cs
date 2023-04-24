@@ -7,54 +7,55 @@ namespace W4k.Either.CodeGeneration.Processors;
 
 internal static class AttributeTypeParamsProcessor
 {
-    public static (TypeParameter[] TypeParameters, Diagnostic? Diagnostic) GetAttributeTypeParameters(
-        AttributeData attribute,
-        SemanticModel semanticModel,
-        CancellationToken cancellationToken)
+    private static readonly SymbolDisplayFormat DisplayFormat = new(
+        typeQualificationStyle: SymbolDisplayTypeQualificationStyle.NameAndContainingTypesAndNamespaces,
+        genericsOptions: SymbolDisplayGenericsOptions.IncludeTypeParameters,
+        miscellaneousOptions: SymbolDisplayMiscellaneousOptions.UseSpecialTypes);
+
+    public static ProcessorResult GetAttributeTypeParameters(ProcessorContext context, CancellationToken cancellationToken)
     {
         cancellationToken.ThrowIfCancellationRequested();
 
-        var ctor = attribute.AttributeConstructor;
+        var ctor = context.Attribute.AttributeConstructor;
         if (ctor is null || ctor.Parameters.Length == 0)
         {
-            return (Array.Empty<TypeParameter>(), null);
+            return ProcessorResult.Empty();
         }
 
-        var displayFormat = new SymbolDisplayFormat(
-            typeQualificationStyle: SymbolDisplayTypeQualificationStyle.NameAndContainingTypesAndNamespaces,
-            genericsOptions: SymbolDisplayGenericsOptions.IncludeTypeParameters,
-            miscellaneousOptions: SymbolDisplayMiscellaneousOptions.UseSpecialTypes);
-
-        var attributeLocation = attribute.ApplicationSyntaxReference!.SyntaxTree.GetLocation(attribute.ApplicationSyntaxReference.Span);
-        
-        var ctorArguments = attribute.ConstructorArguments;
+        var ctorArguments = context.Attribute.ConstructorArguments;
 
         var typeParams = new TypeParameter[ctorArguments.Length];
         var typeParamsSpan = typeParams.AsSpan();
-        
-        var isNullableEnabled = IsNullableReferenceTypesEnabled(semanticModel, attributeLocation);
 
         for (var i = 0; i < typeParams.Length; i++)
         {
+            cancellationToken.ThrowIfCancellationRequested();
+
             var arg = ctorArguments[i];
             if (arg.Value is not INamedTypeSymbol typeSymbol)
             {
                 continue;
             }
 
-            var typeParamName = typeSymbol.ToDisplayString(displayFormat);
+            var typeParamName = typeSymbol.ToDisplayString(DisplayFormat);
 
             // use of `[Either(typeof(MyGenericType<>))]` is forbidden, type using open generics couldn't be generated
-            if (IsUnboundGenericType(typeSymbol, attributeLocation, out var diagnostic))
+            if (typeSymbol.IsUnboundGenericType)
             {
-                return (Array.Empty<TypeParameter>(), diagnostic);
+                var unboundGenericTypeDiagnostic = Diagnostic.Create(
+                    descriptor: DiagnosticDescriptors.TypeParameterMustBeBound,
+                    location: context.AttributeLocation,
+                    messageArgs: typeSymbol.Name);
+
+                return ProcessorResult.Failure(unboundGenericTypeDiagnostic);
             }
 
             // check that types are unique, `[Either(typeof(int), typeof(int))]` is forbidden,
             // it wouldn't be possible to determine which field to use based on its type
-            if (IsTypeUsed(typeParamsSpan.Slice(0, i), typeSymbol, attributeLocation, typeParamName, out diagnostic))
+            var (isTypeUsed, typeUsedDiagnostic) = IsTypeUsed(typeParamsSpan.Slice(0, i), typeSymbol, context.AttributeLocation, typeParamName);
+            if (isTypeUsed)
             {
-                return (Array.Empty<TypeParameter>(), diagnostic);
+                return ProcessorResult.Failure(typeUsedDiagnostic!);
             }
 
             typeParams[i] = new TypeParameter(
@@ -62,40 +63,17 @@ internal static class AttributeTypeParamsProcessor
                 name: typeParamName,
                 isReferenceType: typeSymbol.IsReferenceType,
                 isValueType: typeSymbol.IsValueType,
-                isNullable: IsTypeNullable(typeSymbol, isNullableEnabled));
+                isNullable: IsTypeNullable(typeSymbol, context.IsNullRefTypeScopeEnabled));
         }
 
-        return (typeParams, null);
+        return ProcessorResult.Success(typeParams);
     }
 
-    private static bool IsNullableReferenceTypesEnabled(SemanticModel semanticModel, Location location)
-    {
-        var nullableContext = semanticModel.GetNullableContext(location.SourceSpan.Start);
-        return nullableContext.AnnotationsEnabled();
-    }    
-    
-    private static bool IsUnboundGenericType(INamedTypeSymbol typeSymbol, Location location, out Diagnostic? diagnostic)
-    {
-        if (typeSymbol.IsUnboundGenericType)
-        {
-            diagnostic = Diagnostic.Create(
-                descriptor: DiagnosticDescriptors.TypeParameterMustBeBound,
-                location: location,
-                messageArgs: typeSymbol.Name);
-
-            return true;
-        }
-
-        diagnostic = null;
-        return false;
-    }
-
-    private static bool IsTypeUsed(
+    private static (bool IsTypeUsed, Diagnostic? diagnostic) IsTypeUsed(
         Span<TypeParameter> collectedParams,
         INamedTypeSymbol typeSymbol,
         Location location,
-        string typeParamName,
-        out Diagnostic? diagnostic)
+        string typeParamName)
     {
         foreach (var typeParameter in collectedParams)
         {
@@ -104,30 +82,31 @@ internal static class AttributeTypeParamsProcessor
                 continue;
             }
                       
-            diagnostic = Diagnostic.Create(
+            var diagnostic = Diagnostic.Create(
                 descriptor: DiagnosticDescriptors.TypeMustBeUnique,
                 location: location,
                 messageArgs: typeSymbol.Name);
                         
-            return true;
+            return (true, diagnostic);
         }
 
-        diagnostic = null;
-        return false;
+        return (false, null);
     }
     
     private static bool IsTypeNullable(INamedTypeSymbol typeSymbol, bool isNullableEnabled)
     {
-        var isNullable = false;
+        // #nullable enable -> treat all reference types as nullable
         if (typeSymbol.IsReferenceType)
         {
-            isNullable = !isNullableEnabled;
-        }
-        else if (typeSymbol.IsValueType)
-        {
-            isNullable = typeSymbol.IsGenericType && typeSymbol.ConstructedFrom.SpecialType == SpecialType.System_Nullable_T;
+            return !isNullableEnabled;
         }
 
-        return isNullable;
+        // check whether value type is nullable, using `Nullable<T>`
+        if (typeSymbol.IsValueType)
+        {
+            return typeSymbol.IsGenericType && typeSymbol.ConstructedFrom.SpecialType == SpecialType.System_Nullable_T;
+        }
+
+        return false;
     }
 }

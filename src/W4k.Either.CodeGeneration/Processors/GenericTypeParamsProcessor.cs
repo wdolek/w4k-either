@@ -1,5 +1,4 @@
-﻿using System;
-using System.Threading;
+﻿using System.Threading;
 using Microsoft.CodeAnalysis;
 using W4k.Either.CodeGeneration.Context;
 
@@ -7,15 +6,14 @@ namespace W4k.Either.CodeGeneration.Processors;
 
 internal static class GenericTypeParamsProcessor
 {
-    public static (TypeParameter[] TypeParameters, Diagnostic? Diagnostic) GetTargetTypeParameters(
-        INamedTypeSymbol typeSymbol,
-        CancellationToken cancellationToken)
+    public static ProcessorResult GetTargetTypeParameters(ProcessorContext context, CancellationToken cancellationToken)
     {
         cancellationToken.ThrowIfCancellationRequested();
 
+        var typeSymbol = context.TypeSymbol;
         if (typeSymbol.Arity == 0)
         {
-            return (Array.Empty<TypeParameter>(), null);
+            return ProcessorResult.Empty();
         }
 
         if (typeSymbol.Arity < 2)
@@ -25,13 +23,15 @@ internal static class GenericTypeParamsProcessor
                 location: typeSymbol.Locations[0],
                 messageArgs: typeSymbol.Name);
 
-            return (Array.Empty<TypeParameter>(), diagnostic);
+            return ProcessorResult.Failure(diagnostic);
         }
 
         var typeParams = new TypeParameter[typeSymbol.TypeParameters.Length];
 
         for (var i = 0; i < typeParams.Length; i++)
         {
+            cancellationToken.ThrowIfCancellationRequested();
+
             var typeParam = typeSymbol.TypeParameters[i];
             var typeParamName = typeParam.Name;
 
@@ -48,7 +48,7 @@ internal static class GenericTypeParamsProcessor
                 isNullable: isNullable);
         }
 
-        return (typeParams, null);
+        return ProcessorResult.Success(typeParams);
     }
     
     private static bool IsGenericTypeParameterNullable(ITypeParameterSymbol typeParam, bool isReferenceType)
