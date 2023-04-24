@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Threading;
 using Microsoft.CodeAnalysis;
+using W4k.Either.CodeGeneration.Context;
 
 namespace W4k.Either.CodeGeneration;
 
 internal static class GenericTypeParamsProcessor
 {
-    public static (EitherStructGenerationContext.TypeParameter[] TypeParameters, Diagnostic? Diagnostic) GetTargetTypeParameters(
+    public static (TypeParameter[] TypeParameters, Diagnostic? Diagnostic) GetTargetTypeParameters(
         INamedTypeSymbol typeSymbol,
         CancellationToken cancellationToken)
     {
@@ -14,7 +15,7 @@ internal static class GenericTypeParamsProcessor
 
         if (typeSymbol.Arity == 0)
         {
-            return (Array.Empty<EitherStructGenerationContext.TypeParameter>(), null);
+            return (Array.Empty<TypeParameter>(), null);
         }
 
         if (typeSymbol.Arity < 2)
@@ -24,10 +25,10 @@ internal static class GenericTypeParamsProcessor
                 location: typeSymbol.Locations[0],
                 messageArgs: typeSymbol.Name);
 
-            return (Array.Empty<EitherStructGenerationContext.TypeParameter>(), diagnostic);
+            return (Array.Empty<TypeParameter>(), diagnostic);
         }
 
-        var typeParams = new EitherStructGenerationContext.TypeParameter[typeSymbol.TypeParameters.Length];
+        var typeParams = new TypeParameter[typeSymbol.TypeParameters.Length];
 
         for (var i = 0; i < typeParams.Length; i++)
         {
@@ -39,7 +40,7 @@ internal static class GenericTypeParamsProcessor
             var isValueType = typeParam.HasValueTypeConstraint || typeParam.IsValueType;
             var isNullable = IsGenericTypeParameterNullable(typeParam, isReferenceType);
 
-            typeParams[i] = new EitherStructGenerationContext.TypeParameter(
+            typeParams[i] = new TypeParameter(
                 index: i + 1,
                 name: typeParamName,
                 isReferenceType: isReferenceType,

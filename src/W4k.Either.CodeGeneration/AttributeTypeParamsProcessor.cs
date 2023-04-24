@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Threading;
 using Microsoft.CodeAnalysis;
+using W4k.Either.CodeGeneration.Context;
 
 namespace W4k.Either.CodeGeneration;
 
 internal static class AttributeTypeParamsProcessor
 {
-    public static (EitherStructGenerationContext.TypeParameter[] TypeParameters, Diagnostic? Diagnostic) GetAttributeTypeParameters(
+    public static (TypeParameter[] TypeParameters, Diagnostic? Diagnostic) GetAttributeTypeParameters(
         AttributeData attribute,
         SemanticModel semanticModel,
         CancellationToken cancellationToken)
@@ -16,7 +17,7 @@ internal static class AttributeTypeParamsProcessor
         var ctor = attribute.AttributeConstructor;
         if (ctor is null || ctor.Parameters.Length == 0)
         {
-            return (Array.Empty<EitherStructGenerationContext.TypeParameter>(), null);
+            return (Array.Empty<TypeParameter>(), null);
         }
 
         var displayFormat = new SymbolDisplayFormat(
@@ -28,7 +29,7 @@ internal static class AttributeTypeParamsProcessor
         
         var ctorArguments = attribute.ConstructorArguments;
 
-        var typeParams = new EitherStructGenerationContext.TypeParameter[ctorArguments.Length];
+        var typeParams = new TypeParameter[ctorArguments.Length];
         var typeParamsSpan = typeParams.AsSpan();
         
         var isNullableEnabled = IsNullableReferenceTypesEnabled(semanticModel, attributeLocation);
@@ -46,17 +47,17 @@ internal static class AttributeTypeParamsProcessor
             // use of `[Either(typeof(MyGenericType<>))]` is forbidden, type using open generics couldn't be generated
             if (IsUnboundGenericType(typeSymbol, attributeLocation, out var diagnostic))
             {
-                return (Array.Empty<EitherStructGenerationContext.TypeParameter>(), diagnostic);
+                return (Array.Empty<TypeParameter>(), diagnostic);
             }
 
             // check that types are unique, `[Either(typeof(int), typeof(int))]` is forbidden,
             // it wouldn't be possible to determine which field to use based on its type
             if (IsTypeUsed(typeParamsSpan.Slice(0, i), typeSymbol, attributeLocation, typeParamName, out diagnostic))
             {
-                return (Array.Empty<EitherStructGenerationContext.TypeParameter>(), diagnostic);
+                return (Array.Empty<TypeParameter>(), diagnostic);
             }
 
-            typeParams[i] = new EitherStructGenerationContext.TypeParameter(
+            typeParams[i] = new TypeParameter(
                 index: i + 1,
                 name: typeParamName,
                 isReferenceType: typeSymbol.IsReferenceType,
@@ -90,7 +91,7 @@ internal static class AttributeTypeParamsProcessor
     }
 
     private static bool IsTypeUsed(
-        Span<EitherStructGenerationContext.TypeParameter> collectedParams,
+        Span<TypeParameter> collectedParams,
         INamedTypeSymbol typeSymbol,
         Location location,
         string typeParamName,
