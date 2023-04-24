@@ -3,13 +3,14 @@ Yet another choice monad implementation
 
 ## Overview of type categories and usage
 
-|                               | reference type | nullable reference type | value type | nullable value type | unspecified |
-|-------------------------------|----------------|-------------------------|------------|---------------------|-------------|
-| ctor/method parameter         | T              | T?                      | T          | T?                  | T?          |
-| field                         | T              | T?                      | T          | T?                  | T?          |
-| typecasting                   | T              | T?                      | T          | T?                  | T?          |
-| type category constraint      | class          | class?                  | struct     | N/A                 | default     |
-| nullability constraint        | notnull        | N/A                     | notnull    | N/A                 | -           |
+|                          | reference type | nullable reference type | value type | nullable value type | unspecified |
+|--------------------------|----------------|-------------------------|------------|---------------------|-------------|
+| ctor/method parameter    | T              | T?                      | T          | T?                  | T?          |
+| field                    | T              | T?                      | T          | T?                  | T?          |
+| typecasting              | T              | T?                      | T          | T?                  | T?          |
+| type category constraint | class          | class?                  | struct     | N/A                 | default     |
+| nullability constraint   | notnull        | N/A                     | notnull    | N/A                 | -           |
+| typeof                   | typeof(T)      | N/A                     | typeof(T)  | typeof(T?)          | -           |
 
 ## Implementing `Either`
 
@@ -37,3 +38,12 @@ Consider value is present and we call `TryPick` method:
 | reference     | nullable    | `bool TryPick(out T? value)`                     | value may be null                                | 
 | value         | notnull     | `bool TryPick(out T value)`                      | value is struct, can't be null                   |
 | value         | nullable    | `bool TryPick(out T? value)`                     | value is struct `Nullable<T>`, can't be null     |
+
+### Handling nullable reference type scope
+
+|                       | #nullable enable | #nullable disable | description                                                                |
+|-----------------------|------------------|-------------------|----------------------------------------------------------------------------|
+| non-nullable ref type | `T`              | N/A               | There's no way how to mark type non-nullable if null-ref types is disabled | 
+| nullable ref type     | `T?`             | `T`               | If null-ref type is disabled, all reference types are possibly `null`      |
+| value type            | `T`              | `T`               |                                                                            |
+| nullable value type   | `T?`             | `T?`              |                                                                            |
