@@ -4,7 +4,7 @@
 public class EitherSourceGeneratorShould
 {
     [Fact]
-    public Task GenerateWithAttributeAndNullableEnabled()
+    public Task GenerateUsingAttributeAndNullRefEnabled()
     {
         var source = @"
 #nullable enable
@@ -25,7 +25,7 @@ namespace MyLittleEither.MyLittleEitherMonad
     }
     
     [Fact]
-    public Task GenerateWithAttributeAndNullableDisabled()
+    public Task GenerateUsingAttributeAndNullRefDisabled()
     {
         var source = @"
 #nullable disable
@@ -46,10 +46,11 @@ namespace MyLittleEither.MyLittleEitherMonad
     }
     
     [Fact]
-    public Task GenerateWithGenericWithConstraints()
+    public Task GenerateUsingGenericsAndNullRefEnabled()
     {
         // intentionally not setting any constraint for `TAny` -> it can be anything
         var source = @"
+#nullable enable
 using W4k.Either.Abstractions;
 
 namespace MyLittleEither.MyLittleEitherMonad
@@ -64,6 +65,42 @@ namespace MyLittleEither.MyLittleEitherMonad
         where TNullObj : LeObject?
         where TIFace : IAmInterface
         where TNullIFace : IAmInterface?
+        where TUnmanaged : unmanaged
+    {
+    }
+
+    public class LeObject
+    {
+    }
+
+    public interface IAmInterface
+    {
+    }
+}";
+
+        var (diagnostics, output) = TestHelper.GenerateSourceCode(source);
+        Assert.Empty(diagnostics);
+
+        return Verify(output).UseDirectory("Snapshots");
+    }
+
+    [Fact]
+    public Task GenerateUsingGenericsAndNullRefDisabled()
+    {
+        // intentionally not setting any constraint for `TAny` -> it can be anything
+        var source = @"
+#nullable disable
+using W4k.Either.Abstractions;
+
+namespace MyLittleEither.MyLittleEitherMonad
+{
+    [Either]
+    public partial struct MyEither<TAny, TNullRef, TStruct, TNotNull, TObj, TIFace, TUnmanaged>
+        where TNullRef : class
+        where TStruct : struct
+        where TNotNull : notnull
+        where TObj : LeObject
+        where TIFace : IAmInterface
         where TUnmanaged : unmanaged
     {
     }

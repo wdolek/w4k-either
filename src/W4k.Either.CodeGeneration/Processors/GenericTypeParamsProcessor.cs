@@ -38,7 +38,7 @@ internal static class GenericTypeParamsProcessor
             // NB! it's not possible to combine `notnull` and `class`/`struct` constraints
             var isReferenceType = typeParam.HasReferenceTypeConstraint || typeParam.IsReferenceType;
             var isValueType = typeParam.HasValueTypeConstraint || typeParam.IsValueType;
-            var isNullable = IsTypeNullable(typeParam, isReferenceType, context.IsNullRefTypeScopeEnabled);
+            var isNullable = IsTypeNullable(typeParam, isValueType, context.IsNullRefTypeScopeEnabled);
 
             typeParams[i] = new TypeParameter(
                 index: i + 1,
@@ -51,7 +51,7 @@ internal static class GenericTypeParamsProcessor
         return ProcessorResult.Success(typeParams);
     }
     
-    private static bool IsTypeNullable(ITypeParameterSymbol typeParam, bool isReferenceType, bool isNullRefTypesScopeEnabled)
+    private static bool IsTypeNullable(ITypeParameterSymbol typeParam, bool isValueType, bool isNullRefTypesScopeEnabled)
     {
         // `notnull` constraint is present
         if (typeParam.HasNotNullConstraint)
@@ -60,7 +60,9 @@ internal static class GenericTypeParamsProcessor
         }
 
         // it's not possible to declare nullable value type when using generics
-        if (!isReferenceType)
+        // NB! type parameter may be unconstrained - not `class` nor `struct` - in such case both flags are `false` and we will decide
+        //     based on nullable reference type scope in next step
+        if (isValueType)
         {
             return false;
         }
