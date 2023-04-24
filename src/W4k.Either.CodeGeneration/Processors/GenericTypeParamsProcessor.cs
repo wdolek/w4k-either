@@ -3,7 +3,7 @@ using System.Threading;
 using Microsoft.CodeAnalysis;
 using W4k.Either.CodeGeneration.Context;
 
-namespace W4k.Either.CodeGeneration;
+namespace W4k.Either.CodeGeneration.Processors;
 
 internal static class GenericTypeParamsProcessor
 {

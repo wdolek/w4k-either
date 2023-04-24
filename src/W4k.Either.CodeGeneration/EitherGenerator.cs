@@ -5,6 +5,7 @@ using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.Text;
 using W4k.Either.CodeGeneration.Context;
+using W4k.Either.CodeGeneration.Processors;
 
 namespace W4k.Either.CodeGeneration;
 
