@@ -93,15 +93,16 @@ internal static class AttributeTypeParamsProcessor
         return (false, null);
     }
     
-    private static bool IsTypeNullable(INamedTypeSymbol typeSymbol, bool isNullableEnabled)
+    private static bool IsTypeNullable(INamedTypeSymbol typeSymbol, bool isNullRefTypesScopeEnabled)
     {
-        // #nullable enable -> treat all reference types as nullable
+        // #nullable enable -> reference type is not nullable
+        // #nullable disable -> reference type is nullable
         if (typeSymbol.IsReferenceType)
         {
-            return !isNullableEnabled;
+            return !isNullRefTypesScopeEnabled;
         }
 
-        // check whether value type is nullable, using `Nullable<T>`
+        // check whether value type is nullable using `Nullable<T>`, e.g. `int?`
         if (typeSymbol.IsValueType)
         {
             return typeSymbol.IsGenericType && typeSymbol.ConstructedFrom.SpecialType == SpecialType.System_Nullable_T;
