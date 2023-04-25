@@ -14,7 +14,7 @@ internal sealed class EitherStructGenerationContext
         bool isGeneric,
         string targetNamespace,
         string targetTypeName,
-        IReadOnlyList<TypeParameter> typeParameters)
+        TypeParameter[] typeParameters)
     {
         IsGenericType = isGeneric;
         TargetNamespace = targetNamespace;
@@ -25,22 +25,22 @@ internal sealed class EitherStructGenerationContext
     public bool IsGenericType { get; }
     public string TargetNamespace { get; }
     public string TargetTypeName { get; }
-    public IReadOnlyList<TypeParameter> TypeParameters { get; }
+    public TypeParameter[] TypeParameters { get; }
     public IReadOnlyList<Diagnostic> Diagnostics => _diagnostics;
     public string FileName => IsGenericType
-        ? $"{TargetTypeName}`{TypeParameters.Count}.g.cs"
+        ? $"{TargetTypeName}`{TypeParameters.Length}.g.cs"
         : $"{TargetTypeName}.g.cs";
 
     public static EitherStructGenerationContext Generic(
         string @namespace,
         string typeName,
-        IReadOnlyList<TypeParameter> typeParameters) =>
+        TypeParameter[] typeParameters) =>
         new(true, @namespace, typeName, typeParameters);
 
     public static EitherStructGenerationContext NonGeneric(
         string @namespace,
         string typeName,
-        IReadOnlyList<TypeParameter> typeParameters) =>
+        TypeParameter[] typeParameters) =>
         new(false, @namespace, typeName, typeParameters);
 
     public static EitherStructGenerationContext Invalid(string @namespace, string typeName, Diagnostic diagnostics) =>

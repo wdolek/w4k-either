@@ -6,7 +6,7 @@ namespace W4k.Either.CodeGeneration.Processors;
 
 internal readonly struct ProcessorResult
 {
-    private ProcessorResult(bool isSuccess, TypeParameter[]? typeParameters, Diagnostic? diagnostic)
+    private ProcessorResult(bool isSuccess, TypeParameter[] typeParameters, Diagnostic? diagnostic)
     {
         IsSuccess = isSuccess;
         TypeParameters = typeParameters;
@@ -14,10 +14,10 @@ internal readonly struct ProcessorResult
     }
 
     public bool IsSuccess { get; }
-    public TypeParameter[]? TypeParameters { get; }
+    public TypeParameter[] TypeParameters { get; } = null!;
     public Diagnostic? Diagnostic { get; }
 
     public static ProcessorResult Empty() => new(true, Array.Empty<TypeParameter>(), null);
     public static ProcessorResult Success(TypeParameter[] typeParameters) => new(true, typeParameters, null);
-    public static ProcessorResult Failure(Diagnostic diagnostic) => new(false, null, diagnostic);
+    public static ProcessorResult Failure(Diagnostic diagnostic) => new(false, Array.Empty<TypeParameter>(), diagnostic);
 }

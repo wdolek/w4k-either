@@ -46,10 +46,10 @@ internal static class EitherStructWriter
         sb.Append(context.TargetTypeName);
         sb.Append("<");
 
-        for (var i = 0; i < typeParams.Count; i++)
+        for (var i = 0; i < typeParams.Length; i++)
         {
             sb.Append(typeParams[i].Name);
-            if (i < typeParams.Count - 1)
+            if (i < typeParams.Length - 1)
             {
                 sb.Append(", ");
             }
@@ -430,7 +430,7 @@ internal static class EitherStructWriter
     private static void WriteMatch(EitherStructGenerationContext context, StringBuilder sb)
     {
         var typeParams = context.TypeParameters;
-        var arity = typeParams.Count;
+        var arity = typeParams.Length;
 
         sb.AppendLine("        public TResult Match<TResult>(");
 
@@ -474,7 +474,7 @@ internal static class EitherStructWriter
     private static void WriteMatchWithState(EitherStructGenerationContext context, StringBuilder sb)
     {
         var typeParams = context.TypeParameters;
-        var arity = typeParams.Count;
+        var arity = typeParams.Length;
 
         sb.AppendLine("        public TResult Match<TState, TResult>(");
 
@@ -523,7 +523,7 @@ internal static class EitherStructWriter
     private static void WriteAsyncMatch(EitherStructGenerationContext context, StringBuilder sb)
     {
         var typeParams = context.TypeParameters;
-        var arity = typeParams.Count;
+        var arity = typeParams.Length;
 
         sb.AppendLine("        public Task<TResult> MatchAsync<TResult>(");
 
@@ -564,7 +564,7 @@ internal static class EitherStructWriter
     private static void WriteAsyncMatchWithState(EitherStructGenerationContext context, StringBuilder sb)
     {
         var typeParams = context.TypeParameters;
-        var arity = typeParams.Count;
+        var arity = typeParams.Length;
 
         sb.AppendLine("        public Task<TResult> MatchAsync<TState, TResult>(");
 
@@ -610,7 +610,7 @@ internal static class EitherStructWriter
     private static void WriteSwitch(EitherStructGenerationContext context, StringBuilder sb)
     {
         var typeParams = context.TypeParameters;
-        var arity = typeParams.Count;
+        var arity = typeParams.Length;
         
         sb.AppendLine("        public void Switch(");
 
@@ -643,7 +643,7 @@ internal static class EitherStructWriter
     private static void WriteSwitchWithState(EitherStructGenerationContext context, StringBuilder sb)
     {
         var typeParams = context.TypeParameters;
-        var arity = typeParams.Count;
+        var arity = typeParams.Length;
         
         sb.AppendLine("        public void Switch<TState>(");
 
@@ -678,7 +678,7 @@ internal static class EitherStructWriter
     private static void WriteAsyncSwitch(EitherStructGenerationContext context, StringBuilder sb)
     {
         var typeParams = context.TypeParameters;
-        var arity = typeParams.Count;
+        var arity = typeParams.Length;
         
         sb.AppendLine("        public Task SwitchAsync(");
 
@@ -705,7 +705,7 @@ internal static class EitherStructWriter
     private static void WriteAsyncSwitchWithState(EitherStructGenerationContext context, StringBuilder sb)
     {
         var typeParams = context.TypeParameters;
-        var arity = typeParams.Count;
+        var arity = typeParams.Length;
         
         sb.AppendLine("        public Task SwitchAsync<TState>(");
 

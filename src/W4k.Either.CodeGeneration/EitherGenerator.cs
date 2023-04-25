@@ -60,23 +60,25 @@ public class EitherGenerator : IIncrementalGenerator
         
         var processingContext = new ProcessorContext(context.Attributes[0], context.SemanticModel, typeSymbol);
 
+        // [Either(typeof(string), typeof(int))] partial struct E { }
         var attrTypeParamsResult = AttributeTypeParamsProcessor.GetAttributeTypeParameters(processingContext, cancellationToken);
         if (!attrTypeParamsResult.IsSuccess)
         {
             return EitherStructGenerationContext.Invalid(targetNamespace, targetName, attrTypeParamsResult.Diagnostic!);
         }
 
+        // [Either] partial struct E<T1, T2> { }
         var targetTypeParamsResult = GenericTypeParamsProcessor.GetTargetTypeParameters(processingContext, cancellationToken);
         if (!targetTypeParamsResult.IsSuccess)
         {
             return EitherStructGenerationContext.Invalid(targetNamespace, targetName, targetTypeParamsResult.Diagnostic!);
         }
 
-        var attrTypeParams = attrTypeParamsResult.TypeParameters!;
-        var targetTypeParams = targetTypeParamsResult.TypeParameters!;
+        var attrTypeParams = attrTypeParamsResult.TypeParameters;
+        var genericTypeParams = targetTypeParamsResult.TypeParameters;
 
         // user has not specified any type parameter
-        if (attrTypeParams.Length == 0 && targetTypeParams.Length == 0)
+        if (attrTypeParams.Length == 0 && genericTypeParams.Length == 0)
         {
             return EitherStructGenerationContext.Invalid(
                 targetNamespace,
@@ -88,7 +90,7 @@ public class EitherGenerator : IIncrementalGenerator
         }
 
         // user specified types both using attribute and making type generic
-        if (attrTypeParams.Length > 0 && targetTypeParams.Length > 0)
+        if (attrTypeParams.Length > 0 && genericTypeParams.Length > 0)
         {
             return EitherStructGenerationContext.Invalid(
                 targetNamespace,
@@ -99,8 +101,8 @@ public class EitherGenerator : IIncrementalGenerator
                     messageArgs: typeSymbol.Name));
         }
 
-        return targetTypeParams.Length > 0
-            ? EitherStructGenerationContext.Generic(targetNamespace, targetName, targetTypeParams)
+        return genericTypeParams.Length > 0
+            ? EitherStructGenerationContext.Generic(targetNamespace, targetName, genericTypeParams)
             : EitherStructGenerationContext.NonGeneric(targetNamespace, targetName, attrTypeParams);
     }
 
