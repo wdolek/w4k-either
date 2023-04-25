@@ -132,6 +132,8 @@ internal static class EitherStructWriter
 
     private static void WriteConstructors(EitherStructGenerationContext context, StringBuilder sb)
     {
+        WriteDefaultStructConstructor(context, sb);
+
         foreach (var typeParam in context.TypeParameters)
         {
             sb.AppendLine($"        public {context.TargetTypeName}({typeParam.AsArgument} value)");
@@ -143,12 +145,35 @@ internal static class EitherStructWriter
             }
 
             sb.AppendLine($"            _idx = {typeParam.Index};");
-            sb.AppendLine($"            {typeParam.FieldName} = value;");
+                
+            foreach (var otherTypeParam in context.TypeParameters)
+            {
+                sb.AppendLine(
+                    otherTypeParam.Index == typeParam.Index
+                        ? $"            {otherTypeParam.FieldName} = value;"
+                        : $"            {otherTypeParam.FieldName} = {otherTypeParam.AsDefault};");
+            }
+                
             sb.AppendLine("        }");
             sb.AppendLine();
         }
 
         WriteSerializableConstructor(context, sb);
+    }
+
+    private static void WriteDefaultStructConstructor(EitherStructGenerationContext context, StringBuilder sb)
+    {
+        sb.AppendLine($"        public {context.TargetTypeName}()");
+        sb.AppendLine("        {");
+        sb.AppendLine("            _idx = 0;");
+
+        foreach (var otherTypeParam in context.TypeParameters)
+        {
+            sb.AppendLine($"            {otherTypeParam.FieldName} = {otherTypeParam.AsDefault};");
+        }        
+        
+        sb.AppendLine("        }");
+        sb.AppendLine();
     }
 
     private static void WriteSerializableConstructor(EitherStructGenerationContext context, StringBuilder sb)
@@ -167,11 +192,25 @@ internal static class EitherStructWriter
                 : string.Empty;
             
             sb.AppendLine($"                case {typeParam.Index}:");
-            sb.AppendLine($"                    {typeParam.FieldName} = ({typeParam.AsFieldType})info.GetValue(\"{typeParam.FieldName}\", typeof({typeParam.Name})){nullForgiving};");
+
+            foreach (var otherTypeParam in context.TypeParameters)
+            {
+                sb.AppendLine(
+                    otherTypeParam.Index == typeParam.Index
+                        ? $"                    {otherTypeParam.FieldName} = ({typeParam.AsFieldType})info.GetValue(\"{typeParam.FieldName}\", typeof({typeParam.Name})){nullForgiving};"
+                        : $"                    {otherTypeParam.FieldName} = {otherTypeParam.AsDefault};");
+            }
+
             sb.AppendLine("                    break;");
         }
         
         sb.AppendLine("                default:");
+        
+        foreach (var otherTypeParam in context.TypeParameters)
+        {
+            sb.AppendLine($"                    {otherTypeParam.FieldName} = {otherTypeParam.AsDefault};");
+        }          
+        
         sb.AppendLine("                    ThrowHelper.ThrowOnInvalidState();");
         sb.AppendLine("                    break;");
         sb.AppendLine("            }");
