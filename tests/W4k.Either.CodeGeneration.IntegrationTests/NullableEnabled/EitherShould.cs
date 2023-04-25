@@ -19,6 +19,7 @@ public class EitherShould
     {
         var either = new Either<Huey, Dewey?, Louie, Duckula, Scrooge?>();
         Assert.Equal(0, either.State);
+        Assert.Throws<InvalidOperationException>(() => either.Case);
     }
     
     [Fact]
@@ -40,24 +41,4 @@ public class EitherShould
         // unconstrained
         _ = new Either<Huey, Dewey?, Louie, Duckula, Scrooge?>((Scrooge?)null);
     }
-}
-
-public class Huey
-{
-}
-
-public class Dewey
-{
-}
-
-public class Louie
-{
-}
-
-public class Scrooge
-{
-}
-
-public struct Duckula
-{
 }
