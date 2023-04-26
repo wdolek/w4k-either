@@ -1,21 +1,21 @@
 ﻿namespace W4k.Either.CodeGeneration.IntegrationTests;
 
-public class Huey
+public record Huey(bool HasRedHat)
 {
 }
 
-public class Dewey
+public record Dewey(bool HasBlueHat)
 {
 }
 
-public class Louie
+public record Louie(bool HasGreenHat)
 {
 }
 
-public class Scrooge
+public record Scrooge(decimal Money)
 {
 }
 
-public struct Duckula
+public record struct Duckula(bool IsKetchupLover)
 {
 }
