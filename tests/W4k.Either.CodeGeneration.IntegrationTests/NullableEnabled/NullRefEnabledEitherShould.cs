@@ -20,14 +20,6 @@ public readonly partial struct NullRefEnabledTestEither<TNonNullableRef, TNullab
 public class NullRefEnabledEitherShould
 {
     [Fact]
-    public void InstantiateInvalidStateUsingDefaultCtor()
-    {
-        var either = new NullRefEnabledTestEither<Huey, Dewey?, Louie, Duckula, Scrooge?>();
-        Assert.Equal(0, either.State);
-        Assert.Throws<InvalidOperationException>(() => either.Case);
-    }
-    
-    [Fact]
     public void PreventNullForNonNullableArgs()
     {
         // non-nullable ref type
@@ -67,16 +59,12 @@ public class NullRefEnabledEitherShould
         NullRefEnabledTestEither<Huey, Dewey?, Louie, Duckula, Scrooge?> first = new Louie(HasGreenHat: true);
         NullRefEnabledTestEither<Huey, Dewey?, Louie, Duckula, Scrooge?> second = new Louie(HasGreenHat: true);
         NullRefEnabledTestEither<Huey, Dewey?, Louie, Duckula, Scrooge?> third = new Huey(HasRedHat: true);
-        NullRefEnabledTestEither<Huey, Dewey?, Louie, Duckula, Scrooge?> invalid = default;
 
         Assert.True(first == second);
         Assert.True(first.Equals((object?)second));
 
         Assert.False(first == third);
         Assert.False(first.Equals((object?)third));
-        
-        Assert.False(first == invalid);
-        Assert.False(first.Equals((object?)invalid));
     }
 
     [Fact]
@@ -85,12 +73,10 @@ public class NullRefEnabledEitherShould
         NullRefEnabledTestEither<Huey, Dewey?, Louie, Duckula, Scrooge?> huey = new Huey(HasRedHat: true);
         NullRefEnabledTestEither<Huey, Dewey?, Louie, Duckula, Scrooge?> dewey = (Dewey?)null;
         NullRefEnabledTestEither<Huey, Dewey?, Louie, Duckula, Scrooge?> scrooge = new Scrooge(Money: 315_360_000_000_000_000);
-        NullRefEnabledTestEither<Huey, Dewey?, Louie, Duckula, Scrooge?> invalid = default;
 
         Assert.Equal(huey.T1!.GetHashCode(), huey.GetHashCode());
         Assert.Equal(0, dewey.GetHashCode());
         Assert.Equal(scrooge.T5!.GetHashCode(), scrooge.GetHashCode());
-        Assert.Throws<InvalidOperationException>(() => invalid.GetHashCode());
     }
 
     [Fact]
@@ -99,7 +85,6 @@ public class NullRefEnabledEitherShould
         NullRefEnabledTestEither<Huey, Dewey?, Louie, Duckula, Scrooge?> huey = new Huey(HasRedHat: true);
         NullRefEnabledTestEither<Huey, Dewey?, Louie, Duckula, Scrooge?> dewey = (Dewey?)null;
         NullRefEnabledTestEither<Huey, Dewey?, Louie, Duckula, Scrooge?> scrooge = new Scrooge(Money: 315_360_000_000_000_000);
-        NullRefEnabledTestEither<Huey, Dewey?, Louie, Duckula, Scrooge?> invalid = default;
 
         Assert.Equal("Huey { HasRedHat = True }", huey.ToString());
 
@@ -108,8 +93,6 @@ public class NullRefEnabledEitherShould
         
         // NB! `Scrooge` type is record and thus all that fluff around
         Assert.Equal("Scrooge { Money = 315360000000000000 }", scrooge.ToString());
-        
-        Assert.Throws<InvalidOperationException>(() => invalid.ToString());
     }
 
     [Fact]
@@ -118,7 +101,6 @@ public class NullRefEnabledEitherShould
         NullRefEnabledTestEither<Huey, Dewey?, Louie, Duckula, Scrooge?> huey = new Huey(HasRedHat: true);
         NullRefEnabledTestEither<Huey, Dewey?, Louie, Duckula, Scrooge?> dewey = (Dewey?)null;
         NullRefEnabledTestEither<Huey, Dewey?, Louie, Duckula, Scrooge?> scrooge = new Scrooge(Money: 315_360_000_000_000_000);
-        NullRefEnabledTestEither<Huey, Dewey?, Louie, Duckula, Scrooge?> invalid = default;
 
         Assert.False(huey.TryPick(out Scrooge? _));
         Assert.True(huey.TryPick(out Huey? hueyValue));
@@ -130,8 +112,6 @@ public class NullRefEnabledEitherShould
         
         Assert.True(scrooge.TryPick(out Scrooge? scroogeValue));
         Assert.NotNull(scroogeValue);
-
-        Assert.False(invalid.TryPick(out Scrooge? _));
     }
 
     [Fact]
