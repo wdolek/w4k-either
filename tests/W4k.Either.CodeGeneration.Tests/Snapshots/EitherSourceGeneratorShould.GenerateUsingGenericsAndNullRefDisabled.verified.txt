@@ -326,17 +326,17 @@ namespace MyLittleEither.MyLittleEitherMonad
             switch (_idx)
             {
                 case 1:
-                    return _v1?.Equals(other._v1) ?? false;
+                    return (_v1 is null && other._v1 is null) || (_v1?.Equals(other._v1) ?? false);
                 case 2:
-                    return _v2?.Equals(other._v2) ?? false;
+                    return (_v2 is null && other._v2 is null) || (_v2?.Equals(other._v2) ?? false);
                 case 3:
                     return _v3.Equals(other._v3);
                 case 4:
                     return _v4!.Equals(other._v4);
                 case 5:
-                    return _v5?.Equals(other._v5) ?? false;
+                    return (_v5 is null && other._v5 is null) || (_v5?.Equals(other._v5) ?? false);
                 case 6:
-                    return _v6?.Equals(other._v6) ?? false;
+                    return (_v6 is null && other._v6 is null) || (_v6?.Equals(other._v6) ?? false);
                 case 7:
                     return _v7.Equals(other._v7);
                 default:

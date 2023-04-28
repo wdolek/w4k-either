@@ -1,74 +1,68 @@
 ﻿using W4k.Either.Abstractions;
 
-namespace W4k.Either.CodeGeneration.IntegrationTests;
+namespace W4k.Either.CodeGeneration.IntegrationTests.Generics;
 
-[Either]
-public readonly partial struct InvalidEither<TLeft, TRight>
-{
-    public byte State => _idx;
-}
-
-public class InvalidStateShould
+public class InvalidStateTests
 {
     [Fact]
-    public void BePossibleToCreate()
+    public void AllowInstantiateDefault()
     {
-        var eitherCtor = new InvalidEither<Scrooge, Duckula>();
+        var eitherCtor = new UnconstrainedEither<Scrooge, Unit>();
         Assert.Equal(0, eitherCtor.State);
         
-        InvalidEither<Scrooge, Duckula> eitherDefault = default;
+        UnconstrainedEither<Scrooge, Unit> eitherDefault = default;
         Assert.Equal(0, eitherDefault.State);
     }
 
     [Fact]
-    public void BeEquatable()
+    public void ShouldBeEquatable()
     {
-        var valid = new InvalidEither<Scrooge, Duckula>(new Duckula(IsKetchupLover: true));
+        var valid = new UnconstrainedEither<Scrooge, Unit>(new Scrooge(Money: 315_360_000_000_000_000));
 
-        var invalid1 = new InvalidEither<Scrooge, Duckula>();
-        var invalid2 = new InvalidEither<Scrooge, Duckula>();
+        var invalid1 = new UnconstrainedEither<Scrooge, Unit>();
+        var invalid2 = new UnconstrainedEither<Scrooge, Unit>();
         
-        Assert.False(valid == invalid1);
+        Assert.False((bool)(valid == invalid1));
         Assert.False(valid.Equals((object?)invalid1));
 
-        Assert.False(invalid1 == valid);
+        Assert.False((bool)(invalid1 == valid));
         Assert.False(invalid1.Equals((object?)valid));
         
         Assert.Throws<InvalidOperationException>(() => invalid1 == invalid2);
     }
 
     [Fact]
-    public void NotBePossibleToUseForPatternMatching()
+    public void DisallowPatternMatching()
     {
-        var invalid = new InvalidEither<Scrooge, Duckula>();
+        var invalid = new UnconstrainedEither<Scrooge, Unit>();
         Assert.Throws<InvalidOperationException>(() => invalid.Case);
     }
 
     [Fact]
-    public void ForbidGetHashCode()
+    public void DisallowGettingHashCode()
     {
-        var invalid = new InvalidEither<Scrooge, Duckula>();
+        var invalid = new UnconstrainedEither<Scrooge, Unit>();
         Assert.Throws<InvalidOperationException>(() => invalid.GetHashCode());
     }
     
     [Fact]
-    public void ForbidToString()
+    public void DisallowToString()
     {
-        var invalid = new InvalidEither<Scrooge, Duckula>();
+        var invalid = new UnconstrainedEither<Scrooge, Unit>();
         Assert.Throws<InvalidOperationException>(() => invalid.ToString());
     }
     
     [Fact]
-    public void NotThrowOnTryPick()
+    public void DisAllowTryPick()
     {
-        var invalid = new InvalidEither<Scrooge, Duckula>();
-        Assert.False(invalid.TryPick(out Scrooge _));
+        var invalid = new UnconstrainedEither<Scrooge, Unit>();
+        Assert.False((bool)invalid.TryPick(out Scrooge _));
     }
 
     [Fact]
-    public async Task ForbidMatch()
+    public async Task DisallowMatch()
     {
-        var invalid = new InvalidEither<Scrooge, Duckula>();
+        var invalid = new UnconstrainedEither<Scrooge, Unit>();
 
         Assert.Throws<InvalidOperationException>(
             () => invalid.Match(
@@ -94,9 +88,9 @@ public class InvalidStateShould
     }
     
     [Fact]
-    public async Task ForbidSwitch()
+    public async Task DisallowSwitch()
     {
-        var invalid = new InvalidEither<Scrooge, Duckula>();
+        var invalid = new UnconstrainedEither<Scrooge, Unit>();
 
         Assert.Throws<InvalidOperationException>(
             () => invalid.Switch(
