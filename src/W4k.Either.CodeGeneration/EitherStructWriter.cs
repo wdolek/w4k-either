@@ -359,10 +359,22 @@ internal static class EitherStructWriter
         foreach (var typeParam in context.TypeParameters)
         {
             sb.AppendLine($"                case {typeParam.Index}:");
-            sb.AppendLine(
-                typeParam.IsNullable
-                    ? $"                    return {typeParam.AsFieldInvoker}.Equals(other.{typeParam.FieldName}) ?? false;"
-                    : $"                    return {typeParam.AsFieldInvoker}.Equals(other.{typeParam.FieldName});");
+
+            if (!typeParam.IsNullable)
+            {
+                // -> non-nullable
+                sb.AppendLine($"                    return {typeParam.AsFieldInvoker}.Equals(other.{typeParam.FieldName});");
+            } 
+            else if (typeParam.IsReferenceType)
+            {
+                // -> possibly nullable reference type
+                sb.AppendLine($"                    return ({typeParam.FieldName} is null && other.{typeParam.FieldName} is null) || ({typeParam.AsFieldInvoker}.Equals(other.{typeParam.FieldName}) ?? false);");
+            }
+            else
+            {
+                // -> value type
+                sb.AppendLine($"                    return {typeParam.AsFieldInvoker}.Equals(other.{typeParam.FieldName}) ?? false;");
+            }
         }
         
         sb.AppendLine("                default:");
