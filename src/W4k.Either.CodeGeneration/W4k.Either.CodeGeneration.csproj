@@ -8,6 +8,10 @@
     <EnforceExtendedAnalyzerRules>true</EnforceExtendedAnalyzerRules>
     <NoWarn>RS2007</NoWarn>
   </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="W4k.Either.CodeGeneration.props" Pack="true" PackagePath="build" />
+  </ItemGroup>  
   
   <PropertyGroup>
     <IncludeBuildOutput>false</IncludeBuildOutput>

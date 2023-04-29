@@ -1,0 +1,7 @@
+﻿<Project>
+
+  <Target Name="EnsureNet60OrHigher" BeforeTargets="Build">
+    <Error Condition="!($([System.Version]::Parse($(_TargetFrameworkVersionWithoutV)).CompareTo($([System.Version]::Parse('6.0'))))" Text="This source generator requires the consuming project to target .NET 6.0 or higher."/>
+  </Target>
+  
+</Project>
