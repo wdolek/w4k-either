@@ -22,10 +22,10 @@ public class InvalidStateTests
         var invalid1 = new UnconstrainedEither<Scrooge, Unit>();
         var invalid2 = new UnconstrainedEither<Scrooge, Unit>();
         
-        Assert.False((bool)(valid == invalid1));
+        Assert.False(valid == invalid1);
         Assert.False(valid.Equals((object?)invalid1));
 
-        Assert.False((bool)(invalid1 == valid));
+        Assert.False(invalid1 == valid);
         Assert.False(invalid1.Equals((object?)valid));
         
         Assert.Throws<InvalidOperationException>(() => invalid1 == invalid2);
@@ -56,7 +56,7 @@ public class InvalidStateTests
     public void DisAllowTryPick()
     {
         var invalid = new UnconstrainedEither<Scrooge, Unit>();
-        Assert.False((bool)invalid.TryPick(out Scrooge _));
+        Assert.False(invalid.TryPick(out Scrooge _));
     }
 
     [Fact]
