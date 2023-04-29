@@ -74,7 +74,7 @@ namespace MyLittleEither.MyLittleEitherMonad
 
         public MyEither(TNotNull value)
         {
-            ThrowHelper.ThrowIfNull(value);
+            ArgumentNullException.ThrowIfNull(value);
             _idx = 4;
             _v1 = default;
             _v2 = default;
@@ -476,13 +476,13 @@ namespace MyLittleEither.MyLittleEitherMonad
             Func<TIFace?, TResult> f6,
             Func<TUnmanaged, TResult> f7)
         {
-            ThrowHelper.ThrowIfNull(f1);
-            ThrowHelper.ThrowIfNull(f2);
-            ThrowHelper.ThrowIfNull(f3);
-            ThrowHelper.ThrowIfNull(f4);
-            ThrowHelper.ThrowIfNull(f5);
-            ThrowHelper.ThrowIfNull(f6);
-            ThrowHelper.ThrowIfNull(f7);
+            ArgumentNullException.ThrowIfNull(f1);
+            ArgumentNullException.ThrowIfNull(f2);
+            ArgumentNullException.ThrowIfNull(f3);
+            ArgumentNullException.ThrowIfNull(f4);
+            ArgumentNullException.ThrowIfNull(f5);
+            ArgumentNullException.ThrowIfNull(f6);
+            ArgumentNullException.ThrowIfNull(f7);
 
             switch(_idx)
             {
@@ -515,13 +515,13 @@ namespace MyLittleEither.MyLittleEitherMonad
             Func<TState, TIFace?, TResult> f6,
             Func<TState, TUnmanaged, TResult> f7)
         {
-            ThrowHelper.ThrowIfNull(f1);
-            ThrowHelper.ThrowIfNull(f2);
-            ThrowHelper.ThrowIfNull(f3);
-            ThrowHelper.ThrowIfNull(f4);
-            ThrowHelper.ThrowIfNull(f5);
-            ThrowHelper.ThrowIfNull(f6);
-            ThrowHelper.ThrowIfNull(f7);
+            ArgumentNullException.ThrowIfNull(f1);
+            ArgumentNullException.ThrowIfNull(f2);
+            ArgumentNullException.ThrowIfNull(f3);
+            ArgumentNullException.ThrowIfNull(f4);
+            ArgumentNullException.ThrowIfNull(f5);
+            ArgumentNullException.ThrowIfNull(f6);
+            ArgumentNullException.ThrowIfNull(f7);
 
             switch(_idx)
             {
@@ -554,13 +554,13 @@ namespace MyLittleEither.MyLittleEitherMonad
             Func<TUnmanaged, CancellationToken, Task<TResult>> f7,
             CancellationToken cancellationToken = default)
         {
-            ThrowHelper.ThrowIfNull(f1);
-            ThrowHelper.ThrowIfNull(f2);
-            ThrowHelper.ThrowIfNull(f3);
-            ThrowHelper.ThrowIfNull(f4);
-            ThrowHelper.ThrowIfNull(f5);
-            ThrowHelper.ThrowIfNull(f6);
-            ThrowHelper.ThrowIfNull(f7);
+            ArgumentNullException.ThrowIfNull(f1);
+            ArgumentNullException.ThrowIfNull(f2);
+            ArgumentNullException.ThrowIfNull(f3);
+            ArgumentNullException.ThrowIfNull(f4);
+            ArgumentNullException.ThrowIfNull(f5);
+            ArgumentNullException.ThrowIfNull(f6);
+            ArgumentNullException.ThrowIfNull(f7);
 
             switch(_idx)
             {
@@ -594,13 +594,13 @@ namespace MyLittleEither.MyLittleEitherMonad
             Func<TState, TUnmanaged, CancellationToken, Task<TResult>> f7,
             CancellationToken cancellationToken = default)
         {
-            ThrowHelper.ThrowIfNull(f1);
-            ThrowHelper.ThrowIfNull(f2);
-            ThrowHelper.ThrowIfNull(f3);
-            ThrowHelper.ThrowIfNull(f4);
-            ThrowHelper.ThrowIfNull(f5);
-            ThrowHelper.ThrowIfNull(f6);
-            ThrowHelper.ThrowIfNull(f7);
+            ArgumentNullException.ThrowIfNull(f1);
+            ArgumentNullException.ThrowIfNull(f2);
+            ArgumentNullException.ThrowIfNull(f3);
+            ArgumentNullException.ThrowIfNull(f4);
+            ArgumentNullException.ThrowIfNull(f5);
+            ArgumentNullException.ThrowIfNull(f6);
+            ArgumentNullException.ThrowIfNull(f7);
 
             switch(_idx)
             {

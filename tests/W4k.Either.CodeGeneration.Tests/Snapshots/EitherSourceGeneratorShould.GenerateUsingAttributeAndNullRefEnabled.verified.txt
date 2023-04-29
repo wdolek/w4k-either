@@ -30,7 +30,7 @@ namespace MyLittleEither.MyLittleEitherMonad
 
         public MyEither(string value)
         {
-            ThrowHelper.ThrowIfNull(value);
+            ArgumentNullException.ThrowIfNull(value);
             _idx = 1;
             _v1 = value;
             _v2 = default;
@@ -244,9 +244,9 @@ namespace MyLittleEither.MyLittleEitherMonad
             Func<int, TResult> f2,
             Func<int?, TResult> f3)
         {
-            ThrowHelper.ThrowIfNull(f1);
-            ThrowHelper.ThrowIfNull(f2);
-            ThrowHelper.ThrowIfNull(f3);
+            ArgumentNullException.ThrowIfNull(f1);
+            ArgumentNullException.ThrowIfNull(f2);
+            ArgumentNullException.ThrowIfNull(f3);
 
             switch(_idx)
             {
@@ -267,9 +267,9 @@ namespace MyLittleEither.MyLittleEitherMonad
             Func<TState, int, TResult> f2,
             Func<TState, int?, TResult> f3)
         {
-            ThrowHelper.ThrowIfNull(f1);
-            ThrowHelper.ThrowIfNull(f2);
-            ThrowHelper.ThrowIfNull(f3);
+            ArgumentNullException.ThrowIfNull(f1);
+            ArgumentNullException.ThrowIfNull(f2);
+            ArgumentNullException.ThrowIfNull(f3);
 
             switch(_idx)
             {
@@ -290,9 +290,9 @@ namespace MyLittleEither.MyLittleEitherMonad
             Func<int?, CancellationToken, Task<TResult>> f3,
             CancellationToken cancellationToken = default)
         {
-            ThrowHelper.ThrowIfNull(f1);
-            ThrowHelper.ThrowIfNull(f2);
-            ThrowHelper.ThrowIfNull(f3);
+            ArgumentNullException.ThrowIfNull(f1);
+            ArgumentNullException.ThrowIfNull(f2);
+            ArgumentNullException.ThrowIfNull(f3);
 
             switch(_idx)
             {
@@ -314,9 +314,9 @@ namespace MyLittleEither.MyLittleEitherMonad
             Func<TState, int?, CancellationToken, Task<TResult>> f3,
             CancellationToken cancellationToken = default)
         {
-            ThrowHelper.ThrowIfNull(f1);
-            ThrowHelper.ThrowIfNull(f2);
-            ThrowHelper.ThrowIfNull(f3);
+            ArgumentNullException.ThrowIfNull(f1);
+            ArgumentNullException.ThrowIfNull(f2);
+            ArgumentNullException.ThrowIfNull(f3);
 
             switch(_idx)
             {

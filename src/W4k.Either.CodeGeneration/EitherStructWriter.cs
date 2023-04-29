@@ -141,7 +141,7 @@ internal static class EitherStructWriter
 
             if (typeParam.IsNonNullableReferenceType)
             {
-                sb.AppendLine("            ThrowHelper.ThrowIfNull(value);");                
+                sb.AppendLine("            ArgumentNullException.ThrowIfNull(value);");                
             }
 
             sb.AppendLine($"            _idx = {typeParam.Index};");
@@ -461,7 +461,7 @@ internal static class EitherStructWriter
         // null checks
         for (var i = 1; i <= arity; i++)
         {
-            sb.AppendLine($"            ThrowHelper.ThrowIfNull(f{i});");
+            sb.AppendLine($"            ArgumentNullException.ThrowIfNull(f{i});");
         }
 
         sb.AppendLine();
@@ -506,7 +506,7 @@ internal static class EitherStructWriter
         // null checks
         for (var i = 1; i <= arity; i++)
         {
-            sb.AppendLine($"            ThrowHelper.ThrowIfNull(f{i});");
+            sb.AppendLine($"            ArgumentNullException.ThrowIfNull(f{i});");
         }
 
         sb.AppendLine();
@@ -551,7 +551,7 @@ internal static class EitherStructWriter
         // null checks
         for (var i = 1; i <= arity; i++)
         {
-            sb.AppendLine($"            ThrowHelper.ThrowIfNull(f{i});");
+            sb.AppendLine($"            ArgumentNullException.ThrowIfNull(f{i});");
         }
 
         sb.AppendLine();
@@ -593,7 +593,7 @@ internal static class EitherStructWriter
         // null checks
         for (var i = 1; i <= arity; i++)
         {
-            sb.AppendLine($"            ThrowHelper.ThrowIfNull(f{i});");
+            sb.AppendLine($"            ArgumentNullException.ThrowIfNull(f{i});");
         }
 
         sb.AppendLine();
