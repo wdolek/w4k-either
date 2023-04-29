@@ -1,4 +1,4 @@
-﻿namespace W4k.Either.CodeGeneration.IntegrationTests.Generics;
+﻿namespace W4k.Either.CodeGeneration.IntegrationTests.GenericUsage;
 
 public class EquatableTests
 {
