@@ -4,20 +4,36 @@
     <TargetFramework>netstandard2.0</TargetFramework>
     <LangVersion>10</LangVersion>
     <Nullable>enable</Nullable>
-    <ImplicitUsings>false</ImplicitUsings>
-    <EnforceExtendedAnalyzerRules>true</EnforceExtendedAnalyzerRules>
+    <ImplicitUsings>disable</ImplicitUsings>
     <NoWarn>RS2007</NoWarn>
   </PropertyGroup>
-
+  
   <ItemGroup>
     <None Include="W4k.Either.CodeGeneration.props" Pack="true" PackagePath="build" />
-  </ItemGroup>  
+  </ItemGroup>
+
+  <PropertyGroup>
+    <VersionPrefix>1.0.0</VersionPrefix>
+    <Authors>Zdenek Havlin</Authors>
+    <Description>Source generator for creating discriminated union like value type.</Description>
+    <PackageId>W4k.Either.CodeGeneration</PackageId>
+    <PackageTags>either, choice, result, oneof, generic sum type, discriminated union</PackageTags>
+    <PackageProjectUrl>https://github.com/wdolek/w4k-either</PackageProjectUrl>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <RepositoryUrl>https://github.com/wdolek/w4k-either.git</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <AllowedOutputExtensionsInPackageBuildOutputFolder>$(AllowedOutputExtensionsInPackageBuildOutputFolder);.pdb</AllowedOutputExtensionsInPackageBuildOutputFolder>
+  </PropertyGroup>
   
   <PropertyGroup>
     <IncludeBuildOutput>false</IncludeBuildOutput>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
   </PropertyGroup>
 
+  <PropertyGroup>
+    <EnforceExtendedAnalyzerRules>true</EnforceExtendedAnalyzerRules>
+  </PropertyGroup>
+  
   <ItemGroup>
     <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.4.0" PrivateAssets="all" />
     <PackageReference Include="Microsoft.CodeAnalysis.Analyzers" Version="3.3.4" PrivateAssets="all" />
