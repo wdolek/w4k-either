@@ -120,6 +120,29 @@ namespace MyLittleEither.MyLittleEitherMonad
         return Verify(output).UseDirectory("Snapshots");
     }
 
+    [Fact]
+    public Task GenerateNestedType()
+    {
+        var source = @"
+using W4k.Either.Abstractions;
+
+namespace MyLittleEither.MyLittleEitherMonad
+{
+    public partial class MyContainingType
+    {
+        [Either]
+        private partial struct MyNestedEither<TLeft, TRight>
+        {
+        }
+    }
+}";
+
+        var (diagnostics, output) = TestHelper.GenerateSourceCode(source);
+        Assert.Empty(diagnostics);
+
+        return Verify(output).UseDirectory("Snapshots");
+    }
+
     [Theory]
     [MemberData(nameof(CreateDiagnosticErrorProducingSourceCode))]
     public void ReportErrorForInvalidCode(string source, string expectedDiagnosticId)
@@ -140,6 +163,20 @@ namespace MyLittleEither.MyLittleEitherMonad
     [Either]
     public struct MyEither<T0, T1>
     {
+    }
+}";
+        
+        const string containingNotPartial = @"
+using W4k.Either.Abstractions;
+
+namespace MyLittleEither.MyLittleEitherMonad
+{
+    public class MyContainingType
+    {
+        [Either]
+        public partial struct MyEither<T0, T1>
+        {
+        }
     }
 }";
         
@@ -203,6 +240,10 @@ namespace MyLittleEither.MyLittleEitherMonad
         {
             {
                 notPartial,
+                "W4KE001"
+            },
+            {
+                containingNotPartial,
                 "W4KE001"
             },
             {

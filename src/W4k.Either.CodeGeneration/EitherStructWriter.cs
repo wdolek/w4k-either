@@ -7,18 +7,17 @@ internal static class EitherStructWriter
 {
     public static void Write(EitherStructGenerationContext context, StringBuilder sb)
     {
-        var typeName = CreateTypeName(context);
-        
         WriteFileHeader(sb);
         WriteUsing(sb);
         StartNamespace(context, sb);
-        StartTypeDeclaration(sb, typeName);
+        StartContainingTypeDeclaration(context, sb);
+        StartTypeDeclaration(context, sb);
         WriteFields(context, sb);
         WriteConstructors(context, sb);
         WriteProperties(context, sb);
-        WriteOperators(context, sb, typeName);
-        WriteObjectOverrides(context, sb, typeName);
-        WriteEquatableEquals(context, sb, typeName);
+        WriteOperators(context, sb);
+        WriteObjectOverrides(context, sb);
+        WriteEquatableEquals(context, sb);
         WriteGetObjectData(context, sb);
         WriteTryPick(context, sb);
         WriteMatch(context, sb);
@@ -30,34 +29,8 @@ internal static class EitherStructWriter
         WriteAsyncSwitch(context, sb);
         WriteAsyncSwitchWithState(context, sb);
         EndTypeDeclaration(sb);
+        EndContainingTypeDeclaration(context, sb);
         EndNamespace(sb);
-    }
-
-    private static string CreateTypeName(EitherStructGenerationContext context)
-    {
-        if (!context.IsGenericType)
-        {
-            return context.TargetTypeName;
-        }
-
-        var typeParams = context.TypeParameters;
-        var sb = new StringBuilder(64);
-
-        sb.Append(context.TargetTypeName);
-        sb.Append("<");
-
-        for (var i = 0; i < typeParams.Length; i++)
-        {
-            sb.Append(typeParams[i].Name);
-            if (i < typeParams.Length - 1)
-            {
-                sb.Append(", ");
-            }
-        }
-        
-        sb.Append(">");
-
-        return sb.ToString();
     }
 
     private static void WriteFileHeader(StringBuilder sb)
@@ -98,16 +71,43 @@ internal static class EitherStructWriter
     
 #region Type declaration
 
-    private static void StartTypeDeclaration(StringBuilder sb, string typeName)
+    private static void StartContainingTypeDeclaration(EitherStructGenerationContext context, StringBuilder sb)
+    {
+        if (context.ContainingTypeDeclaration is null)
+        {
+            return;
+        }
+        
+        sb.AppendLine();
+        sb.AppendLine("    // start containing type");
+        sb.AppendLine($"    {context.ContainingTypeDeclaration.FullDeclaration}");
+        sb.AppendLine("    {");
+        sb.AppendLine();
+    }
+
+    private static void StartTypeDeclaration(EitherStructGenerationContext context, StringBuilder sb)
     {
         sb.AppendLine("    [Serializable]");
-        sb.AppendLine($"    readonly partial struct {typeName} : IEquatable<{typeName}>, ISerializable");
+        sb.AppendLine($"    readonly partial struct {context.FullTypeName} : IEquatable<{context.ReferringTypeName}>, ISerializable");
         sb.AppendLine("    {");
     }
 
     private static void EndTypeDeclaration(StringBuilder sb)
     {
         sb.AppendLine("    }");
+    }
+
+    private static void EndContainingTypeDeclaration(EitherStructGenerationContext context, StringBuilder sb)
+    {
+        if (context.ContainingTypeDeclaration is null)
+        {
+            return;
+        }
+        
+        sb.AppendLine();
+        sb.AppendLine("    }");
+        sb.AppendLine("    // end containing type");
+        sb.AppendLine();
     }
     
 #endregion
@@ -250,20 +250,20 @@ internal static class EitherStructWriter
 
 #region Operators
 
-    private static void WriteOperators(EitherStructGenerationContext context, StringBuilder sb, string typeName)
+    private static void WriteOperators(EitherStructGenerationContext context, StringBuilder sb)
     {
         sb.AppendLine("        [Pure]");    
-        sb.AppendLine($"        public static bool operator ==({typeName} left, {typeName} right) => left.Equals(right);");
+        sb.AppendLine($"        public static bool operator ==({context.ReferringTypeName} left, {context.ReferringTypeName} right) => left.Equals(right);");
         sb.AppendLine();
 
         sb.AppendLine("        [Pure]");
-        sb.AppendLine($"        public static bool operator !=({typeName} left, {typeName} right) => !left.Equals(right);");
+        sb.AppendLine($"        public static bool operator !=({context.ReferringTypeName} left, {context.ReferringTypeName} right) => !left.Equals(right);");
         sb.AppendLine();
 
         foreach (var typeParam in context.TypeParameters)
         {
             sb.AppendLine("        [Pure]");
-            sb.AppendLine($"        public static implicit operator {typeName}({typeParam.AsArgument} value) => new(value);");
+            sb.AppendLine($"        public static implicit operator {context.ReferringTypeName}({typeParam.AsArgument} value) => new(value);");
             sb.AppendLine();
         }
     }
@@ -272,11 +272,11 @@ internal static class EitherStructWriter
 
 #region Object overrides
 
-    private static void WriteObjectOverrides(EitherStructGenerationContext context, StringBuilder sb, string typeName)
+    private static void WriteObjectOverrides(EitherStructGenerationContext context, StringBuilder sb)
     {
         WriteGetHashCode(context, sb);
         WriteToString(context, sb);
-        WriteObjectEquals(sb, typeName);
+        WriteObjectEquals(context, sb);
     }
 
     private static void WriteGetHashCode(EitherStructGenerationContext context, StringBuilder sb)
@@ -324,12 +324,12 @@ internal static class EitherStructWriter
         sb.AppendLine();
     }
 
-    private static void WriteObjectEquals(StringBuilder sb, string typeName)
+    private static void WriteObjectEquals(EitherStructGenerationContext context, StringBuilder sb)
     {
         sb.AppendLine("        [Pure]");
         sb.AppendLine("        public override bool Equals(object? obj)");
         sb.AppendLine("        {");
-        sb.AppendLine($"            if (obj is not {typeName} other)");
+        sb.AppendLine($"            if (obj is not {context.ReferringTypeName} other)");
         sb.AppendLine("            {");
         sb.AppendLine("                return false;");
         sb.AppendLine("            }");
@@ -343,10 +343,10 @@ internal static class EitherStructWriter
 
 #region IEquatable
 
-    private static void WriteEquatableEquals(EitherStructGenerationContext context, StringBuilder sb, string typeName)
+    private static void WriteEquatableEquals(EitherStructGenerationContext context, StringBuilder sb)
     {
         sb.AppendLine("        [Pure]");
-        sb.AppendLine($"        public bool Equals({typeName} other)");
+        sb.AppendLine($"        public bool Equals({context.ReferringTypeName} other)");
         sb.AppendLine("        {");
         sb.AppendLine("            if (_idx != other._idx)");
         sb.AppendLine("            {");

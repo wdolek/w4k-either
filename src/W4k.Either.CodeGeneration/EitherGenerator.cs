@@ -1,7 +1,6 @@
 ﻿using System.Text;
 using System.Threading;
 using Microsoft.CodeAnalysis;
-using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.Text;
 using W4k.Either.CodeGeneration.Context;
@@ -46,32 +45,37 @@ public class EitherGenerator : IIncrementalGenerator
             ? string.Empty
             : typeSymbol.ContainingNamespace.ToDisplayString();
 
-        // must be `partial struct`
-        if (!IsPartial(typeSymbol, cancellationToken))
+        // containing type must be `partial`
+        var (parentTypeDeclaration, parentDiagnostic) = GeneratorHelpers.GetContainingTypeDeclaration(typeSymbol, cancellationToken);
+        if (parentDiagnostic is not null)
+        {
+            return EitherStructGenerationContext.Invalid(parentDiagnostic);
+        }
+
+        // target type must be `partial struct`
+        if (!GeneratorHelpers.IsPartial(typeSymbol, cancellationToken))
         {
             return EitherStructGenerationContext.Invalid(
-                targetNamespace,
-                targetName,
                 Diagnostic.Create(
                     descriptor: DiagnosticDescriptors.TypeMustBePartial,
                     location: typeSymbol.Locations[0],
                     messageArgs: typeSymbol.Name));
         }
-        
+
         var processingContext = new ProcessorContext(context.Attributes[0], context.SemanticModel, typeSymbol);
 
         // [Either(typeof(string), typeof(int))] partial struct E { }
         var attrTypeParamsResult = AttributeTypeParamsProcessor.GetAttributeTypeParameters(processingContext, cancellationToken);
         if (!attrTypeParamsResult.IsSuccess)
         {
-            return EitherStructGenerationContext.Invalid(targetNamespace, targetName, attrTypeParamsResult.Diagnostic!);
+            return EitherStructGenerationContext.Invalid(attrTypeParamsResult.Diagnostic!);
         }
 
         // [Either] partial struct E<T1, T2> { }
         var targetTypeParamsResult = GenericTypeParamsProcessor.GetTargetTypeParameters(processingContext, cancellationToken);
         if (!targetTypeParamsResult.IsSuccess)
         {
-            return EitherStructGenerationContext.Invalid(targetNamespace, targetName, targetTypeParamsResult.Diagnostic!);
+            return EitherStructGenerationContext.Invalid(targetTypeParamsResult.Diagnostic!);
         }
 
         var attrTypeParams = attrTypeParamsResult.TypeParameters;
@@ -81,8 +85,6 @@ public class EitherGenerator : IIncrementalGenerator
         if (attrTypeParams.Length == 0 && genericTypeParams.Length == 0)
         {
             return EitherStructGenerationContext.Invalid(
-                targetNamespace,
-                targetName,
                 Diagnostic.Create(
                     descriptor: DiagnosticDescriptors.NoTypeParameter,
                     location: typeSymbol.Locations[0],
@@ -93,8 +95,6 @@ public class EitherGenerator : IIncrementalGenerator
         if (attrTypeParams.Length > 0 && genericTypeParams.Length > 0)
         {
             return EitherStructGenerationContext.Invalid(
-                targetNamespace,
-                targetName,
                 Diagnostic.Create(
                     descriptor: DiagnosticDescriptors.AmbiguousTypeParameters,
                     location: typeSymbol.Locations[0],
@@ -102,8 +102,8 @@ public class EitherGenerator : IIncrementalGenerator
         }
 
         return genericTypeParams.Length > 0
-            ? EitherStructGenerationContext.Generic(targetNamespace, targetName, genericTypeParams)
-            : EitherStructGenerationContext.NonGeneric(targetNamespace, targetName, attrTypeParams);
+            ? EitherStructGenerationContext.Generic(targetNamespace, parentTypeDeclaration, targetName, genericTypeParams)
+            : EitherStructGenerationContext.NonGeneric(targetNamespace, parentTypeDeclaration, targetName, attrTypeParams);
     }
 
     private static void Execute(SourceProductionContext context, EitherStructGenerationContext structToGenerate)
@@ -125,24 +125,5 @@ public class EitherGenerator : IIncrementalGenerator
         context.AddSource(
             structToGenerate.FileName,
             SourceText.From(sb.ToString(), Encoding.UTF8));
-    }
-
-    private static bool IsPartial(INamedTypeSymbol namedTypeSymbol, CancellationToken cancellationToken)
-    {
-        cancellationToken.ThrowIfCancellationRequested();
-        
-        foreach (var syntaxRef in namedTypeSymbol.DeclaringSyntaxReferences)
-        {
-            var syntaxNode = syntaxRef.GetSyntax();
-            if (syntaxNode is StructDeclarationSyntax structDeclaration)
-            {
-                if (structDeclaration.Modifiers.Any(SyntaxKind.PartialKeyword))
-                {
-                    return true;
-                }
-            }
-        }
-
-        return false;
     }
 }
