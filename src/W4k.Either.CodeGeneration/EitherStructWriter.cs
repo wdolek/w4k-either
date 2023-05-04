@@ -49,7 +49,7 @@ internal static class EitherStructWriter
         sb.AppendLine("using System.Runtime.Serialization;");
         sb.AppendLine("using System.Threading;");
         sb.AppendLine("using System.Threading.Tasks;");
-        sb.AppendLine("using W4k.Either.Abstractions;");
+        sb.AppendLine("using W4k.Either;");
         sb.AppendLine();
     }
 

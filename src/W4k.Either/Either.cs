@@ -1,6 +1,4 @@
-﻿using W4k.Either.Abstractions;
-
-namespace W4k.Either;
+﻿namespace W4k.Either;
 
 [Either]
 public readonly partial struct Either<TLeft, TRight>

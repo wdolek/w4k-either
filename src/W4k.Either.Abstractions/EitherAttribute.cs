@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace W4k.Either.Abstractions;
+namespace W4k.Either;
 
 /// <summary>
 /// Using source generator, <c>partial struct</c> decorated with this attribute will become choice monad.

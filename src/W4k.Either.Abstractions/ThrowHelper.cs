@@ -2,7 +2,7 @@
 using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
 
-namespace W4k.Either.Abstractions;
+namespace W4k.Either;
 
 /// <summary>
 /// Provides helper methods for throwing exceptions related to invalid states.

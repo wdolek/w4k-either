@@ -8,7 +8,7 @@
   </PropertyGroup>
 
   <PropertyGroup>
-    <VersionPrefix>1.0.0</VersionPrefix>
+    <VersionPrefix>0.0.1</VersionPrefix>
     <Authors>Zdenek Havlin</Authors>
     <Description>
       An 'Either' type for C#, inspired by FP. This sum type represents values of two (or more) possible types.</Description>
@@ -33,13 +33,8 @@
   </PropertyGroup>
   
   <ItemGroup>
-    <ProjectReference Include="..\W4k.Either.Abstractions\W4k.Either.Abstractions.csproj">
-      <PrivateAssets>all</PrivateAssets>
-    </ProjectReference>
-    <ProjectReference Include="..\W4k.Either.CodeGeneration\W4k.Either.CodeGeneration.csproj">
-      <OutputItemType>Analyzer</OutputItemType>
-      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
-    </ProjectReference>
+    <ProjectReference Include="..\W4k.Either.Abstractions\W4k.Either.Abstractions.csproj" PrivateAssets="All" />
+    <ProjectReference Include="..\W4k.Either.CodeGeneration\W4k.Either.CodeGeneration.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
   </ItemGroup>
 
 </Project>

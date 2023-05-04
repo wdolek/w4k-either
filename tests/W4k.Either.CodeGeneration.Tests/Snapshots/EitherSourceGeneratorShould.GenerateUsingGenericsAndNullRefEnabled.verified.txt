@@ -8,7 +8,7 @@ using System.Diagnostics.Contracts;
 using System.Runtime.Serialization;
 using System.Threading;
 using System.Threading.Tasks;
-using W4k.Either.Abstractions;
+using W4k.Either;
 
 namespace MyLittleEither.MyLittleEitherMonad
 {

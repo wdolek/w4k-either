@@ -11,7 +11,7 @@ namespace W4k.Either.CodeGeneration;
 [Generator]
 public class EitherGenerator : IIncrementalGenerator
 {
-    private const string EitherAttributeFullyQualifiedName = "W4k.Either.Abstractions.EitherAttribute";
+    private const string EitherAttributeFullyQualifiedName = "W4k.Either.EitherAttribute";
 
     public void Initialize(IncrementalGeneratorInitializationContext context)
     {

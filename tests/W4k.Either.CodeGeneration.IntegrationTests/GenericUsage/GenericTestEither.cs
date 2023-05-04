@@ -1,6 +1,4 @@
-﻿using W4k.Either.Abstractions;
-
-namespace W4k.Either.CodeGeneration.IntegrationTests.GenericUsage;
+﻿namespace W4k.Either.CodeGeneration.IntegrationTests.GenericUsage;
 
 [Either]
 public readonly partial struct UnconstrainedEither<TLeft, TRight>

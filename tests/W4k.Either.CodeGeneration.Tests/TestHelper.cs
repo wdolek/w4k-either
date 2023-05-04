@@ -1,7 +1,6 @@
 ﻿using System.Collections.Immutable;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
-using W4k.Either.Abstractions;
 
 namespace W4k.Either.CodeGeneration.Tests;
 

@@ -8,7 +8,7 @@ public class EitherSourceGeneratorShould
     {
         var source = @"
 #nullable enable
-using W4k.Either.Abstractions;
+using W4k.Either;
 
 namespace MyLittleEither.MyLittleEitherMonad
 {
@@ -29,7 +29,7 @@ namespace MyLittleEither.MyLittleEitherMonad
     {
         var source = @"
 #nullable disable
-using W4k.Either.Abstractions;
+using W4k.Either;
 
 namespace MyLittleEither.MyLittleEitherMonad
 {
@@ -51,7 +51,7 @@ namespace MyLittleEither.MyLittleEitherMonad
         // intentionally not setting any constraint for `TAny` -> it can be anything
         var source = @"
 #nullable enable
-using W4k.Either.Abstractions;
+using W4k.Either;
 
 namespace MyLittleEither.MyLittleEitherMonad
 {
@@ -90,7 +90,7 @@ namespace MyLittleEither.MyLittleEitherMonad
         // intentionally not setting any constraint for `TAny` -> it can be anything
         var source = @"
 #nullable disable
-using W4k.Either.Abstractions;
+using W4k.Either;
 
 namespace MyLittleEither.MyLittleEitherMonad
 {
@@ -124,7 +124,7 @@ namespace MyLittleEither.MyLittleEitherMonad
     public Task GenerateNestedType()
     {
         var source = @"
-using W4k.Either.Abstractions;
+using W4k.Either;
 
 namespace MyLittleEither.MyLittleEitherMonad
 {
@@ -156,7 +156,7 @@ namespace MyLittleEither.MyLittleEitherMonad
     public static TheoryData<string, string> CreateDiagnosticErrorProducingSourceCode()
     {
         const string notPartial = @"
-using W4k.Either.Abstractions;
+using W4k.Either;
 
 namespace MyLittleEither.MyLittleEitherMonad
 {
@@ -167,7 +167,7 @@ namespace MyLittleEither.MyLittleEitherMonad
 }";
         
         const string containingNotPartial = @"
-using W4k.Either.Abstractions;
+using W4k.Either;
 
 namespace MyLittleEither.MyLittleEitherMonad
 {
@@ -181,7 +181,7 @@ namespace MyLittleEither.MyLittleEitherMonad
 }";
         
         const string tooFewTypeParams = @"
-using W4k.Either.Abstractions;
+using W4k.Either;
 
 namespace MyLittleEither.MyLittleEitherMonad
 {
@@ -192,7 +192,7 @@ namespace MyLittleEither.MyLittleEitherMonad
 }";
 
         const string ambiguousTypeParams = @"
-using W4k.Either.Abstractions;
+using W4k.Either;
 
 namespace MyLittleEither.MyLittleEitherMonad
 {
@@ -203,7 +203,7 @@ namespace MyLittleEither.MyLittleEitherMonad
 }";
         
         const string noTypeParam = @"
-using W4k.Either.Abstractions;
+using W4k.Either;
 
 namespace MyLittleEither.MyLittleEitherMonad
 {
@@ -214,7 +214,7 @@ namespace MyLittleEither.MyLittleEitherMonad
 }";
         
         const string typesNotUnique = @"
-using W4k.Either.Abstractions;
+using W4k.Either;
 
 namespace MyLittleEither.MyLittleEitherMonad
 {
@@ -225,7 +225,7 @@ namespace MyLittleEither.MyLittleEitherMonad
 }";
         
         const string attrWithOpenGenerics = @"
-using W4k.Either.Abstractions;
+using W4k.Either;
 using System.Collections.Generic;
 
 namespace MyLittleEither.MyLittleEitherMonad

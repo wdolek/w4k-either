@@ -1,5 +1,9 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
+  <ItemGroup>
+    <None Include="W4k.Either.CodeGeneration.props" Pack="true" PackagePath="build" />
+  </ItemGroup>
+
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <LangVersion>10</LangVersion>
@@ -7,15 +11,11 @@
     <ImplicitUsings>disable</ImplicitUsings>
     <NoWarn>RS2007</NoWarn>
   </PropertyGroup>
-  
-  <ItemGroup>
-    <None Include="W4k.Either.CodeGeneration.props" Pack="true" PackagePath="build" />
-  </ItemGroup>
 
   <PropertyGroup>
-    <VersionPrefix>1.0.0</VersionPrefix>
+    <VersionPrefix>0.0.1</VersionPrefix>
     <Authors>Zdenek Havlin</Authors>
-    <Description>Source generator for creating discriminated union like value type.</Description>
+    <Description>Source generator for creating discriminated union-like value type.</Description>
     <PackageId>W4k.Either.CodeGeneration</PackageId>
     <PackageTags>either, choice, result, oneof, generic sum type, discriminated union</PackageTags>
     <PackageProjectUrl>https://github.com/wdolek/w4k-either</PackageProjectUrl>
@@ -27,7 +27,6 @@
   
   <PropertyGroup>
     <IncludeBuildOutput>false</IncludeBuildOutput>
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
   </PropertyGroup>
 
   <PropertyGroup>
@@ -40,18 +39,17 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\W4k.Either.Abstractions\W4k.Either.Abstractions.csproj">
-      <PrivateAssets>All</PrivateAssets>
-    </ProjectReference>
+    <ProjectReference Include="..\W4k.Either.Abstractions\W4k.Either.Abstractions.csproj" PrivateAssets="All" />
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="../../README.md" Pack="true" PackagePath="\" />
+    <!-- Analyzer -->
     <None Include="$(OutputPath)\$(AssemblyName).dll" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false" />
     <None Include="$(OutputPath)\$(AssemblyName).pdb" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false" />
     <None Include="$(OutputPath)\W4k.Either.Abstractions.dll" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false" />
     <None Include="$(OutputPath)\W4k.Either.Abstractions.pdb" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false" />
     <None Include="$(OutputPath)\W4k.Either.Abstractions.xml" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false" />
+    <!-- Library -->
     <None Include="$(OutputPath)\W4k.Either.Abstractions.dll" Pack="true" PackagePath="lib\netstandard2.0" Visible="true" />
     <None Include="$(OutputPath)\W4k.Either.Abstractions.pdb" Pack="true" PackagePath="lib\netstandard2.0" Visible="true" />
     <None Include="$(OutputPath)\W4k.Either.Abstractions.xml" Pack="true" PackagePath="lib\netstandard2.0" Visible="true" />

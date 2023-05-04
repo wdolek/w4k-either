@@ -7,8 +7,15 @@
     <ImplicitUsings>disable</ImplicitUsings>
     <IsPackable>false</IsPackable>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <RootNamespace>W4k.Either</RootNamespace>
   </PropertyGroup>
-  
+
+  <PropertyGroup>
+    <AnalysisLevel>latest-Recommended</AnalysisLevel>
+    <EnableNETAnalyzers>true</EnableNETAnalyzers>
+    <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
+  </PropertyGroup>
+
   <ItemGroup>
     <InternalsVisibleTo Include="W4k.Either.CodeGeneration" />
   </ItemGroup>

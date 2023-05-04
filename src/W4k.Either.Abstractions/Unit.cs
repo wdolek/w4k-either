@@ -2,7 +2,7 @@
 using System.Diagnostics.CodeAnalysis;
 using System.Diagnostics.Contracts;
 
-namespace W4k.Either.Abstractions;
+namespace W4k.Either;
 
 /// <summary>
 /// Unit type representing <c>void</c>.
