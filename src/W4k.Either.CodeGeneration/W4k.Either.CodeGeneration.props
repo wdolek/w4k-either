@@ -1,7 +1,11 @@
 ﻿<Project>
 
-  <Target Name="EnsureNet60OrHigher" BeforeTargets="Build">
-    <Error Condition="!($([System.Version]::Parse($(_TargetFrameworkVersionWithoutV)).CompareTo($([System.Version]::Parse('6.0'))))" Text="This source generator requires the consuming project to target .NET 6.0 or higher."/>
+  <Target Name="EnsureNet60OrHigher" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <_MinimumSupportedTargetVersion>6.0</_MinimumSupportedTargetVersion>
+    </PropertyGroup>
+    <Message Importance="low" Text="W4k.Either.CodeGeneration: Minimum supported target version: $(_MinimumSupportedTargetVersion)" />
+    <Error Condition="$([MSBuild]::VersionLessThan($(TargetFrameworkVersion), $(_MinimumSupportedTargetVersion)))" Text="W4k.Either.CodeGeneration requires the consuming project to target .NET 6.0 or higher."/>
   </Target>
   
 </Project>
