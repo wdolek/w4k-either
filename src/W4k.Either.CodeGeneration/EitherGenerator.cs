@@ -101,9 +101,16 @@ public class EitherGenerator : IIncrementalGenerator
                     messageArgs: typeSymbol.Name));
         }
 
-        return genericTypeParams.Length > 0
-            ? EitherStructGenerationContext.Generic(targetNamespace, parentTypeDeclaration, targetName, genericTypeParams)
-            : EitherStructGenerationContext.NonGeneric(targetNamespace, parentTypeDeclaration, targetName, attrTypeParams);
+        var isGeneric = genericTypeParams.Length > 0;
+        var typeParams = isGeneric ? genericTypeParams : attrTypeParams;
+
+        // find already declared constructors by user
+        // (generating same constructors will be skipped later)
+        var declaredConstructors = CtorProcessor.CollectDeclaredConstructors(typeSymbol, typeParams, cancellationToken);
+
+        return isGeneric
+            ? EitherStructGenerationContext.Generic(targetNamespace, parentTypeDeclaration, targetName, typeParams, declaredConstructors)
+            : EitherStructGenerationContext.NonGeneric(targetNamespace, parentTypeDeclaration, targetName, typeParams, declaredConstructors);
     }
 
     private static void Execute(SourceProductionContext context, EitherStructGenerationContext structToGenerate)

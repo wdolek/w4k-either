@@ -8,8 +8,6 @@ internal static class GenericTypeParamsProcessor
 {
     public static ProcessorResult GetTargetTypeParameters(ProcessorContext context, CancellationToken cancellationToken)
     {
-        cancellationToken.ThrowIfCancellationRequested();
-
         var typeSymbol = context.TypeSymbol;
         if (typeSymbol.Arity == 0)
         {
@@ -26,8 +24,14 @@ internal static class GenericTypeParamsProcessor
             return ProcessorResult.Failure(diagnostic);
         }
 
-        var typeParams = new TypeParameter[typeSymbol.TypeParameters.Length];
+        var typeParams = CollectGenericTypeParameters(typeSymbol, cancellationToken);
 
+        return ProcessorResult.Success(typeParams);
+    }
+
+    private static TypeParameter[] CollectGenericTypeParameters(INamedTypeSymbol typeSymbol, CancellationToken cancellationToken)
+    {
+        var typeParams = new TypeParameter[typeSymbol.TypeParameters.Length];
         for (var i = 0; i < typeParams.Length; i++)
         {
             cancellationToken.ThrowIfCancellationRequested();
@@ -48,9 +52,9 @@ internal static class GenericTypeParamsProcessor
                 isNullable: isNullable);
         }
 
-        return ProcessorResult.Success(typeParams);
+        return typeParams;
     }
-    
+
     private static bool IsTypeNullable(ITypeParameterSymbol typeParam, bool isValueType)
     {
         // `notnull` constraint is present

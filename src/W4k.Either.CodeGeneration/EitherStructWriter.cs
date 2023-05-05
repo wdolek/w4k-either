@@ -136,6 +136,11 @@ internal static class EitherStructWriter
 
         foreach (var typeParam in context.TypeParameters)
         {
+            if (context.IsCtorDeclared(typeParam))
+            {
+                continue;
+            }
+            
             sb.AppendLine($"        public {context.TargetTypeName}({typeParam.AsArgument} value)");
             sb.AppendLine("        {");
 
@@ -163,6 +168,11 @@ internal static class EitherStructWriter
 
     private static void WriteDefaultStructConstructor(EitherStructGenerationContext context, StringBuilder sb)
     {
+        if (context.IsDefaultCtorDeclared())
+        {
+            return;
+        }
+        
         sb.AppendLine($"        public {context.TargetTypeName}()");
         sb.AppendLine("        {");
         sb.AppendLine("            _idx = 0;");

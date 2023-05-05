@@ -14,24 +14,22 @@ internal static class AttributeTypeParamsProcessor
 
     public static ProcessorResult GetAttributeTypeParameters(ProcessorContext context, CancellationToken cancellationToken)
     {
-        cancellationToken.ThrowIfCancellationRequested();
-
         var ctor = context.Attribute.AttributeConstructor;
         if (ctor is null || ctor.Parameters.Length == 0)
         {
             return ProcessorResult.Empty();
         }
 
-        var ctorArguments = context.Attribute.ConstructorArguments;
+        var attrCtorArguments = context.Attribute.ConstructorArguments;
 
-        var typeParams = new TypeParameter[ctorArguments.Length];
+        var typeParams = new TypeParameter[attrCtorArguments.Length];
         var typeParamsSpan = typeParams.AsSpan();
 
         for (var i = 0; i < typeParams.Length; i++)
         {
             cancellationToken.ThrowIfCancellationRequested();
 
-            var arg = ctorArguments[i];
+            var arg = attrCtorArguments[i];
             if (arg.Value is not INamedTypeSymbol typeSymbol)
             {
                 continue;

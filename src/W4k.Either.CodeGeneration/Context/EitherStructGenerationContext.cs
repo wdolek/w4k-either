@@ -17,6 +17,7 @@ internal sealed class EitherStructGenerationContext
         ContainingTypeDeclaration? containingTypeDeclaration,
         string targetTypeName,
         TypeParameter[] typeParameters,
+        TypeConstructor[] declaredConstructors,
         Diagnostic? diagnostic)
     {
         IsGenericType = isGeneric;
@@ -24,6 +25,7 @@ internal sealed class EitherStructGenerationContext
         ContainingTypeDeclaration = containingTypeDeclaration;
         TargetTypeName = targetTypeName;
         TypeParameters = typeParameters;
+        DeclaredConstructors = declaredConstructors;
 
         if (diagnostic is not null)
         {
@@ -42,7 +44,9 @@ internal sealed class EitherStructGenerationContext
     public string ReferringTypeName { get; }
     public ContainingTypeDeclaration? ContainingTypeDeclaration { get; }
     public TypeParameter[] TypeParameters { get; }
+    public TypeConstructor[] DeclaredConstructors { get; }
     public IReadOnlyList<Diagnostic> Diagnostics => _diagnostics;
+
     public string FileName => IsGenericType
         ? $"{TargetTypeName}`{TypeParameters.Length}.g.cs"
         : $"{TargetTypeName}.g.cs";
@@ -51,15 +55,17 @@ internal sealed class EitherStructGenerationContext
         string @namespace,
         ContainingTypeDeclaration? parentTypeDeclaration,
         string typeName,
-        TypeParameter[] typeParameters) =>
-        new(isGeneric: true, @namespace, parentTypeDeclaration, typeName, typeParameters, diagnostic: null);
+        TypeParameter[] typeParameters,
+        TypeConstructor[] declaredConstructors) =>
+        new(isGeneric: true, @namespace, parentTypeDeclaration, typeName, typeParameters, declaredConstructors, diagnostic: null);
 
     public static EitherStructGenerationContext NonGeneric(
         string @namespace,
         ContainingTypeDeclaration? parentTypeDeclaration,
         string typeName,
-        TypeParameter[] typeParameters) =>
-        new(isGeneric: false, @namespace, parentTypeDeclaration, typeName, typeParameters, diagnostic: null);
+        TypeParameter[] typeParameters,
+        TypeConstructor[] declaredConstructors) =>
+        new(isGeneric: false, @namespace, parentTypeDeclaration, typeName, typeParameters, declaredConstructors, diagnostic: null);
 
     public static EitherStructGenerationContext Invalid(Diagnostic diagnostic) =>
         new(
@@ -68,8 +74,37 @@ internal sealed class EitherStructGenerationContext
             containingTypeDeclaration: null,
             targetTypeName: "",
             Array.Empty<TypeParameter>(),
+            Array.Empty<TypeConstructor>(),
             diagnostic);
 
+    public bool IsDefaultCtorDeclared()
+    {
+        var declaredConstructors = DeclaredConstructors;
+        foreach (var ctorTypeParam in declaredConstructors)
+        {
+            if (ctorTypeParam.IsParameterless)
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+    
+    public bool IsCtorDeclared(TypeParameter typeParameter)
+    {
+        var declaredConstructors = DeclaredConstructors;
+        foreach (var ctorTypeParam in declaredConstructors)
+        {
+            if (ctorTypeParam.ParamTypeName == typeParameter.Name)
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+    
     private string CreateFullTypeName()
     {
         if (!IsGenericType)
