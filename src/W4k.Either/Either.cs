@@ -5,6 +5,8 @@ public readonly partial struct Either<TLeft, TRight>
     where TLeft : notnull
     where TRight : notnull
 {
+    public bool IsLeft => _idx == 1;
+    public bool IsRight => _idx == 2;
 }
 
 [Either]
