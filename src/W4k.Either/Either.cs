@@ -1,7 +1,11 @@
-﻿namespace W4k.Either;
+﻿using System;
+using System.Runtime.Serialization;
+
+namespace W4k.Either;
 
 [Either]
-public readonly partial struct Either<TLeft, TRight>
+[Serializable]
+public readonly partial struct Either<TLeft, TRight> : ISerializable
     where TLeft : notnull
     where TRight : notnull
 {
@@ -10,7 +14,8 @@ public readonly partial struct Either<TLeft, TRight>
 }
 
 [Either]
-public readonly partial struct Either<TLeft, TMiddle, TRight>
+[Serializable]
+public readonly partial struct Either<TLeft, TMiddle, TRight> : ISerializable
     where TLeft : notnull
     where TMiddle : notnull
     where TRight : notnull
@@ -18,7 +23,8 @@ public readonly partial struct Either<TLeft, TMiddle, TRight>
 }
 
 [Either]
-public readonly partial struct Either<T1, T2, T3, T4>
+[Serializable]
+public readonly partial struct Either<T1, T2, T3, T4> : ISerializable
     where T1 : notnull
     where T2 : notnull
     where T3 : notnull
@@ -27,7 +33,8 @@ public readonly partial struct Either<T1, T2, T3, T4>
 }
 
 [Either]
-public readonly partial struct Either<T1, T2, T3, T4, T5>
+[Serializable]
+public readonly partial struct Either<T1, T2, T3, T4, T5> : ISerializable
     where T1 : notnull
     where T2 : notnull
     where T3 : notnull
@@ -37,7 +44,8 @@ public readonly partial struct Either<T1, T2, T3, T4, T5>
 }
 
 [Either]
-public readonly partial struct Either<T1, T2, T3, T4, T5, T6>
+[Serializable]
+public readonly partial struct Either<T1, T2, T3, T4, T5, T6> : ISerializable
     where T1 : notnull
     where T2 : notnull
     where T3 : notnull
@@ -48,7 +56,8 @@ public readonly partial struct Either<T1, T2, T3, T4, T5, T6>
 }
 
 [Either]
-public readonly partial struct Either<T1, T2, T3, T4, T5, T6, T7>
+[Serializable]
+public readonly partial struct Either<T1, T2, T3, T4, T5, T6, T7> : ISerializable
     where T1 : notnull
     where T2 : notnull
     where T3 : notnull
@@ -60,7 +69,8 @@ public readonly partial struct Either<T1, T2, T3, T4, T5, T6, T7>
 }
 
 [Either]
-public readonly partial struct Either<T1, T2, T3, T4, T5, T6, T7, T8>
+[Serializable]
+public readonly partial struct Either<T1, T2, T3, T4, T5, T6, T7, T8> : ISerializable
     where T1 : notnull
     where T2 : notnull
     where T3 : notnull

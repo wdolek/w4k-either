@@ -12,14 +12,6 @@ internal static class DiagnosticDescriptors
         defaultSeverity: DiagnosticSeverity.Error,
         isEnabledByDefault: true);
 
-    public static readonly DiagnosticDescriptor TooFewTypeParameters = new(
-        id: "W4KE002",
-        title: "Too few type parameters",
-        messageFormat: "The type {0} must have at least two type parameters",
-        category: "Usage",
-        defaultSeverity: DiagnosticSeverity.Error,
-        isEnabledByDefault: true);
-
     public static readonly DiagnosticDescriptor AmbiguousTypeParameters = new(
         id: "W4KE003",
         title: "Ambiguous type parameters",

@@ -1,122 +1,39 @@
 ﻿using System.Text;
-using System.Threading;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.Text;
-using W4k.Either.CodeGeneration.Context;
-using W4k.Either.CodeGeneration.Processors;
+using W4k.Either.CodeGeneration.Generator;
 
 namespace W4k.Either.CodeGeneration;
 
+/// <summary>
+/// Either choice monad code generator.
+/// </summary>
 [Generator]
 public class EitherGenerator : IIncrementalGenerator
 {
-    private const string EitherAttributeFullyQualifiedName = "W4k.Either.EitherAttribute";
-
+    /// <inheritdoc/>
     public void Initialize(IncrementalGeneratorInitializationContext context)
     {
-        IncrementalValuesProvider<EitherStructGenerationContext> structsToGenerate = context.SyntaxProvider
+        IncrementalValuesProvider<TransformationResult> toGenerate = context.SyntaxProvider
             .ForAttributeWithMetadataName(
-                EitherAttributeFullyQualifiedName,
-                static (node, _) => IsStructDeclarationSyntax(node),
-                static (ctx, ct) => GetTypeToGenerate(ctx, ct))
+                Constants.EitherAttributeFullyQualifiedName,
+                static (node, _) => IsStructOrClassDeclarationSyntax(node),
+                static (ctx, ct) => Transformator.Transform(ctx, ct))
             .Where(c => c is not null)!;
-        
+
         context.RegisterSourceOutput(
-            structsToGenerate,
-            static (ctx, structToGenerate) => Execute(ctx, structToGenerate));
+            toGenerate,
+            static (ctx, transformationResult) => Execute(ctx, transformationResult));
     }
-
-    private static bool IsStructDeclarationSyntax(SyntaxNode node) =>
-        node is StructDeclarationSyntax;
-
-    private static EitherStructGenerationContext? GetTypeToGenerate(
-        GeneratorAttributeSyntaxContext context,
-        CancellationToken cancellationToken)
+    
+    private static bool IsStructOrClassDeclarationSyntax(SyntaxNode node) =>
+        node is StructDeclarationSyntax or ClassDeclarationSyntax;
+    
+    private static void Execute(SourceProductionContext context, TransformationResult transformationResult)
     {
-        // type not available in current compilation
-        if (context.TargetSymbol is not INamedTypeSymbol typeSymbol)
-        {
-            return null;
-        }
-
-        var targetName = typeSymbol.Name;
-        var targetNamespace = typeSymbol.ContainingNamespace.IsGlobalNamespace
-            ? string.Empty
-            : typeSymbol.ContainingNamespace.ToDisplayString();
-
-        // containing type must be `partial`
-        var (parentTypeDeclaration, parentDiagnostic) = GeneratorHelpers.GetContainingTypeDeclaration(typeSymbol, cancellationToken);
-        if (parentDiagnostic is not null)
-        {
-            return EitherStructGenerationContext.Invalid(parentDiagnostic);
-        }
-
-        // target type must be `partial struct`
-        if (!GeneratorHelpers.IsPartial(typeSymbol, cancellationToken))
-        {
-            return EitherStructGenerationContext.Invalid(
-                Diagnostic.Create(
-                    descriptor: DiagnosticDescriptors.TypeMustBePartial,
-                    location: typeSymbol.Locations[0],
-                    messageArgs: typeSymbol.Name));
-        }
-
-        var processingContext = new ProcessorContext(context.Attributes[0], context.SemanticModel, typeSymbol);
-
-        // [Either(typeof(string), typeof(int))] partial struct E { }
-        var attrTypeParamsResult = AttributeTypeParamsProcessor.GetAttributeTypeParameters(processingContext, cancellationToken);
-        if (!attrTypeParamsResult.IsSuccess)
-        {
-            return EitherStructGenerationContext.Invalid(attrTypeParamsResult.Diagnostic!);
-        }
-
-        // [Either] partial struct E<T1, T2> { }
-        var targetTypeParamsResult = GenericTypeParamsProcessor.GetTargetTypeParameters(processingContext, cancellationToken);
-        if (!targetTypeParamsResult.IsSuccess)
-        {
-            return EitherStructGenerationContext.Invalid(targetTypeParamsResult.Diagnostic!);
-        }
-
-        var attrTypeParams = attrTypeParamsResult.TypeParameters;
-        var genericTypeParams = targetTypeParamsResult.TypeParameters;
-
-        // user has not specified any type parameter
-        if (attrTypeParams.Length == 0 && genericTypeParams.Length == 0)
-        {
-            return EitherStructGenerationContext.Invalid(
-                Diagnostic.Create(
-                    descriptor: DiagnosticDescriptors.NoTypeParameter,
-                    location: typeSymbol.Locations[0],
-                    messageArgs: typeSymbol.Name));
-        }
-
-        // user specified types both using attribute and making type generic
-        if (attrTypeParams.Length > 0 && genericTypeParams.Length > 0)
-        {
-            return EitherStructGenerationContext.Invalid(
-                Diagnostic.Create(
-                    descriptor: DiagnosticDescriptors.AmbiguousTypeParameters,
-                    location: typeSymbol.Locations[0],
-                    messageArgs: typeSymbol.Name));
-        }
-
-        var isGeneric = genericTypeParams.Length > 0;
-        var typeParams = isGeneric ? genericTypeParams : attrTypeParams;
-
-        // find already declared constructors by user
-        // (generating same constructors will be skipped later)
-        var declaredConstructors = CtorProcessor.CollectDeclaredConstructors(typeSymbol, typeParams, cancellationToken);
-
-        return isGeneric
-            ? EitherStructGenerationContext.Generic(targetNamespace, parentTypeDeclaration, targetName, typeParams, declaredConstructors)
-            : EitherStructGenerationContext.NonGeneric(targetNamespace, parentTypeDeclaration, targetName, typeParams, declaredConstructors);
-    }
-
-    private static void Execute(SourceProductionContext context, EitherStructGenerationContext structToGenerate)
-    {
-        var diagnostics = structToGenerate.Diagnostics;
-        if (diagnostics.Count > 0)
+        var diagnostics = transformationResult.Diagnostics;
+        if (!transformationResult.IsValid)
         {
             foreach (var diagnostic in diagnostics)
             {
@@ -126,11 +43,14 @@ public class EitherGenerator : IIncrementalGenerator
             return;
         }
 
+        var generatorContext = new GeneratorContext(transformationResult);
+        var generator = new CodeGenerator(generatorContext);
+
         var sb = new StringBuilder(4096);
-        EitherStructWriter.Write(structToGenerate, sb);
+        generator.Generate(new IndentedWriter(sb));
 
         context.AddSource(
-            structToGenerate.FileName,
+            generatorContext.GetFileName(),
             SourceText.From(sb.ToString(), Encoding.UTF8));
-    }
+    }    
 }

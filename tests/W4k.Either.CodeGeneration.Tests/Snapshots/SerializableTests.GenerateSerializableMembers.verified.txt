@@ -12,45 +12,24 @@ using W4k.Either;
 
 namespace MyLittleEither.MyLittleEitherMonad
 {
-    [Serializable]
-    readonly partial struct MyEither : IEquatable<MyEither>, ISerializable
+    public partial struct MyEither<TLeft, TRight>
     {
         private readonly byte _idx;
-        private readonly string? _v1;
-        private readonly int _v2;
-        private readonly int? _v3;
+        private readonly TLeft? _v1;
+        private readonly TRight? _v2;
 
-        public MyEither()
+        public MyEither(TLeft? value)
         {
-            _idx = 0;
-            _v1 = default!;
-            _v2 = default;
-            _v3 = default;
-        }
-
-        public MyEither(string value)
-        {
-            ArgumentNullException.ThrowIfNull(value);
             _idx = 1;
             _v1 = value;
             _v2 = default;
-            _v3 = default;
         }
 
-        public MyEither(int value)
+        public MyEither(TRight? value)
         {
             _idx = 2;
-            _v1 = default!;
+            _v1 = default;
             _v2 = value;
-            _v3 = default;
-        }
-
-        public MyEither(int? value)
-        {
-            _idx = 3;
-            _v1 = default!;
-            _v2 = default;
-            _v3 = value;
         }
 
         private MyEither(SerializationInfo info, StreamingContext context)
@@ -59,24 +38,33 @@ namespace MyLittleEither.MyLittleEitherMonad
             switch (_idx)
             {
                 case 1:
-                    _v1 = (string?)info.GetValue("_v1", typeof(string));
+                    _v1 = (TLeft?)info.GetValue("_v1", typeof(TLeft));
                     _v2 = default;
-                    _v3 = default;
                     break;
                 case 2:
-                    _v1 = default!;
-                    _v2 = (int)info.GetValue("_v2", typeof(int))!;
-                    _v3 = default;
-                    break;
-                case 3:
-                    _v1 = default!;
-                    _v2 = default;
-                    _v3 = (int?)info.GetValue("_v3", typeof(int?));
+                    _v1 = default;
+                    _v2 = (TRight?)info.GetValue("_v2", typeof(TRight));
                     break;
                 default:
-                    _v1 = default!;
+                    _v1 = default;
                     _v2 = default;
-                    _v3 = default;
+                    ThrowHelper.ThrowOnInvalidState();
+                break;
+            }
+        }
+
+        void ISerializable.GetObjectData(SerializationInfo info, StreamingContext context)
+        {
+            info.AddValue("_idx", _idx);
+            switch (_idx)
+            {
+                case 1:
+                    info.AddValue("_v1", _v1);
+                     break;
+                case 2:
+                    info.AddValue("_v2", _v2);
+                     break;
+                default:
                     ThrowHelper.ThrowOnInvalidState();
                     break;
             }
@@ -93,8 +81,6 @@ namespace MyLittleEither.MyLittleEitherMonad
                         return _v1;
                     case 2:
                         return _v2;
-                    case 3:
-                        return _v3;
                     default:
                         return ThrowHelper.ThrowOnInvalidState<object?>();
                 }
@@ -102,19 +88,16 @@ namespace MyLittleEither.MyLittleEitherMonad
         }
 
         [Pure]
-        public static bool operator ==(MyEither left, MyEither right) => left.Equals(right);
+        public static bool operator ==(MyLittleEither.MyLittleEitherMonad.MyEither<TLeft, TRight> left, MyLittleEither.MyLittleEitherMonad.MyEither<TLeft, TRight> right) => left.Equals(right);
 
         [Pure]
-        public static bool operator !=(MyEither left, MyEither right) => !left.Equals(right);
+        public static bool operator !=(MyLittleEither.MyLittleEitherMonad.MyEither<TLeft, TRight> left, MyLittleEither.MyLittleEitherMonad.MyEither<TLeft, TRight> right) => !left.Equals(right);
 
         [Pure]
-        public static implicit operator MyEither(string value) => new(value);
+        public static implicit operator MyLittleEither.MyLittleEitherMonad.MyEither<TLeft, TRight>(TLeft? value) => new(value);
 
         [Pure]
-        public static implicit operator MyEither(int value) => new(value);
-
-        [Pure]
-        public static implicit operator MyEither(int? value) => new(value);
+        public static implicit operator MyLittleEither.MyLittleEitherMonad.MyEither<TLeft, TRight>(TRight? value) => new(value);
 
         [Pure]
         public override int GetHashCode()
@@ -122,11 +105,9 @@ namespace MyLittleEither.MyLittleEitherMonad
             switch (_idx)
             {
                 case 1:
-                    return _v1!.GetHashCode();
+                    return _v1?.GetHashCode() ?? 0;
                 case 2:
-                    return _v2.GetHashCode();
-                case 3:
-                    return _v3?.GetHashCode() ?? 0;
+                    return _v2?.GetHashCode() ?? 0;
                 default:
                     return ThrowHelper.ThrowOnInvalidState<int>();
             }
@@ -138,11 +119,9 @@ namespace MyLittleEither.MyLittleEitherMonad
             switch (_idx)
             {
                 case 1:
-                    return _v1!.ToString() ?? string.Empty;
+                    return _v1?.ToString() ?? string.Empty;
                 case 2:
-                    return _v2.ToString() ?? string.Empty;
-                case 3:
-                    return _v3?.ToString() ?? string.Empty;
+                    return _v2?.ToString() ?? string.Empty;
                 default:
                     return ThrowHelper.ThrowOnInvalidState<string>();
             }
@@ -151,7 +130,7 @@ namespace MyLittleEither.MyLittleEitherMonad
         [Pure]
         public override bool Equals(object? obj)
         {
-            if (obj is not MyEither other)
+            if (obj is not MyLittleEither.MyLittleEitherMonad.MyEither<TLeft, TRight> other)
             {
                 return false;
             }
@@ -160,7 +139,7 @@ namespace MyLittleEither.MyLittleEitherMonad
         }
 
         [Pure]
-        public bool Equals(MyEither other)
+        public bool Equals(MyLittleEither.MyLittleEitherMonad.MyEither<TLeft, TRight> other)
         {
             if (_idx != other._idx)
             {
@@ -170,51 +149,29 @@ namespace MyLittleEither.MyLittleEitherMonad
             switch (_idx)
             {
                 case 1:
-                    return _v1!.Equals(other._v1);
+                    return (_v1 is null && other._v1 is null) || (_v1?.Equals(other._v1) ?? false);
                 case 2:
-                    return _v2.Equals(other._v2);
-                case 3:
-                    return _v3?.Equals(other._v3) ?? false;
+                    return (_v2 is null && other._v2 is null) || (_v2?.Equals(other._v2) ?? false);
                 default:
                     return ThrowHelper.ThrowOnInvalidState<bool>();
             }
         }
 
-        void ISerializable.GetObjectData(SerializationInfo info, StreamingContext context)
-        {
-            info.AddValue("_idx", _idx);
-            switch (_idx)
-            {
-                case 1:
-                    info.AddValue("_v1", _v1);
-                    break;
-                case 2:
-                    info.AddValue("_v2", _v2);
-                    break;
-                case 3:
-                    info.AddValue("_v3", _v3);
-                    break;
-                default:
-                    ThrowHelper.ThrowOnInvalidState();
-                    break;
-            }
-        }
-
         [Pure]
-        public bool TryPick([NotNullWhen(true)] out string? value)
+        public bool TryPick(out TLeft? value)
         {
             if (_idx == 1)
             {
-                value = _v1!;
+                value = _v1;
                 return true;
             }
 
-            value = default!;
+            value = default;
             return false;
         }
 
         [Pure]
-        public bool TryPick(out int value)
+        public bool TryPick(out TRight? value)
         {
             if (_idx == 2)
             {
@@ -226,36 +183,19 @@ namespace MyLittleEither.MyLittleEitherMonad
             return false;
         }
 
-        [Pure]
-        public bool TryPick(out int? value)
-        {
-            if (_idx == 3)
-            {
-                value = _v3;
-                return true;
-            }
-
-            value = default;
-            return false;
-        }
-
         public TResult Match<TResult>(
-            Func<string, TResult> f1,
-            Func<int, TResult> f2,
-            Func<int?, TResult> f3)
+            Func<TLeft?, TResult> f1,
+            Func<TRight?, TResult> f2)
         {
             ArgumentNullException.ThrowIfNull(f1);
             ArgumentNullException.ThrowIfNull(f2);
-            ArgumentNullException.ThrowIfNull(f3);
 
             switch(_idx)
             {
                 case 1:
-                    return f1(_v1!);
+                    return f1(_v1);
                 case 2:
                     return f2(_v2);
-                case 3:
-                    return f3(_v3);
                 default:
                     return ThrowHelper.ThrowOnInvalidState<TResult>();
             }
@@ -263,45 +203,37 @@ namespace MyLittleEither.MyLittleEitherMonad
 
         public TResult Match<TState, TResult>(
             TState state,
-            Func<TState, string, TResult> f1,
-            Func<TState, int, TResult> f2,
-            Func<TState, int?, TResult> f3)
+            Func<TState, TLeft?, TResult> f1,
+            Func<TState, TRight?, TResult> f2)
         {
             ArgumentNullException.ThrowIfNull(f1);
             ArgumentNullException.ThrowIfNull(f2);
-            ArgumentNullException.ThrowIfNull(f3);
 
             switch(_idx)
             {
                 case 1:
-                    return f1(state, _v1!);
+                    return f1(state, _v1);
                 case 2:
                     return f2(state, _v2);
-                case 3:
-                    return f3(state, _v3);
                 default:
                     return ThrowHelper.ThrowOnInvalidState<TResult>();
             }
         }
 
         public Task<TResult> MatchAsync<TResult>(
-            Func<string, CancellationToken, Task<TResult>> f1,
-            Func<int, CancellationToken, Task<TResult>> f2,
-            Func<int?, CancellationToken, Task<TResult>> f3,
+            Func<TLeft?, CancellationToken, Task<TResult>> f1,
+            Func<TRight?, CancellationToken, Task<TResult>> f2,
             CancellationToken cancellationToken = default)
         {
             ArgumentNullException.ThrowIfNull(f1);
             ArgumentNullException.ThrowIfNull(f2);
-            ArgumentNullException.ThrowIfNull(f3);
 
             switch(_idx)
             {
                 case 1:
-                    return f1(_v1!, cancellationToken);
+                    return f1(_v1, cancellationToken);
                 case 2:
                     return f2(_v2, cancellationToken);
-                case 3:
-                    return f3(_v3, cancellationToken);
                 default:
                     return ThrowHelper.ThrowOnInvalidState<Task<TResult>>();
             }
@@ -309,77 +241,65 @@ namespace MyLittleEither.MyLittleEitherMonad
 
         public Task<TResult> MatchAsync<TState, TResult>(
             TState state,
-            Func<TState, string, CancellationToken, Task<TResult>> f1,
-            Func<TState, int, CancellationToken, Task<TResult>> f2,
-            Func<TState, int?, CancellationToken, Task<TResult>> f3,
+            Func<TState, TLeft?, CancellationToken, Task<TResult>> f1,
+            Func<TState, TRight?, CancellationToken, Task<TResult>> f2,
             CancellationToken cancellationToken = default)
         {
             ArgumentNullException.ThrowIfNull(f1);
             ArgumentNullException.ThrowIfNull(f2);
-            ArgumentNullException.ThrowIfNull(f3);
 
             switch(_idx)
             {
                 case 1:
-                    return f1(state, _v1!, cancellationToken);
+                    return f1(state, _v1, cancellationToken);
                 case 2:
                     return f2(state, _v2, cancellationToken);
-                case 3:
-                    return f3(state, _v3, cancellationToken);
                 default:
                     return ThrowHelper.ThrowOnInvalidState<Task<TResult>>();
             }
         }
 
         public void Switch(
-            Action<string> a1,
-            Action<int> a2,
-            Action<int?> a3)
+            Action<TLeft?> a1,
+            Action<TRight?> a2)
         {
             Match(
                 v => { a1(v); return Unit.Default; },
-                v => { a2(v); return Unit.Default; },
-                v => { a3(v); return Unit.Default; });
+                v => { a2(v); return Unit.Default; });
         }
 
         public void Switch<TState>(
             TState state,
-            Action<TState, string> a1,
-            Action<TState, int> a2,
-            Action<TState, int?> a3)
+            Action<TState, TLeft?> a1,
+            Action<TState, TRight?> a2)
         {
             Match(
                 state,
                 (s, v) => { a1(s, v); return Unit.Default; },
-                (s, v) => { a2(s, v); return Unit.Default; },
-                (s, v) => { a3(s, v); return Unit.Default; });
+                (s, v) => { a2(s, v); return Unit.Default; });
         }
 
         public Task SwitchAsync(
-            Func<string, CancellationToken, Task> a1,
-            Func<int, CancellationToken, Task> a2,
-            Func<int?, CancellationToken, Task> a3,
+            Func<TLeft?, CancellationToken, Task> a1,
+            Func<TRight?, CancellationToken, Task> a2,
             CancellationToken cancellationToken = default)
         {
             return MatchAsync(
                 async (v, ct) => { await a1(v, ct); return Unit.Default; },
                 async (v, ct) => { await a2(v, ct); return Unit.Default; },
-                async (v, ct) => { await a3(v, ct); return Unit.Default; },
                 cancellationToken);
         }
 
         public Task SwitchAsync<TState>(
             TState state,
-            Func<TState, string, CancellationToken, Task> a1,
-            Func<TState, int, CancellationToken, Task> a2,
-            Func<TState, int?, CancellationToken, Task> a3,
+            Func<TState, TLeft?, CancellationToken, Task> a1,
+            Func<TState, TRight?, CancellationToken, Task> a2,
             CancellationToken cancellationToken = default)
         {
             return MatchAsync(
                 state,
                 async (s, v, ct) => { await a1(s, v, ct); return Unit.Default; },
                 async (s, v, ct) => { await a2(s, v, ct); return Unit.Default; },
-                async (s, v, ct) => { await a3(s, v, ct); return Unit.Default; },
                 cancellationToken);
         }
     }

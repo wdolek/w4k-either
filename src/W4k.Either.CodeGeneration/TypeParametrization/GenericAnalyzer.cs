@@ -1,32 +1,21 @@
 ﻿using System.Threading;
 using Microsoft.CodeAnalysis;
-using W4k.Either.CodeGeneration.Context;
 
-namespace W4k.Either.CodeGeneration.Processors;
+namespace W4k.Either.CodeGeneration.TypeParametrization;
 
-internal static class GenericTypeParamsProcessor
+internal static class GenericAnalyzer
 {
-    public static ProcessorResult GetTargetTypeParameters(ProcessorContext context, CancellationToken cancellationToken)
+    public static ParamAnalysisResult Analyze(ParamAnalysisContext context, CancellationToken cancellationToken)
     {
         var typeSymbol = context.TypeSymbol;
         if (typeSymbol.Arity == 0)
         {
-            return ProcessorResult.Empty();
-        }
-
-        if (typeSymbol.Arity < 2)
-        {
-            var diagnostic = Diagnostic.Create(
-                descriptor: DiagnosticDescriptors.TooFewTypeParameters,
-                location: typeSymbol.Locations[0],
-                messageArgs: typeSymbol.Name);
-
-            return ProcessorResult.Failure(diagnostic);
+            return ParamAnalysisResult.Empty(ParametrizationKind.Generic);
         }
 
         var typeParams = CollectGenericTypeParameters(typeSymbol, cancellationToken);
 
-        return ProcessorResult.Success(typeParams);
+        return ParamAnalysisResult.Success(ParametrizationKind.Generic, typeParams);
     }
 
     private static TypeParameter[] CollectGenericTypeParameters(INamedTypeSymbol typeSymbol, CancellationToken cancellationToken)
@@ -45,6 +34,7 @@ internal static class GenericTypeParamsProcessor
             var isNullable = IsTypeNullable(typeParam, isValueType);
 
             typeParams[i] = new TypeParameter(
+                typeParam,
                 index: i + 1,
                 name: typeParamName,
                 isReferenceType: isReferenceType,

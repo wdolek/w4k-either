@@ -1,26 +1,26 @@
 ﻿using System;
 using System.Threading;
 using Microsoft.CodeAnalysis;
-using W4k.Either.CodeGeneration.Context;
 
-namespace W4k.Either.CodeGeneration.Processors;
+namespace W4k.Either.CodeGeneration.TypeParametrization;
 
-internal static class AttributeTypeParamsProcessor
+internal static class AttributeAnalyzer
 {
     private static readonly SymbolDisplayFormat DisplayFormat = new(
         typeQualificationStyle: SymbolDisplayTypeQualificationStyle.NameAndContainingTypesAndNamespaces,
         genericsOptions: SymbolDisplayGenericsOptions.IncludeTypeParameters,
         miscellaneousOptions: SymbolDisplayMiscellaneousOptions.UseSpecialTypes);
 
-    public static ProcessorResult GetAttributeTypeParameters(ProcessorContext context, CancellationToken cancellationToken)
+    public static ParamAnalysisResult Analyze(ParamAnalysisContext context, CancellationToken cancellationToken)
     {
-        var ctor = context.Attribute.AttributeConstructor;
+        var attribute = context.Attribute;
+        var ctor = attribute.AttributeConstructor;
         if (ctor is null || ctor.Parameters.Length == 0)
         {
-            return ProcessorResult.Empty();
+            return ParamAnalysisResult.Empty(ParametrizationKind.Attribute);
         }
 
-        var attrCtorArguments = context.Attribute.ConstructorArguments;
+        var attrCtorArguments = attribute.ConstructorArguments;
 
         var typeParams = new TypeParameter[attrCtorArguments.Length];
         var typeParamsSpan = typeParams.AsSpan();
@@ -45,7 +45,7 @@ internal static class AttributeTypeParamsProcessor
                     location: context.AttributeLocation,
                     messageArgs: typeSymbol.Name);
 
-                return ProcessorResult.Failure(unboundGenericTypeDiagnostic);
+                return ParamAnalysisResult.Failure(ParametrizationKind.Attribute, unboundGenericTypeDiagnostic);
             }
 
             // check that types are unique, `[Either(typeof(int), typeof(int))]` is forbidden,
@@ -53,10 +53,11 @@ internal static class AttributeTypeParamsProcessor
             var (isTypeUsed, typeUsedDiagnostic) = IsTypeUsed(typeParamsSpan.Slice(0, i), typeSymbol, context.AttributeLocation, typeParamName);
             if (isTypeUsed)
             {
-                return ProcessorResult.Failure(typeUsedDiagnostic!);
+                return ParamAnalysisResult.Failure(ParametrizationKind.Attribute, typeUsedDiagnostic!);
             }
 
             typeParams[i] = new TypeParameter(
+                typeSymbol,
                 index: i + 1,
                 name: typeParamName,
                 isReferenceType: typeSymbol.IsReferenceType,
@@ -64,7 +65,7 @@ internal static class AttributeTypeParamsProcessor
                 isNullable: IsTypeNullable(typeSymbol, context.IsNullRefTypeScopeEnabled));
         }
 
-        return ProcessorResult.Success(typeParams);
+        return ParamAnalysisResult.Success(ParametrizationKind.Attribute, typeParams);
     }
 
     private static (bool IsTypeUsed, Diagnostic? diagnostic) IsTypeUsed(

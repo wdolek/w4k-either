@@ -1,12 +1,14 @@
 ﻿using System.Diagnostics;
+using Microsoft.CodeAnalysis;
 
-namespace W4k.Either.CodeGeneration.Context;
+namespace W4k.Either.CodeGeneration.TypeParametrization;
 
 [DebuggerDisplay("{Index} -> {Name}")]
 internal class TypeParameter
 {
-    public TypeParameter(int index, string name, bool isReferenceType, bool isValueType, bool isNullable)
+    public TypeParameter(ITypeSymbol typeSymbol, int index, string name, bool isReferenceType, bool isValueType, bool isNullable)
     {
+        TypeSymbol = typeSymbol;
         Index = index;
         Name = name;
         FieldName = "_v" + index;
@@ -53,17 +55,22 @@ internal class TypeParameter
             : "default";
     }
 
+    public ITypeSymbol TypeSymbol { get; }
+    
     public int Index { get; }
-    public string Name { get; }
-    public string FieldName { get; set; }
+
     public bool IsNullable { get; }
     public bool IsValueType { get; }
     public bool IsReferenceType { get; }
-    public bool IsNullableReferenceType => IsReferenceType && IsNullable;
-    public bool IsNonNullableReferenceType => IsReferenceType && !IsNullable;
+
+    public string Name { get; }
+    public string FieldName { get; }
     public string AsFieldType { get; }
     public string AsFieldInvoker { get; }
     public string AsFieldReceiver { get; }
     public string AsArgument { get; }
     public string AsDefault { get; }
+
+    public bool IsNullableReferenceType => IsReferenceType && IsNullable;
+    public bool IsNonNullableReferenceType => IsReferenceType && !IsNullable;
 }

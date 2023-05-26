@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Diagnostics.CodeAnalysis;
+using System.Runtime.InteropServices;
+using System.Runtime.Serialization;
 
 namespace W4k.Either;
 
@@ -10,14 +12,16 @@ public static class Result
         where TError : notnull
         => new(value);
 
-    public static Result<TSuccess, TError> Failure<TSuccess, TError>(TError error)
+    public static Result<TSuccess, TError> Failed<TSuccess, TError>(TError error)
         where TSuccess : notnull
         where TError : notnull
         => new(error);
 }
 
 [Either]
-public readonly partial struct Result<TSuccess, TError>
+[Serializable]
+[StructLayout(LayoutKind.Auto)]
+public readonly partial struct Result<TSuccess, TError> : ISerializable
     where TSuccess : notnull
     where TError : notnull
 {

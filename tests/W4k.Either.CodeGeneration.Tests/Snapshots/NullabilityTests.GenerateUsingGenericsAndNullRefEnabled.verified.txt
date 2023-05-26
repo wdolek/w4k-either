@@ -12,8 +12,7 @@ using W4k.Either;
 
 namespace MyLittleEither.MyLittleEitherMonad
 {
-    [Serializable]
-    readonly partial struct MyEither<TAny, TNonNullRef, TNullRef, TStruct, TNotNull, TObj, TNullObj, TIFace, TNullIFace, TUnmanaged> : IEquatable<MyEither<TAny, TNonNullRef, TNullRef, TStruct, TNotNull, TObj, TNullObj, TIFace, TNullIFace, TUnmanaged>>, ISerializable
+    public partial struct MyEither<TAny, TNonNullRef, TNullRef, TStruct, TNotNull, TObj, TNullObj, TIFace, TNullIFace, TUnmanaged>
     {
         private readonly byte _idx;
         private readonly TAny? _v1;
@@ -26,21 +25,6 @@ namespace MyLittleEither.MyLittleEitherMonad
         private readonly TIFace? _v8;
         private readonly TNullIFace? _v9;
         private readonly TUnmanaged _v10;
-
-        public MyEither()
-        {
-            _idx = 0;
-            _v1 = default;
-            _v2 = default!;
-            _v3 = default;
-            _v4 = default;
-            _v5 = default!;
-            _v6 = default;
-            _v7 = default;
-            _v8 = default;
-            _v9 = default;
-            _v10 = default;
-        }
 
         public MyEither(TAny? value)
         {
@@ -194,147 +178,6 @@ namespace MyLittleEither.MyLittleEitherMonad
             _v10 = value;
         }
 
-        private MyEither(SerializationInfo info, StreamingContext context)
-        {
-            _idx = info.GetByte(nameof(_idx));
-            switch (_idx)
-            {
-                case 1:
-                    _v1 = (TAny?)info.GetValue("_v1", typeof(TAny));
-                    _v2 = default!;
-                    _v3 = default;
-                    _v4 = default;
-                    _v5 = default!;
-                    _v6 = default;
-                    _v7 = default;
-                    _v8 = default;
-                    _v9 = default;
-                    _v10 = default;
-                    break;
-                case 2:
-                    _v1 = default;
-                    _v2 = (TNonNullRef?)info.GetValue("_v2", typeof(TNonNullRef));
-                    _v3 = default;
-                    _v4 = default;
-                    _v5 = default!;
-                    _v6 = default;
-                    _v7 = default;
-                    _v8 = default;
-                    _v9 = default;
-                    _v10 = default;
-                    break;
-                case 3:
-                    _v1 = default;
-                    _v2 = default!;
-                    _v3 = (TNullRef?)info.GetValue("_v3", typeof(TNullRef));
-                    _v4 = default;
-                    _v5 = default!;
-                    _v6 = default;
-                    _v7 = default;
-                    _v8 = default;
-                    _v9 = default;
-                    _v10 = default;
-                    break;
-                case 4:
-                    _v1 = default;
-                    _v2 = default!;
-                    _v3 = default;
-                    _v4 = (TStruct)info.GetValue("_v4", typeof(TStruct))!;
-                    _v5 = default!;
-                    _v6 = default;
-                    _v7 = default;
-                    _v8 = default;
-                    _v9 = default;
-                    _v10 = default;
-                    break;
-                case 5:
-                    _v1 = default;
-                    _v2 = default!;
-                    _v3 = default;
-                    _v4 = default;
-                    _v5 = (TNotNull?)info.GetValue("_v5", typeof(TNotNull));
-                    _v6 = default;
-                    _v7 = default;
-                    _v8 = default;
-                    _v9 = default;
-                    _v10 = default;
-                    break;
-                case 6:
-                    _v1 = default;
-                    _v2 = default!;
-                    _v3 = default;
-                    _v4 = default;
-                    _v5 = default!;
-                    _v6 = (TObj?)info.GetValue("_v6", typeof(TObj));
-                    _v7 = default;
-                    _v8 = default;
-                    _v9 = default;
-                    _v10 = default;
-                    break;
-                case 7:
-                    _v1 = default;
-                    _v2 = default!;
-                    _v3 = default;
-                    _v4 = default;
-                    _v5 = default!;
-                    _v6 = default;
-                    _v7 = (TNullObj?)info.GetValue("_v7", typeof(TNullObj));
-                    _v8 = default;
-                    _v9 = default;
-                    _v10 = default;
-                    break;
-                case 8:
-                    _v1 = default;
-                    _v2 = default!;
-                    _v3 = default;
-                    _v4 = default;
-                    _v5 = default!;
-                    _v6 = default;
-                    _v7 = default;
-                    _v8 = (TIFace?)info.GetValue("_v8", typeof(TIFace));
-                    _v9 = default;
-                    _v10 = default;
-                    break;
-                case 9:
-                    _v1 = default;
-                    _v2 = default!;
-                    _v3 = default;
-                    _v4 = default;
-                    _v5 = default!;
-                    _v6 = default;
-                    _v7 = default;
-                    _v8 = default;
-                    _v9 = (TNullIFace?)info.GetValue("_v9", typeof(TNullIFace));
-                    _v10 = default;
-                    break;
-                case 10:
-                    _v1 = default;
-                    _v2 = default!;
-                    _v3 = default;
-                    _v4 = default;
-                    _v5 = default!;
-                    _v6 = default;
-                    _v7 = default;
-                    _v8 = default;
-                    _v9 = default;
-                    _v10 = (TUnmanaged)info.GetValue("_v10", typeof(TUnmanaged))!;
-                    break;
-                default:
-                    _v1 = default;
-                    _v2 = default!;
-                    _v3 = default;
-                    _v4 = default;
-                    _v5 = default!;
-                    _v6 = default;
-                    _v7 = default;
-                    _v8 = default;
-                    _v9 = default;
-                    _v10 = default;
-                    ThrowHelper.ThrowOnInvalidState();
-                    break;
-            }
-        }
-
         [Pure]
         public object? Case
         {
@@ -369,40 +212,40 @@ namespace MyLittleEither.MyLittleEitherMonad
         }
 
         [Pure]
-        public static bool operator ==(MyEither<TAny, TNonNullRef, TNullRef, TStruct, TNotNull, TObj, TNullObj, TIFace, TNullIFace, TUnmanaged> left, MyEither<TAny, TNonNullRef, TNullRef, TStruct, TNotNull, TObj, TNullObj, TIFace, TNullIFace, TUnmanaged> right) => left.Equals(right);
+        public static bool operator ==(MyLittleEither.MyLittleEitherMonad.MyEither<TAny, TNonNullRef, TNullRef, TStruct, TNotNull, TObj, TNullObj, TIFace, TNullIFace, TUnmanaged> left, MyLittleEither.MyLittleEitherMonad.MyEither<TAny, TNonNullRef, TNullRef, TStruct, TNotNull, TObj, TNullObj, TIFace, TNullIFace, TUnmanaged> right) => left.Equals(right);
 
         [Pure]
-        public static bool operator !=(MyEither<TAny, TNonNullRef, TNullRef, TStruct, TNotNull, TObj, TNullObj, TIFace, TNullIFace, TUnmanaged> left, MyEither<TAny, TNonNullRef, TNullRef, TStruct, TNotNull, TObj, TNullObj, TIFace, TNullIFace, TUnmanaged> right) => !left.Equals(right);
+        public static bool operator !=(MyLittleEither.MyLittleEitherMonad.MyEither<TAny, TNonNullRef, TNullRef, TStruct, TNotNull, TObj, TNullObj, TIFace, TNullIFace, TUnmanaged> left, MyLittleEither.MyLittleEitherMonad.MyEither<TAny, TNonNullRef, TNullRef, TStruct, TNotNull, TObj, TNullObj, TIFace, TNullIFace, TUnmanaged> right) => !left.Equals(right);
 
         [Pure]
-        public static implicit operator MyEither<TAny, TNonNullRef, TNullRef, TStruct, TNotNull, TObj, TNullObj, TIFace, TNullIFace, TUnmanaged>(TAny? value) => new(value);
+        public static implicit operator MyLittleEither.MyLittleEitherMonad.MyEither<TAny, TNonNullRef, TNullRef, TStruct, TNotNull, TObj, TNullObj, TIFace, TNullIFace, TUnmanaged>(TAny? value) => new(value);
 
         [Pure]
-        public static implicit operator MyEither<TAny, TNonNullRef, TNullRef, TStruct, TNotNull, TObj, TNullObj, TIFace, TNullIFace, TUnmanaged>(TNonNullRef value) => new(value);
+        public static implicit operator MyLittleEither.MyLittleEitherMonad.MyEither<TAny, TNonNullRef, TNullRef, TStruct, TNotNull, TObj, TNullObj, TIFace, TNullIFace, TUnmanaged>(TNonNullRef value) => new(value);
 
         [Pure]
-        public static implicit operator MyEither<TAny, TNonNullRef, TNullRef, TStruct, TNotNull, TObj, TNullObj, TIFace, TNullIFace, TUnmanaged>(TNullRef? value) => new(value);
+        public static implicit operator MyLittleEither.MyLittleEitherMonad.MyEither<TAny, TNonNullRef, TNullRef, TStruct, TNotNull, TObj, TNullObj, TIFace, TNullIFace, TUnmanaged>(TNullRef? value) => new(value);
 
         [Pure]
-        public static implicit operator MyEither<TAny, TNonNullRef, TNullRef, TStruct, TNotNull, TObj, TNullObj, TIFace, TNullIFace, TUnmanaged>(TStruct value) => new(value);
+        public static implicit operator MyLittleEither.MyLittleEitherMonad.MyEither<TAny, TNonNullRef, TNullRef, TStruct, TNotNull, TObj, TNullObj, TIFace, TNullIFace, TUnmanaged>(TStruct value) => new(value);
 
         [Pure]
-        public static implicit operator MyEither<TAny, TNonNullRef, TNullRef, TStruct, TNotNull, TObj, TNullObj, TIFace, TNullIFace, TUnmanaged>(TNotNull value) => new(value);
+        public static implicit operator MyLittleEither.MyLittleEitherMonad.MyEither<TAny, TNonNullRef, TNullRef, TStruct, TNotNull, TObj, TNullObj, TIFace, TNullIFace, TUnmanaged>(TNotNull value) => new(value);
 
         [Pure]
-        public static implicit operator MyEither<TAny, TNonNullRef, TNullRef, TStruct, TNotNull, TObj, TNullObj, TIFace, TNullIFace, TUnmanaged>(TObj? value) => new(value);
+        public static implicit operator MyLittleEither.MyLittleEitherMonad.MyEither<TAny, TNonNullRef, TNullRef, TStruct, TNotNull, TObj, TNullObj, TIFace, TNullIFace, TUnmanaged>(TObj? value) => new(value);
 
         [Pure]
-        public static implicit operator MyEither<TAny, TNonNullRef, TNullRef, TStruct, TNotNull, TObj, TNullObj, TIFace, TNullIFace, TUnmanaged>(TNullObj? value) => new(value);
+        public static implicit operator MyLittleEither.MyLittleEitherMonad.MyEither<TAny, TNonNullRef, TNullRef, TStruct, TNotNull, TObj, TNullObj, TIFace, TNullIFace, TUnmanaged>(TNullObj? value) => new(value);
 
         [Pure]
-        public static implicit operator MyEither<TAny, TNonNullRef, TNullRef, TStruct, TNotNull, TObj, TNullObj, TIFace, TNullIFace, TUnmanaged>(TIFace? value) => new(value);
+        public static implicit operator MyLittleEither.MyLittleEitherMonad.MyEither<TAny, TNonNullRef, TNullRef, TStruct, TNotNull, TObj, TNullObj, TIFace, TNullIFace, TUnmanaged>(TIFace? value) => new(value);
 
         [Pure]
-        public static implicit operator MyEither<TAny, TNonNullRef, TNullRef, TStruct, TNotNull, TObj, TNullObj, TIFace, TNullIFace, TUnmanaged>(TNullIFace? value) => new(value);
+        public static implicit operator MyLittleEither.MyLittleEitherMonad.MyEither<TAny, TNonNullRef, TNullRef, TStruct, TNotNull, TObj, TNullObj, TIFace, TNullIFace, TUnmanaged>(TNullIFace? value) => new(value);
 
         [Pure]
-        public static implicit operator MyEither<TAny, TNonNullRef, TNullRef, TStruct, TNotNull, TObj, TNullObj, TIFace, TNullIFace, TUnmanaged>(TUnmanaged value) => new(value);
+        public static implicit operator MyLittleEither.MyLittleEitherMonad.MyEither<TAny, TNonNullRef, TNullRef, TStruct, TNotNull, TObj, TNullObj, TIFace, TNullIFace, TUnmanaged>(TUnmanaged value) => new(value);
 
         [Pure]
         public override int GetHashCode()
@@ -467,7 +310,7 @@ namespace MyLittleEither.MyLittleEitherMonad
         [Pure]
         public override bool Equals(object? obj)
         {
-            if (obj is not MyEither<TAny, TNonNullRef, TNullRef, TStruct, TNotNull, TObj, TNullObj, TIFace, TNullIFace, TUnmanaged> other)
+            if (obj is not MyLittleEither.MyLittleEitherMonad.MyEither<TAny, TNonNullRef, TNullRef, TStruct, TNotNull, TObj, TNullObj, TIFace, TNullIFace, TUnmanaged> other)
             {
                 return false;
             }
@@ -476,7 +319,7 @@ namespace MyLittleEither.MyLittleEitherMonad
         }
 
         [Pure]
-        public bool Equals(MyEither<TAny, TNonNullRef, TNullRef, TStruct, TNotNull, TObj, TNullObj, TIFace, TNullIFace, TUnmanaged> other)
+        public bool Equals(MyLittleEither.MyLittleEitherMonad.MyEither<TAny, TNonNullRef, TNullRef, TStruct, TNotNull, TObj, TNullObj, TIFace, TNullIFace, TUnmanaged> other)
         {
             if (_idx != other._idx)
             {
@@ -507,47 +350,6 @@ namespace MyLittleEither.MyLittleEitherMonad
                     return _v10.Equals(other._v10);
                 default:
                     return ThrowHelper.ThrowOnInvalidState<bool>();
-            }
-        }
-
-        void ISerializable.GetObjectData(SerializationInfo info, StreamingContext context)
-        {
-            info.AddValue("_idx", _idx);
-            switch (_idx)
-            {
-                case 1:
-                    info.AddValue("_v1", _v1);
-                    break;
-                case 2:
-                    info.AddValue("_v2", _v2);
-                    break;
-                case 3:
-                    info.AddValue("_v3", _v3);
-                    break;
-                case 4:
-                    info.AddValue("_v4", _v4);
-                    break;
-                case 5:
-                    info.AddValue("_v5", _v5);
-                    break;
-                case 6:
-                    info.AddValue("_v6", _v6);
-                    break;
-                case 7:
-                    info.AddValue("_v7", _v7);
-                    break;
-                case 8:
-                    info.AddValue("_v8", _v8);
-                    break;
-                case 9:
-                    info.AddValue("_v9", _v9);
-                    break;
-                case 10:
-                    info.AddValue("_v10", _v10);
-                    break;
-                default:
-                    ThrowHelper.ThrowOnInvalidState();
-                    break;
             }
         }
 

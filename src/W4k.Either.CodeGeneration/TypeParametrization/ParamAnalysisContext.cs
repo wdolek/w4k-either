@@ -1,10 +1,10 @@
 ﻿using Microsoft.CodeAnalysis;
 
-namespace W4k.Either.CodeGeneration.Processors;
+namespace W4k.Either.CodeGeneration.TypeParametrization;
 
-internal readonly struct ProcessorContext
+internal readonly struct ParamAnalysisContext
 {
-    public ProcessorContext(
+    public ParamAnalysisContext(
         AttributeData attribute,
         SemanticModel semanticModel,
         INamedTypeSymbol typeSymbol)
