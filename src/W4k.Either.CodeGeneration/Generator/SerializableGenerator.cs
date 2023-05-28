@@ -1,4 +1,4 @@
-﻿using System.Collections.Immutable;
+using System.Collections.Immutable;
 using Microsoft.CodeAnalysis;
 
 namespace W4k.Either.CodeGeneration.Generator;
@@ -137,8 +137,11 @@ internal class SerializableGenerator : IMemberCodeGenerator
 
     private void GenerateSerializableConstructor(IndentedWriter sb)
     {
-        // TODO: protected for unsealed class
-        sb.AppendIndentedLine($"private {_context.TypeDeclaration.TypeSymbol.Name}(SerializationInfo info, StreamingContext context)");
+        var accessModifier = _context.TypeKind == TypeKind.Struct || _context.TypeDeclaration.TypeSymbol.IsSealed
+            ? "private"
+            : "protected";
+
+        sb.AppendIndentedLine($"{accessModifier} {_context.TypeDeclaration.TypeSymbol.Name}(SerializationInfo info, StreamingContext context)");
         sb.AppendIndentedLine("{");
         sb.AppendIndentedLine("    _idx = info.GetByte(nameof(_idx));");
         sb.AppendIndentedLine("    switch (_idx)");
