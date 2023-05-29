@@ -11,7 +11,9 @@ public static class Maybe
         where T : notnull
         => new(value);
 
-    public static Maybe<T> None<T>() => new();
+    public static Maybe<T> None<T>() 
+        where T : notnull
+        => new();
 }
 
 [Either]
@@ -28,7 +30,7 @@ public readonly partial struct Maybe<T> : IEquatable<Maybe<T>>, ISerializable
         HasValue = false;
     }
 
-    internal Maybe(T? value)
+    internal Maybe(T value)
     {
         ArgumentNullException.ThrowIfNull(value);
 

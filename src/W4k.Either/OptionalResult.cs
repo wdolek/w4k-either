@@ -52,7 +52,9 @@ public readonly partial struct OptionalResult<TSuccess, TError> : IEquatable<Opt
     
     [MemberNotNullWhen(false, nameof(Error))]
     public bool IsSuccess => _idx == 1;
-    public bool IsError => _idx == 2;
+    
+    [MemberNotNullWhen(true, nameof(Error))]
+    public bool IsFailed => _idx == 2;
 
     [MemberNotNullWhen(true, nameof(Value))]
     public bool HasValue { get; } = false;

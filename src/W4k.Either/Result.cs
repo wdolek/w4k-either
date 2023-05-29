@@ -76,6 +76,7 @@ public readonly partial struct Result<TSuccess, TError> : IEquatable<Result<TSuc
     [MemberNotNullWhen(false, nameof(Error))]
     public bool IsSuccess => _idx == 1;
     
+    [MemberNotNullWhen(false, nameof(Value))]
     [MemberNotNullWhen(true, nameof(Error))]
     public bool IsFailed => _idx == 2;
 
