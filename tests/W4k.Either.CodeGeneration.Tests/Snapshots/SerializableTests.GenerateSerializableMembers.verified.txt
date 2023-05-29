@@ -91,7 +91,7 @@ namespace MyLittleEither.MyLittleEitherMonad
         public static bool operator ==(MyLittleEither.MyLittleEitherMonad.MyEither<TLeft, TRight> left, MyLittleEither.MyLittleEitherMonad.MyEither<TLeft, TRight> right) => left.Equals(right);
 
         [Pure]
-        public static bool operator !=(MyLittleEither.MyLittleEitherMonad.MyEither<TLeft, TRight> left, MyLittleEither.MyLittleEitherMonad.MyEither<TLeft, TRight> right) => !left.Equals(right);
+        public static bool operator !=(MyLittleEither.MyLittleEitherMonad.MyEither<TLeft, TRight> left, MyLittleEither.MyLittleEitherMonad.MyEither<TLeft, TRight> right) => !(left == right);
 
         [Pure]
         public static implicit operator MyLittleEither.MyLittleEitherMonad.MyEither<TLeft, TRight>(TLeft? value) => new(value);

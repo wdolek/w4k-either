@@ -215,7 +215,7 @@ namespace MyLittleEither.MyLittleEitherMonad
         public static bool operator ==(MyLittleEither.MyLittleEitherMonad.MyEither<TAny, TNonNullRef, TNullRef, TStruct, TNotNull, TObj, TNullObj, TIFace, TNullIFace, TUnmanaged> left, MyLittleEither.MyLittleEitherMonad.MyEither<TAny, TNonNullRef, TNullRef, TStruct, TNotNull, TObj, TNullObj, TIFace, TNullIFace, TUnmanaged> right) => left.Equals(right);
 
         [Pure]
-        public static bool operator !=(MyLittleEither.MyLittleEitherMonad.MyEither<TAny, TNonNullRef, TNullRef, TStruct, TNotNull, TObj, TNullObj, TIFace, TNullIFace, TUnmanaged> left, MyLittleEither.MyLittleEitherMonad.MyEither<TAny, TNonNullRef, TNullRef, TStruct, TNotNull, TObj, TNullObj, TIFace, TNullIFace, TUnmanaged> right) => !left.Equals(right);
+        public static bool operator !=(MyLittleEither.MyLittleEitherMonad.MyEither<TAny, TNonNullRef, TNullRef, TStruct, TNotNull, TObj, TNullObj, TIFace, TNullIFace, TUnmanaged> left, MyLittleEither.MyLittleEitherMonad.MyEither<TAny, TNonNullRef, TNullRef, TStruct, TNotNull, TObj, TNullObj, TIFace, TNullIFace, TUnmanaged> right) => !(left == right);
 
         [Pure]
         public static implicit operator MyLittleEither.MyLittleEitherMonad.MyEither<TAny, TNonNullRef, TNullRef, TStruct, TNotNull, TObj, TNullObj, TIFace, TNullIFace, TUnmanaged>(TAny? value) => new(value);
