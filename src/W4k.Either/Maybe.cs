@@ -17,7 +17,8 @@ public static class Maybe
 [Either]
 [Serializable]
 [StructLayout(LayoutKind.Auto)]
-public readonly partial struct Maybe<T> : ISerializable
+public readonly partial struct Maybe<T> : IEquatable<Maybe<T>>, ISerializable
+    where T : notnull
 {
     public Maybe()
     {

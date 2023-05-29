@@ -21,7 +21,7 @@ public static class Result
 [Either]
 [Serializable]
 [StructLayout(LayoutKind.Auto)]
-public readonly partial struct Result<TSuccess, TError> : ISerializable
+public readonly partial struct Result<TSuccess, TError> : IEquatable<Result<TSuccess, TError>>, ISerializable
     where TSuccess : notnull
     where TError : notnull
 {

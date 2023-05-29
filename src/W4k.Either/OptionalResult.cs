@@ -26,7 +26,7 @@ public static class OptionalResult
 [Either]
 [Serializable]
 [StructLayout(LayoutKind.Auto)]
-public readonly partial struct OptionalResult<TSuccess, TError> : ISerializable
+public readonly partial struct OptionalResult<TSuccess, TError> : IEquatable<OptionalResult<TSuccess, TError>>, ISerializable
     where TSuccess : notnull
     where TError : notnull
 {
