@@ -27,12 +27,7 @@ internal static class DeclarationAnalyzer
         }
 
         var (declaredTypeName, fullDeclaration) = GetDeclaration(declarationSyntax!);
-        var typeDeclaration = new Declaration
-        {
-            TypeSymbol = typeSymbol,
-            DeclaredTypeName = declaredTypeName,
-            FullDeclaration = fullDeclaration,
-        };
+        var typeDeclaration = new Declaration(typeSymbol, declaredTypeName, fullDeclaration);
         
         return DeclarationAnalysisResult.Valid(typeDeclaration);
     }
