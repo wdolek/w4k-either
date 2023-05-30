@@ -2,14 +2,6 @@
 
 #nullable enable
 
-using System;
-using System.Diagnostics.CodeAnalysis;
-using System.Diagnostics.Contracts;
-using System.Runtime.Serialization;
-using System.Threading;
-using System.Threading.Tasks;
-using W4k.Either;
-
 namespace MyLittleEither.MyLittleEitherMonad
 {
     public partial struct MyEither
@@ -21,7 +13,7 @@ namespace MyLittleEither.MyLittleEitherMonad
 
         public MyEither(string value)
         {
-            ArgumentNullException.ThrowIfNull(value);
+            global::System.ArgumentNullException.ThrowIfNull(value);
             _idx = 1;
             _v1 = value;
             _v2 = default;
@@ -44,7 +36,7 @@ namespace MyLittleEither.MyLittleEitherMonad
             _v3 = value;
         }
 
-        [Pure]
+        [global::System.Diagnostics.Contracts.Pure]
         public object? Case
         {
             get
@@ -63,22 +55,22 @@ namespace MyLittleEither.MyLittleEitherMonad
             }
         }
 
-        [Pure]
+        [global::System.Diagnostics.Contracts.Pure]
         public static bool operator ==(MyLittleEither.MyLittleEitherMonad.MyEither left, MyLittleEither.MyLittleEitherMonad.MyEither right) => left.Equals(right);
 
-        [Pure]
+        [global::System.Diagnostics.Contracts.Pure]
         public static bool operator !=(MyLittleEither.MyLittleEitherMonad.MyEither left, MyLittleEither.MyLittleEitherMonad.MyEither right) => !(left == right);
 
-        [Pure]
+        [global::System.Diagnostics.Contracts.Pure]
         public static implicit operator MyLittleEither.MyLittleEitherMonad.MyEither(string value) => new(value);
 
-        [Pure]
+        [global::System.Diagnostics.Contracts.Pure]
         public static implicit operator MyLittleEither.MyLittleEitherMonad.MyEither(int value) => new(value);
 
-        [Pure]
+        [global::System.Diagnostics.Contracts.Pure]
         public static implicit operator MyLittleEither.MyLittleEitherMonad.MyEither(int? value) => new(value);
 
-        [Pure]
+        [global::System.Diagnostics.Contracts.Pure]
         public override int GetHashCode()
         {
             switch (_idx)
@@ -94,7 +86,7 @@ namespace MyLittleEither.MyLittleEitherMonad
             }
         }
 
-        [Pure]
+        [global::System.Diagnostics.Contracts.Pure]
         public override string ToString()
         {
             switch (_idx)
@@ -110,7 +102,7 @@ namespace MyLittleEither.MyLittleEitherMonad
             }
         }
 
-        [Pure]
+        [global::System.Diagnostics.Contracts.Pure]
         public override bool Equals(object? obj)
         {
             if (obj is not MyLittleEither.MyLittleEitherMonad.MyEither other)
@@ -121,7 +113,7 @@ namespace MyLittleEither.MyLittleEitherMonad
             return Equals(other);
         }
 
-        [Pure]
+        [global::System.Diagnostics.Contracts.Pure]
         public bool Equals(MyLittleEither.MyLittleEitherMonad.MyEither other)
         {
             if (_idx != other._idx)
@@ -142,8 +134,8 @@ namespace MyLittleEither.MyLittleEitherMonad
             }
         }
 
-        [Pure]
-        public bool TryPick([NotNullWhen(true)] out string? value)
+        [global::System.Diagnostics.Contracts.Pure]
+        public bool TryPick([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] out string? value)
         {
             if (_idx == 1)
             {
@@ -155,7 +147,7 @@ namespace MyLittleEither.MyLittleEitherMonad
             return false;
         }
 
-        [Pure]
+        [global::System.Diagnostics.Contracts.Pure]
         public bool TryPick(out int value)
         {
             if (_idx == 2)
@@ -168,7 +160,7 @@ namespace MyLittleEither.MyLittleEitherMonad
             return false;
         }
 
-        [Pure]
+        [global::System.Diagnostics.Contracts.Pure]
         public bool TryPick(out int? value)
         {
             if (_idx == 3)
@@ -182,13 +174,13 @@ namespace MyLittleEither.MyLittleEitherMonad
         }
 
         public TResult Match<TResult>(
-            Func<string, TResult> f1,
-            Func<int, TResult> f2,
-            Func<int?, TResult> f3)
+            global::System.Func<string, TResult> f1,
+            global::System.Func<int, TResult> f2,
+            global::System.Func<int?, TResult> f3)
         {
-            ArgumentNullException.ThrowIfNull(f1);
-            ArgumentNullException.ThrowIfNull(f2);
-            ArgumentNullException.ThrowIfNull(f3);
+            global::System.ArgumentNullException.ThrowIfNull(f1);
+            global::System.ArgumentNullException.ThrowIfNull(f2);
+            global::System.ArgumentNullException.ThrowIfNull(f3);
 
             switch(_idx)
             {
@@ -205,13 +197,13 @@ namespace MyLittleEither.MyLittleEitherMonad
 
         public TResult Match<TState, TResult>(
             TState state,
-            Func<TState, string, TResult> f1,
-            Func<TState, int, TResult> f2,
-            Func<TState, int?, TResult> f3)
+            global::System.Func<TState, string, TResult> f1,
+            global::System.Func<TState, int, TResult> f2,
+            global::System.Func<TState, int?, TResult> f3)
         {
-            ArgumentNullException.ThrowIfNull(f1);
-            ArgumentNullException.ThrowIfNull(f2);
-            ArgumentNullException.ThrowIfNull(f3);
+            global::System.ArgumentNullException.ThrowIfNull(f1);
+            global::System.ArgumentNullException.ThrowIfNull(f2);
+            global::System.ArgumentNullException.ThrowIfNull(f3);
 
             switch(_idx)
             {
@@ -226,15 +218,15 @@ namespace MyLittleEither.MyLittleEitherMonad
             }
         }
 
-        public Task<TResult> MatchAsync<TResult>(
-            Func<string, CancellationToken, Task<TResult>> f1,
-            Func<int, CancellationToken, Task<TResult>> f2,
-            Func<int?, CancellationToken, Task<TResult>> f3,
-            CancellationToken cancellationToken = default)
+        public global::System.Threading.Tasks.Task<TResult> MatchAsync<TResult>(
+            global::System.Func<string, global::System.Threading.CancellationToken, global::System.Threading.Tasks.Task<TResult>> f1,
+            global::System.Func<int, global::System.Threading.CancellationToken, global::System.Threading.Tasks.Task<TResult>> f2,
+            global::System.Func<int?, global::System.Threading.CancellationToken, global::System.Threading.Tasks.Task<TResult>> f3,
+            global::System.Threading.CancellationToken cancellationToken = default)
         {
-            ArgumentNullException.ThrowIfNull(f1);
-            ArgumentNullException.ThrowIfNull(f2);
-            ArgumentNullException.ThrowIfNull(f3);
+            global::System.ArgumentNullException.ThrowIfNull(f1);
+            global::System.ArgumentNullException.ThrowIfNull(f2);
+            global::System.ArgumentNullException.ThrowIfNull(f3);
 
             switch(_idx)
             {
@@ -245,20 +237,20 @@ namespace MyLittleEither.MyLittleEitherMonad
                 case 3:
                     return f3(_v3, cancellationToken);
                 default:
-                    return ThrowHelper.ThrowOnInvalidState<Task<TResult>>();
+                    return ThrowHelper.ThrowOnInvalidState<global::System.Threading.Tasks.Task<TResult>>();
             }
         }
 
-        public Task<TResult> MatchAsync<TState, TResult>(
+        public global::System.Threading.Tasks.Task<TResult> MatchAsync<TState, TResult>(
             TState state,
-            Func<TState, string, CancellationToken, Task<TResult>> f1,
-            Func<TState, int, CancellationToken, Task<TResult>> f2,
-            Func<TState, int?, CancellationToken, Task<TResult>> f3,
-            CancellationToken cancellationToken = default)
+            global::System.Func<TState, string, global::System.Threading.CancellationToken, global::System.Threading.Tasks.Task<TResult>> f1,
+            global::System.Func<TState, int, global::System.Threading.CancellationToken, global::System.Threading.Tasks.Task<TResult>> f2,
+            global::System.Func<TState, int?, global::System.Threading.CancellationToken, global::System.Threading.Tasks.Task<TResult>> f3,
+            global::System.Threading.CancellationToken cancellationToken = default)
         {
-            ArgumentNullException.ThrowIfNull(f1);
-            ArgumentNullException.ThrowIfNull(f2);
-            ArgumentNullException.ThrowIfNull(f3);
+            global::System.ArgumentNullException.ThrowIfNull(f1);
+            global::System.ArgumentNullException.ThrowIfNull(f2);
+            global::System.ArgumentNullException.ThrowIfNull(f3);
 
             switch(_idx)
             {
@@ -269,14 +261,14 @@ namespace MyLittleEither.MyLittleEitherMonad
                 case 3:
                     return f3(state, _v3, cancellationToken);
                 default:
-                    return ThrowHelper.ThrowOnInvalidState<Task<TResult>>();
+                    return ThrowHelper.ThrowOnInvalidState<global::System.Threading.Tasks.Task<TResult>>();
             }
         }
 
         public void Switch(
-            Action<string> a1,
-            Action<int> a2,
-            Action<int?> a3)
+            global::System.Action<string> a1,
+            global::System.Action<int> a2,
+            global::System.Action<int?> a3)
         {
             Match(
                 v => { a1(v); return Unit.Default; },
@@ -286,9 +278,9 @@ namespace MyLittleEither.MyLittleEitherMonad
 
         public void Switch<TState>(
             TState state,
-            Action<TState, string> a1,
-            Action<TState, int> a2,
-            Action<TState, int?> a3)
+            global::System.Action<TState, string> a1,
+            global::System.Action<TState, int> a2,
+            global::System.Action<TState, int?> a3)
         {
             Match(
                 state,
@@ -297,11 +289,11 @@ namespace MyLittleEither.MyLittleEitherMonad
                 (s, v) => { a3(s, v); return Unit.Default; });
         }
 
-        public Task SwitchAsync(
-            Func<string, CancellationToken, Task> a1,
-            Func<int, CancellationToken, Task> a2,
-            Func<int?, CancellationToken, Task> a3,
-            CancellationToken cancellationToken = default)
+        public global::System.Threading.Tasks.Task SwitchAsync(
+            global::System.Func<string, global::System.Threading.CancellationToken, global::System.Threading.Tasks.Task> a1,
+            global::System.Func<int, global::System.Threading.CancellationToken, global::System.Threading.Tasks.Task> a2,
+            global::System.Func<int?, global::System.Threading.CancellationToken, global::System.Threading.Tasks.Task> a3,
+            global::System.Threading.CancellationToken cancellationToken = default)
         {
             return MatchAsync(
                 async (v, ct) => { await a1(v, ct); return Unit.Default; },
@@ -310,12 +302,12 @@ namespace MyLittleEither.MyLittleEitherMonad
                 cancellationToken);
         }
 
-        public Task SwitchAsync<TState>(
+        public global::System.Threading.Tasks.Task SwitchAsync<TState>(
             TState state,
-            Func<TState, string, CancellationToken, Task> a1,
-            Func<TState, int, CancellationToken, Task> a2,
-            Func<TState, int?, CancellationToken, Task> a3,
-            CancellationToken cancellationToken = default)
+            global::System.Func<TState, string, global::System.Threading.CancellationToken, global::System.Threading.Tasks.Task> a1,
+            global::System.Func<TState, int, global::System.Threading.CancellationToken, global::System.Threading.Tasks.Task> a2,
+            global::System.Func<TState, int?, global::System.Threading.CancellationToken, global::System.Threading.Tasks.Task> a3,
+            global::System.Threading.CancellationToken cancellationToken = default)
         {
             return MatchAsync(
                 state,

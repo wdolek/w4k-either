@@ -2,14 +2,6 @@
 
 #nullable enable
 
-using System;
-using System.Diagnostics.CodeAnalysis;
-using System.Diagnostics.Contracts;
-using System.Runtime.Serialization;
-using System.Threading;
-using System.Threading.Tasks;
-using W4k.Either;
-
 namespace MyLittleEither.MyLittleEitherMonad
 {
     public partial struct MyEither<TAny, TNullRef, TStruct, TNotNull, TObj, TIFace, TUnmanaged>
@@ -61,7 +53,7 @@ namespace MyLittleEither.MyLittleEitherMonad
 
         public MyEither(TNotNull value)
         {
-            ArgumentNullException.ThrowIfNull(value);
+            global::System.ArgumentNullException.ThrowIfNull(value);
             _idx = 4;
             _v1 = default;
             _v2 = default;
@@ -108,7 +100,7 @@ namespace MyLittleEither.MyLittleEitherMonad
             _v7 = value;
         }
 
-        [Pure]
+        [global::System.Diagnostics.Contracts.Pure]
         public object? Case
         {
             get
@@ -135,34 +127,34 @@ namespace MyLittleEither.MyLittleEitherMonad
             }
         }
 
-        [Pure]
+        [global::System.Diagnostics.Contracts.Pure]
         public static bool operator ==(MyLittleEither.MyLittleEitherMonad.MyEither<TAny, TNullRef, TStruct, TNotNull, TObj, TIFace, TUnmanaged> left, MyLittleEither.MyLittleEitherMonad.MyEither<TAny, TNullRef, TStruct, TNotNull, TObj, TIFace, TUnmanaged> right) => left.Equals(right);
 
-        [Pure]
+        [global::System.Diagnostics.Contracts.Pure]
         public static bool operator !=(MyLittleEither.MyLittleEitherMonad.MyEither<TAny, TNullRef, TStruct, TNotNull, TObj, TIFace, TUnmanaged> left, MyLittleEither.MyLittleEitherMonad.MyEither<TAny, TNullRef, TStruct, TNotNull, TObj, TIFace, TUnmanaged> right) => !(left == right);
 
-        [Pure]
+        [global::System.Diagnostics.Contracts.Pure]
         public static implicit operator MyLittleEither.MyLittleEitherMonad.MyEither<TAny, TNullRef, TStruct, TNotNull, TObj, TIFace, TUnmanaged>(TAny? value) => new(value);
 
-        [Pure]
+        [global::System.Diagnostics.Contracts.Pure]
         public static implicit operator MyLittleEither.MyLittleEitherMonad.MyEither<TAny, TNullRef, TStruct, TNotNull, TObj, TIFace, TUnmanaged>(TNullRef? value) => new(value);
 
-        [Pure]
+        [global::System.Diagnostics.Contracts.Pure]
         public static implicit operator MyLittleEither.MyLittleEitherMonad.MyEither<TAny, TNullRef, TStruct, TNotNull, TObj, TIFace, TUnmanaged>(TStruct value) => new(value);
 
-        [Pure]
+        [global::System.Diagnostics.Contracts.Pure]
         public static implicit operator MyLittleEither.MyLittleEitherMonad.MyEither<TAny, TNullRef, TStruct, TNotNull, TObj, TIFace, TUnmanaged>(TNotNull value) => new(value);
 
-        [Pure]
+        [global::System.Diagnostics.Contracts.Pure]
         public static implicit operator MyLittleEither.MyLittleEitherMonad.MyEither<TAny, TNullRef, TStruct, TNotNull, TObj, TIFace, TUnmanaged>(TObj? value) => new(value);
 
-        [Pure]
+        [global::System.Diagnostics.Contracts.Pure]
         public static implicit operator MyLittleEither.MyLittleEitherMonad.MyEither<TAny, TNullRef, TStruct, TNotNull, TObj, TIFace, TUnmanaged>(TIFace? value) => new(value);
 
-        [Pure]
+        [global::System.Diagnostics.Contracts.Pure]
         public static implicit operator MyLittleEither.MyLittleEitherMonad.MyEither<TAny, TNullRef, TStruct, TNotNull, TObj, TIFace, TUnmanaged>(TUnmanaged value) => new(value);
 
-        [Pure]
+        [global::System.Diagnostics.Contracts.Pure]
         public override int GetHashCode()
         {
             switch (_idx)
@@ -186,7 +178,7 @@ namespace MyLittleEither.MyLittleEitherMonad
             }
         }
 
-        [Pure]
+        [global::System.Diagnostics.Contracts.Pure]
         public override string ToString()
         {
             switch (_idx)
@@ -210,7 +202,7 @@ namespace MyLittleEither.MyLittleEitherMonad
             }
         }
 
-        [Pure]
+        [global::System.Diagnostics.Contracts.Pure]
         public override bool Equals(object? obj)
         {
             if (obj is not MyLittleEither.MyLittleEitherMonad.MyEither<TAny, TNullRef, TStruct, TNotNull, TObj, TIFace, TUnmanaged> other)
@@ -221,7 +213,7 @@ namespace MyLittleEither.MyLittleEitherMonad
             return Equals(other);
         }
 
-        [Pure]
+        [global::System.Diagnostics.Contracts.Pure]
         public bool Equals(MyLittleEither.MyLittleEitherMonad.MyEither<TAny, TNullRef, TStruct, TNotNull, TObj, TIFace, TUnmanaged> other)
         {
             if (_idx != other._idx)
@@ -250,7 +242,7 @@ namespace MyLittleEither.MyLittleEitherMonad
             }
         }
 
-        [Pure]
+        [global::System.Diagnostics.Contracts.Pure]
         public bool TryPick(out TAny? value)
         {
             if (_idx == 1)
@@ -263,7 +255,7 @@ namespace MyLittleEither.MyLittleEitherMonad
             return false;
         }
 
-        [Pure]
+        [global::System.Diagnostics.Contracts.Pure]
         public bool TryPick(out TNullRef? value)
         {
             if (_idx == 2)
@@ -276,7 +268,7 @@ namespace MyLittleEither.MyLittleEitherMonad
             return false;
         }
 
-        [Pure]
+        [global::System.Diagnostics.Contracts.Pure]
         public bool TryPick(out TStruct value)
         {
             if (_idx == 3)
@@ -289,8 +281,8 @@ namespace MyLittleEither.MyLittleEitherMonad
             return false;
         }
 
-        [Pure]
-        public bool TryPick([NotNullWhen(true)] out TNotNull? value)
+        [global::System.Diagnostics.Contracts.Pure]
+        public bool TryPick([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] out TNotNull? value)
         {
             if (_idx == 4)
             {
@@ -302,7 +294,7 @@ namespace MyLittleEither.MyLittleEitherMonad
             return false;
         }
 
-        [Pure]
+        [global::System.Diagnostics.Contracts.Pure]
         public bool TryPick(out TObj? value)
         {
             if (_idx == 5)
@@ -315,7 +307,7 @@ namespace MyLittleEither.MyLittleEitherMonad
             return false;
         }
 
-        [Pure]
+        [global::System.Diagnostics.Contracts.Pure]
         public bool TryPick(out TIFace? value)
         {
             if (_idx == 6)
@@ -328,7 +320,7 @@ namespace MyLittleEither.MyLittleEitherMonad
             return false;
         }
 
-        [Pure]
+        [global::System.Diagnostics.Contracts.Pure]
         public bool TryPick(out TUnmanaged value)
         {
             if (_idx == 7)
@@ -342,21 +334,21 @@ namespace MyLittleEither.MyLittleEitherMonad
         }
 
         public TResult Match<TResult>(
-            Func<TAny?, TResult> f1,
-            Func<TNullRef?, TResult> f2,
-            Func<TStruct, TResult> f3,
-            Func<TNotNull, TResult> f4,
-            Func<TObj?, TResult> f5,
-            Func<TIFace?, TResult> f6,
-            Func<TUnmanaged, TResult> f7)
+            global::System.Func<TAny?, TResult> f1,
+            global::System.Func<TNullRef?, TResult> f2,
+            global::System.Func<TStruct, TResult> f3,
+            global::System.Func<TNotNull, TResult> f4,
+            global::System.Func<TObj?, TResult> f5,
+            global::System.Func<TIFace?, TResult> f6,
+            global::System.Func<TUnmanaged, TResult> f7)
         {
-            ArgumentNullException.ThrowIfNull(f1);
-            ArgumentNullException.ThrowIfNull(f2);
-            ArgumentNullException.ThrowIfNull(f3);
-            ArgumentNullException.ThrowIfNull(f4);
-            ArgumentNullException.ThrowIfNull(f5);
-            ArgumentNullException.ThrowIfNull(f6);
-            ArgumentNullException.ThrowIfNull(f7);
+            global::System.ArgumentNullException.ThrowIfNull(f1);
+            global::System.ArgumentNullException.ThrowIfNull(f2);
+            global::System.ArgumentNullException.ThrowIfNull(f3);
+            global::System.ArgumentNullException.ThrowIfNull(f4);
+            global::System.ArgumentNullException.ThrowIfNull(f5);
+            global::System.ArgumentNullException.ThrowIfNull(f6);
+            global::System.ArgumentNullException.ThrowIfNull(f7);
 
             switch(_idx)
             {
@@ -381,21 +373,21 @@ namespace MyLittleEither.MyLittleEitherMonad
 
         public TResult Match<TState, TResult>(
             TState state,
-            Func<TState, TAny?, TResult> f1,
-            Func<TState, TNullRef?, TResult> f2,
-            Func<TState, TStruct, TResult> f3,
-            Func<TState, TNotNull, TResult> f4,
-            Func<TState, TObj?, TResult> f5,
-            Func<TState, TIFace?, TResult> f6,
-            Func<TState, TUnmanaged, TResult> f7)
+            global::System.Func<TState, TAny?, TResult> f1,
+            global::System.Func<TState, TNullRef?, TResult> f2,
+            global::System.Func<TState, TStruct, TResult> f3,
+            global::System.Func<TState, TNotNull, TResult> f4,
+            global::System.Func<TState, TObj?, TResult> f5,
+            global::System.Func<TState, TIFace?, TResult> f6,
+            global::System.Func<TState, TUnmanaged, TResult> f7)
         {
-            ArgumentNullException.ThrowIfNull(f1);
-            ArgumentNullException.ThrowIfNull(f2);
-            ArgumentNullException.ThrowIfNull(f3);
-            ArgumentNullException.ThrowIfNull(f4);
-            ArgumentNullException.ThrowIfNull(f5);
-            ArgumentNullException.ThrowIfNull(f6);
-            ArgumentNullException.ThrowIfNull(f7);
+            global::System.ArgumentNullException.ThrowIfNull(f1);
+            global::System.ArgumentNullException.ThrowIfNull(f2);
+            global::System.ArgumentNullException.ThrowIfNull(f3);
+            global::System.ArgumentNullException.ThrowIfNull(f4);
+            global::System.ArgumentNullException.ThrowIfNull(f5);
+            global::System.ArgumentNullException.ThrowIfNull(f6);
+            global::System.ArgumentNullException.ThrowIfNull(f7);
 
             switch(_idx)
             {
@@ -418,23 +410,23 @@ namespace MyLittleEither.MyLittleEitherMonad
             }
         }
 
-        public Task<TResult> MatchAsync<TResult>(
-            Func<TAny?, CancellationToken, Task<TResult>> f1,
-            Func<TNullRef?, CancellationToken, Task<TResult>> f2,
-            Func<TStruct, CancellationToken, Task<TResult>> f3,
-            Func<TNotNull, CancellationToken, Task<TResult>> f4,
-            Func<TObj?, CancellationToken, Task<TResult>> f5,
-            Func<TIFace?, CancellationToken, Task<TResult>> f6,
-            Func<TUnmanaged, CancellationToken, Task<TResult>> f7,
-            CancellationToken cancellationToken = default)
+        public global::System.Threading.Tasks.Task<TResult> MatchAsync<TResult>(
+            global::System.Func<TAny?, global::System.Threading.CancellationToken, global::System.Threading.Tasks.Task<TResult>> f1,
+            global::System.Func<TNullRef?, global::System.Threading.CancellationToken, global::System.Threading.Tasks.Task<TResult>> f2,
+            global::System.Func<TStruct, global::System.Threading.CancellationToken, global::System.Threading.Tasks.Task<TResult>> f3,
+            global::System.Func<TNotNull, global::System.Threading.CancellationToken, global::System.Threading.Tasks.Task<TResult>> f4,
+            global::System.Func<TObj?, global::System.Threading.CancellationToken, global::System.Threading.Tasks.Task<TResult>> f5,
+            global::System.Func<TIFace?, global::System.Threading.CancellationToken, global::System.Threading.Tasks.Task<TResult>> f6,
+            global::System.Func<TUnmanaged, global::System.Threading.CancellationToken, global::System.Threading.Tasks.Task<TResult>> f7,
+            global::System.Threading.CancellationToken cancellationToken = default)
         {
-            ArgumentNullException.ThrowIfNull(f1);
-            ArgumentNullException.ThrowIfNull(f2);
-            ArgumentNullException.ThrowIfNull(f3);
-            ArgumentNullException.ThrowIfNull(f4);
-            ArgumentNullException.ThrowIfNull(f5);
-            ArgumentNullException.ThrowIfNull(f6);
-            ArgumentNullException.ThrowIfNull(f7);
+            global::System.ArgumentNullException.ThrowIfNull(f1);
+            global::System.ArgumentNullException.ThrowIfNull(f2);
+            global::System.ArgumentNullException.ThrowIfNull(f3);
+            global::System.ArgumentNullException.ThrowIfNull(f4);
+            global::System.ArgumentNullException.ThrowIfNull(f5);
+            global::System.ArgumentNullException.ThrowIfNull(f6);
+            global::System.ArgumentNullException.ThrowIfNull(f7);
 
             switch(_idx)
             {
@@ -453,28 +445,28 @@ namespace MyLittleEither.MyLittleEitherMonad
                 case 7:
                     return f7(_v7, cancellationToken);
                 default:
-                    return ThrowHelper.ThrowOnInvalidState<Task<TResult>>();
+                    return ThrowHelper.ThrowOnInvalidState<global::System.Threading.Tasks.Task<TResult>>();
             }
         }
 
-        public Task<TResult> MatchAsync<TState, TResult>(
+        public global::System.Threading.Tasks.Task<TResult> MatchAsync<TState, TResult>(
             TState state,
-            Func<TState, TAny?, CancellationToken, Task<TResult>> f1,
-            Func<TState, TNullRef?, CancellationToken, Task<TResult>> f2,
-            Func<TState, TStruct, CancellationToken, Task<TResult>> f3,
-            Func<TState, TNotNull, CancellationToken, Task<TResult>> f4,
-            Func<TState, TObj?, CancellationToken, Task<TResult>> f5,
-            Func<TState, TIFace?, CancellationToken, Task<TResult>> f6,
-            Func<TState, TUnmanaged, CancellationToken, Task<TResult>> f7,
-            CancellationToken cancellationToken = default)
+            global::System.Func<TState, TAny?, global::System.Threading.CancellationToken, global::System.Threading.Tasks.Task<TResult>> f1,
+            global::System.Func<TState, TNullRef?, global::System.Threading.CancellationToken, global::System.Threading.Tasks.Task<TResult>> f2,
+            global::System.Func<TState, TStruct, global::System.Threading.CancellationToken, global::System.Threading.Tasks.Task<TResult>> f3,
+            global::System.Func<TState, TNotNull, global::System.Threading.CancellationToken, global::System.Threading.Tasks.Task<TResult>> f4,
+            global::System.Func<TState, TObj?, global::System.Threading.CancellationToken, global::System.Threading.Tasks.Task<TResult>> f5,
+            global::System.Func<TState, TIFace?, global::System.Threading.CancellationToken, global::System.Threading.Tasks.Task<TResult>> f6,
+            global::System.Func<TState, TUnmanaged, global::System.Threading.CancellationToken, global::System.Threading.Tasks.Task<TResult>> f7,
+            global::System.Threading.CancellationToken cancellationToken = default)
         {
-            ArgumentNullException.ThrowIfNull(f1);
-            ArgumentNullException.ThrowIfNull(f2);
-            ArgumentNullException.ThrowIfNull(f3);
-            ArgumentNullException.ThrowIfNull(f4);
-            ArgumentNullException.ThrowIfNull(f5);
-            ArgumentNullException.ThrowIfNull(f6);
-            ArgumentNullException.ThrowIfNull(f7);
+            global::System.ArgumentNullException.ThrowIfNull(f1);
+            global::System.ArgumentNullException.ThrowIfNull(f2);
+            global::System.ArgumentNullException.ThrowIfNull(f3);
+            global::System.ArgumentNullException.ThrowIfNull(f4);
+            global::System.ArgumentNullException.ThrowIfNull(f5);
+            global::System.ArgumentNullException.ThrowIfNull(f6);
+            global::System.ArgumentNullException.ThrowIfNull(f7);
 
             switch(_idx)
             {
@@ -493,18 +485,18 @@ namespace MyLittleEither.MyLittleEitherMonad
                 case 7:
                     return f7(state, _v7, cancellationToken);
                 default:
-                    return ThrowHelper.ThrowOnInvalidState<Task<TResult>>();
+                    return ThrowHelper.ThrowOnInvalidState<global::System.Threading.Tasks.Task<TResult>>();
             }
         }
 
         public void Switch(
-            Action<TAny?> a1,
-            Action<TNullRef?> a2,
-            Action<TStruct> a3,
-            Action<TNotNull> a4,
-            Action<TObj?> a5,
-            Action<TIFace?> a6,
-            Action<TUnmanaged> a7)
+            global::System.Action<TAny?> a1,
+            global::System.Action<TNullRef?> a2,
+            global::System.Action<TStruct> a3,
+            global::System.Action<TNotNull> a4,
+            global::System.Action<TObj?> a5,
+            global::System.Action<TIFace?> a6,
+            global::System.Action<TUnmanaged> a7)
         {
             Match(
                 v => { a1(v); return Unit.Default; },
@@ -518,13 +510,13 @@ namespace MyLittleEither.MyLittleEitherMonad
 
         public void Switch<TState>(
             TState state,
-            Action<TState, TAny?> a1,
-            Action<TState, TNullRef?> a2,
-            Action<TState, TStruct> a3,
-            Action<TState, TNotNull> a4,
-            Action<TState, TObj?> a5,
-            Action<TState, TIFace?> a6,
-            Action<TState, TUnmanaged> a7)
+            global::System.Action<TState, TAny?> a1,
+            global::System.Action<TState, TNullRef?> a2,
+            global::System.Action<TState, TStruct> a3,
+            global::System.Action<TState, TNotNull> a4,
+            global::System.Action<TState, TObj?> a5,
+            global::System.Action<TState, TIFace?> a6,
+            global::System.Action<TState, TUnmanaged> a7)
         {
             Match(
                 state,
@@ -537,15 +529,15 @@ namespace MyLittleEither.MyLittleEitherMonad
                 (s, v) => { a7(s, v); return Unit.Default; });
         }
 
-        public Task SwitchAsync(
-            Func<TAny?, CancellationToken, Task> a1,
-            Func<TNullRef?, CancellationToken, Task> a2,
-            Func<TStruct, CancellationToken, Task> a3,
-            Func<TNotNull, CancellationToken, Task> a4,
-            Func<TObj?, CancellationToken, Task> a5,
-            Func<TIFace?, CancellationToken, Task> a6,
-            Func<TUnmanaged, CancellationToken, Task> a7,
-            CancellationToken cancellationToken = default)
+        public global::System.Threading.Tasks.Task SwitchAsync(
+            global::System.Func<TAny?, global::System.Threading.CancellationToken, global::System.Threading.Tasks.Task> a1,
+            global::System.Func<TNullRef?, global::System.Threading.CancellationToken, global::System.Threading.Tasks.Task> a2,
+            global::System.Func<TStruct, global::System.Threading.CancellationToken, global::System.Threading.Tasks.Task> a3,
+            global::System.Func<TNotNull, global::System.Threading.CancellationToken, global::System.Threading.Tasks.Task> a4,
+            global::System.Func<TObj?, global::System.Threading.CancellationToken, global::System.Threading.Tasks.Task> a5,
+            global::System.Func<TIFace?, global::System.Threading.CancellationToken, global::System.Threading.Tasks.Task> a6,
+            global::System.Func<TUnmanaged, global::System.Threading.CancellationToken, global::System.Threading.Tasks.Task> a7,
+            global::System.Threading.CancellationToken cancellationToken = default)
         {
             return MatchAsync(
                 async (v, ct) => { await a1(v, ct); return Unit.Default; },
@@ -558,16 +550,16 @@ namespace MyLittleEither.MyLittleEitherMonad
                 cancellationToken);
         }
 
-        public Task SwitchAsync<TState>(
+        public global::System.Threading.Tasks.Task SwitchAsync<TState>(
             TState state,
-            Func<TState, TAny?, CancellationToken, Task> a1,
-            Func<TState, TNullRef?, CancellationToken, Task> a2,
-            Func<TState, TStruct, CancellationToken, Task> a3,
-            Func<TState, TNotNull, CancellationToken, Task> a4,
-            Func<TState, TObj?, CancellationToken, Task> a5,
-            Func<TState, TIFace?, CancellationToken, Task> a6,
-            Func<TState, TUnmanaged, CancellationToken, Task> a7,
-            CancellationToken cancellationToken = default)
+            global::System.Func<TState, TAny?, global::System.Threading.CancellationToken, global::System.Threading.Tasks.Task> a1,
+            global::System.Func<TState, TNullRef?, global::System.Threading.CancellationToken, global::System.Threading.Tasks.Task> a2,
+            global::System.Func<TState, TStruct, global::System.Threading.CancellationToken, global::System.Threading.Tasks.Task> a3,
+            global::System.Func<TState, TNotNull, global::System.Threading.CancellationToken, global::System.Threading.Tasks.Task> a4,
+            global::System.Func<TState, TObj?, global::System.Threading.CancellationToken, global::System.Threading.Tasks.Task> a5,
+            global::System.Func<TState, TIFace?, global::System.Threading.CancellationToken, global::System.Threading.Tasks.Task> a6,
+            global::System.Func<TState, TUnmanaged, global::System.Threading.CancellationToken, global::System.Threading.Tasks.Task> a7,
+            global::System.Threading.CancellationToken cancellationToken = default)
         {
             return MatchAsync(
                 state,
