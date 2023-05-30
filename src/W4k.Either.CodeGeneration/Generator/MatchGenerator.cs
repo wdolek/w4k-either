@@ -29,7 +29,7 @@ internal class MatchGenerator : IMemberCodeGenerator
         // parameters
         foreach (var typeParam in typeParams)
         {
-            writer.AppendIndented($"    Func<{typeParam.AsArgument}, TResult> f{typeParam.Index}");
+            writer.AppendIndented($"    global::System.Func<{typeParam.AsArgument}, TResult> f{typeParam.Index}");
             writer.Append(
                 typeParam.Index < arity
                     ? ","
@@ -43,7 +43,7 @@ internal class MatchGenerator : IMemberCodeGenerator
         // null checks
         for (var i = 1; i <= arity; i++)
         {
-            writer.AppendIndentedLine($"    ArgumentNullException.ThrowIfNull(f{i});");
+            writer.AppendIndentedLine($"    global::System.ArgumentNullException.ThrowIfNull(f{i});");
         }
 
         writer.AppendLineBreak();
@@ -76,7 +76,7 @@ internal class MatchGenerator : IMemberCodeGenerator
         writer.AppendIndentedLine("    TState state,");
         foreach (var typeParam in typeParams)
         {
-            writer.AppendIndented($"    Func<TState, {typeParam.AsArgument}, TResult> f{typeParam.Index}");
+            writer.AppendIndented($"    global::System.Func<TState, {typeParam.AsArgument}, TResult> f{typeParam.Index}");
             writer.Append(
                 typeParam.Index < arity
                     ? ","
@@ -89,7 +89,7 @@ internal class MatchGenerator : IMemberCodeGenerator
         // null checks
         for (var i = 1; i <= arity; i++)
         {
-            writer.AppendIndentedLine($"    ArgumentNullException.ThrowIfNull(f{i});");
+            writer.AppendIndentedLine($"    global::System.ArgumentNullException.ThrowIfNull(f{i});");
         }
 
         writer.AppendLineBreak();
@@ -116,21 +116,21 @@ internal class MatchGenerator : IMemberCodeGenerator
         var typeParams = _context.TypeParameters;
         var arity = typeParams.Length;
 
-        writer.AppendIndentedLine("public Task<TResult> MatchAsync<TResult>(");
+        writer.AppendIndentedLine("public global::System.Threading.Tasks.Task<TResult> MatchAsync<TResult>(");
 
         // parameters
         foreach (var typeParam in typeParams)
         {
-            writer.AppendIndentedLine($"    Func<{typeParam.AsArgument}, CancellationToken, Task<TResult>> f{typeParam.Index},");
+            writer.AppendIndentedLine($"    global::System.Func<{typeParam.AsArgument}, global::System.Threading.CancellationToken, global::System.Threading.Tasks.Task<TResult>> f{typeParam.Index},");
         }
 
-        writer.AppendIndentedLine("    CancellationToken cancellationToken = default)");
+        writer.AppendIndentedLine("    global::System.Threading.CancellationToken cancellationToken = default)");
         writer.AppendIndentedLine("{");
 
         // null checks
         for (var i = 1; i <= arity; i++)
         {
-            writer.AppendIndentedLine($"    ArgumentNullException.ThrowIfNull(f{i});");
+            writer.AppendIndentedLine($"    global::System.ArgumentNullException.ThrowIfNull(f{i});");
         }
 
         writer.AppendLineBreak();
@@ -146,7 +146,7 @@ internal class MatchGenerator : IMemberCodeGenerator
         }        
 
         writer.AppendIndentedLine("        default:");
-        writer.AppendIndentedLine("            return ThrowHelper.ThrowOnInvalidState<Task<TResult>>();");
+        writer.AppendIndentedLine("            return ThrowHelper.ThrowOnInvalidState<global::System.Threading.Tasks.Task<TResult>>();");
         writer.AppendIndentedLine("    }");
         writer.AppendIndentedLine("}");
         writer.AppendLineBreak();
@@ -157,22 +157,22 @@ internal class MatchGenerator : IMemberCodeGenerator
         var typeParams = _context.TypeParameters;
         var arity = typeParams.Length;
 
-        writer.AppendIndentedLine("public Task<TResult> MatchAsync<TState, TResult>(");
+        writer.AppendIndentedLine("public global::System.Threading.Tasks.Task<TResult> MatchAsync<TState, TResult>(");
 
         // parameters
         writer.AppendIndentedLine("    TState state,");
         foreach (var typeParam in typeParams)
         {
-            writer.AppendIndentedLine($"    Func<TState, {typeParam.AsArgument}, CancellationToken, Task<TResult>> f{typeParam.Index},");
+            writer.AppendIndentedLine($"    global::System.Func<TState, {typeParam.AsArgument}, global::System.Threading.CancellationToken, global::System.Threading.Tasks.Task<TResult>> f{typeParam.Index},");
         }
 
-        writer.AppendIndentedLine("    CancellationToken cancellationToken = default)");
+        writer.AppendIndentedLine("    global::System.Threading.CancellationToken cancellationToken = default)");
         writer.AppendIndentedLine("{");
 
         // null checks
         for (var i = 1; i <= arity; i++)
         {
-            writer.AppendIndentedLine($"    ArgumentNullException.ThrowIfNull(f{i});");
+            writer.AppendIndentedLine($"    global::System.ArgumentNullException.ThrowIfNull(f{i});");
         }
 
         writer.AppendLineBreak();
@@ -188,7 +188,7 @@ internal class MatchGenerator : IMemberCodeGenerator
         }
 
         writer.AppendIndentedLine("        default:");
-        writer.AppendIndentedLine("            return ThrowHelper.ThrowOnInvalidState<Task<TResult>>();");
+        writer.AppendIndentedLine("            return ThrowHelper.ThrowOnInvalidState<global::System.Threading.Tasks.Task<TResult>>();");
         writer.AppendIndentedLine("    }");
         writer.AppendIndentedLine("}");
         writer.AppendLineBreak();

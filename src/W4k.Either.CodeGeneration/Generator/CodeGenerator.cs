@@ -26,7 +26,6 @@ internal class CodeGenerator
     public void Generate(IndentedWriter writer)
     {
         GenerateFileHeader(writer);
-        GenerateUsing(writer);
         GenerateNamespace(writer);
     }
 
@@ -37,18 +36,6 @@ internal class CodeGenerator
         writer.AppendIndentedLine("#nullable enable");
         writer.AppendLineBreak();
     }
-
-    private static void GenerateUsing(IndentedWriter writer)
-    {
-        writer.AppendIndentedLine("using System;");
-        writer.AppendIndentedLine("using System.Diagnostics.CodeAnalysis;");
-        writer.AppendIndentedLine("using System.Diagnostics.Contracts;");
-        writer.AppendIndentedLine("using System.Runtime.Serialization;");
-        writer.AppendIndentedLine("using System.Threading;");
-        writer.AppendIndentedLine("using System.Threading.Tasks;");
-        writer.AppendIndentedLine("using W4k.Either;");
-        writer.AppendLineBreak();
-    }    
     
     private void GenerateNamespace(IndentedWriter writer)
     {

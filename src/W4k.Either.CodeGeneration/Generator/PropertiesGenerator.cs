@@ -13,7 +13,7 @@ internal class PropertiesGenerator : IMemberCodeGenerator
 
     public void Generate(IndentedWriter sb)
     {
-        sb.AppendIndentedLine("[Pure]");
+        sb.AppendIndentedLine("[global::System.Diagnostics.Contracts.Pure]");
         sb.AppendIndentedLine("public object? Case");
         sb.AppendIndentedLine("{");
         sb.AppendIndentedLine("    get");

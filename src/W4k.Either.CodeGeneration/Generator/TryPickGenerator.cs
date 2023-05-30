@@ -16,10 +16,10 @@ internal class TryPickGenerator : IMemberCodeGenerator
         foreach (var typeParam in _context.TypeParameters)
         {
             var notNullWhenTrue = typeParam.IsNonNullableReferenceType
-                ? "[NotNullWhen(true)] "
+                ? "[global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] "
                 : string.Empty;
 
-            writer.AppendIndentedLine("[Pure]");
+            writer.AppendIndentedLine("[global::System.Diagnostics.Contracts.Pure]");
             writer.AppendIndentedLine($"public bool TryPick({notNullWhenTrue}out {typeParam.AsFieldType} value)");
             writer.AppendIndentedLine("{");
             writer.AppendIndentedLine($"    if (_idx == {typeParam.Index})");

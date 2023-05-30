@@ -65,7 +65,7 @@ internal class ConstructorsGenerator : IMemberCodeGenerator
 
             if (typeParam.IsNonNullableReferenceType)
             {
-                writer.AppendIndentedLine("    ArgumentNullException.ThrowIfNull(value);");                
+                writer.AppendIndentedLine("    global::System.ArgumentNullException.ThrowIfNull(value);");                
             }
 
             writer.AppendIndentedLine($"    _idx = {typeParam.Index};");

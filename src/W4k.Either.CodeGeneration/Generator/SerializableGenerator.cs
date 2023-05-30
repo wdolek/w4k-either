@@ -141,7 +141,7 @@ internal class SerializableGenerator : IMemberCodeGenerator
             ? "private"
             : "protected";
 
-        sb.AppendIndentedLine($"{accessModifier} {_context.TypeDeclaration.TypeSymbol.Name}(SerializationInfo info, StreamingContext context)");
+        sb.AppendIndentedLine($"{accessModifier} {_context.TypeDeclaration.TypeSymbol.Name}(global::{SerializationInfoTypeName} info, global::{StreamingContextTypeName} context)");
         sb.AppendIndentedLine("{");
         sb.AppendIndentedLine("    _idx = info.GetByte(nameof(_idx));");
         sb.AppendIndentedLine("    switch (_idx)");
@@ -183,7 +183,7 @@ internal class SerializableGenerator : IMemberCodeGenerator
 
     private void GenerateGetObjectData(IndentedWriter writer)
     {
-        writer.AppendIndentedLine("void ISerializable.GetObjectData(SerializationInfo info, StreamingContext context)");
+        writer.AppendIndentedLine($"void global::{SerializableInterfaceName}.GetObjectData(global::{SerializationInfoTypeName} info, global::{StreamingContextTypeName} context)");
         writer.AppendIndentedLine("{");
         writer.AppendIndentedLine("    info.AddValue(\"_idx\", _idx);");
         writer.AppendIndentedLine("    switch (_idx)");

@@ -20,7 +20,7 @@ internal class ObjectOverridesGenerator : IMemberCodeGenerator
     
     private void WriteGetHashCode(IndentedWriter writer)
     {
-        writer.AppendIndentedLine("[Pure]");
+        writer.AppendIndentedLine("[global::System.Diagnostics.Contracts.Pure]");
         writer.AppendIndentedLine("public override int GetHashCode()");
         writer.AppendIndentedLine("{");
         writer.AppendIndentedLine("    switch (_idx)");
@@ -44,7 +44,7 @@ internal class ObjectOverridesGenerator : IMemberCodeGenerator
     
     private void WriteToString(IndentedWriter writer)
     {
-        writer.AppendIndentedLine("[Pure]");
+        writer.AppendIndentedLine("[global::System.Diagnostics.Contracts.Pure]");
         writer.AppendIndentedLine("public override string ToString()");
         writer.AppendIndentedLine("{");
         writer.AppendIndentedLine("    switch (_idx)");
@@ -65,7 +65,7 @@ internal class ObjectOverridesGenerator : IMemberCodeGenerator
 
     private void WriteObjectEquals(IndentedWriter writer)
     {
-        writer.AppendIndentedLine("[Pure]");
+        writer.AppendIndentedLine("[global::System.Diagnostics.Contracts.Pure]");
         writer.AppendIndentedLine("public override bool Equals(object? obj)");
         writer.AppendIndentedLine("{");
         writer.AppendIndentedLine($"    if (obj is not {_context.TypeDeclaration.TypeSymbol.ToDisplayString()} other)");

@@ -24,7 +24,7 @@ internal class EquatableGenerator : IMemberCodeGenerator
 
     public void Generate(IndentedWriter writer)
     {
-        writer.AppendIndentedLine("[Pure]");
+        writer.AppendIndentedLine("[global::System.Diagnostics.Contracts.Pure]");
         writer.AppendIndentedLine($"public bool Equals({_context.TypeDeclaration.TypeSymbol.ToDisplayString()} other)");
         writer.AppendIndentedLine("{");
 
