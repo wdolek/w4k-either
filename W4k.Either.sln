@@ -29,6 +29,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution", "Solution", "{26
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "W4k.Either.CodeGeneration.IntegrationTests", "tests\W4k.Either.CodeGeneration.IntegrationTests\W4k.Either.CodeGeneration.IntegrationTests.csproj", "{8EFA14E0-FA66-4CA8-9E70-BC4D39B4C9D7}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docs", "docs", "{CF4A053F-B084-4062-85D2-7F51CF6BF676}"
+	ProjectSection(SolutionItems) = preProject
+		docs\notes.md = docs\notes.md
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
