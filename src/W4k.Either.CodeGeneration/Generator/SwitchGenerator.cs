@@ -42,7 +42,7 @@ internal class SwitchGenerator : IMemberCodeGenerator
 
         for (var i = 1; i <= arity; i++)
         {
-            writer.AppendIndented($"        v => {{ a{i}(v); return Unit.Default; }}");
+            writer.AppendIndented($"        v => {{ a{i}(v); return global::W4k.Either.Unit.Default; }}");
             writer.Append(
                 i < arity
                     ? ","
@@ -79,7 +79,7 @@ internal class SwitchGenerator : IMemberCodeGenerator
 
         for (var i = 1; i <= arity; i++)
         {
-            writer.AppendIndented($"        (s, v) => {{ a{i}(s, v); return Unit.Default; }}");
+            writer.AppendIndented($"        (s, v) => {{ a{i}(s, v); return global::W4k.Either.Unit.Default; }}");
             writer.Append(
                 i < arity
                     ? ","
@@ -110,7 +110,7 @@ internal class SwitchGenerator : IMemberCodeGenerator
 
         for (var i = 1; i <= arity; i++)
         {
-            writer.AppendIndentedLine($"        async (v, ct) => {{ await a{i}(v, ct); return Unit.Default; }},");
+            writer.AppendIndentedLine($"        async (v, ct) => {{ await a{i}(v, ct); return global::W4k.Either.Unit.Default; }},");
         }
 
         writer.AppendIndentedLine("        cancellationToken);");
@@ -139,7 +139,7 @@ internal class SwitchGenerator : IMemberCodeGenerator
 
         for (var i = 1; i <= arity; i++)
         {
-            writer.AppendIndentedLine($"        async (s, v, ct) => {{ await a{i}(s, v, ct); return Unit.Default; }},");
+            writer.AppendIndentedLine($"        async (s, v, ct) => {{ await a{i}(s, v, ct); return global::W4k.Either.Unit.Default; }},");
         }
 
         writer.AppendIndentedLine("        cancellationToken);");

@@ -5,7 +5,7 @@
   </ItemGroup>
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
+    <TargetFrameworks>netstandard2.0;net6.0</TargetFrameworks>
     <LangVersion>latest</LangVersion>
     <Nullable>enable</Nullable>
     <ImplicitUsings>disable</ImplicitUsings>
@@ -28,9 +28,12 @@
 
   <PropertyGroup>
     <IncludeBuildOutput>false</IncludeBuildOutput>
+    <IsRoslynComponent>true</IsRoslynComponent>
+    <AppendTargetFrameworkToOutputPath>true</AppendTargetFrameworkToOutputPath>
   </PropertyGroup>
 
   <PropertyGroup>
+    <SuppressTfmSupportBuildWarnings>true</SuppressTfmSupportBuildWarnings>
     <EnforceExtendedAnalyzerRules>true</EnforceExtendedAnalyzerRules>
   </PropertyGroup>
 
@@ -48,14 +51,21 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="$(OutputPath)\$(AssemblyName).dll" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false" />
-    <None Include="$(OutputPath)\$(AssemblyName).pdb" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false" />
-    <None Include="$(OutputPath)\W4k.Either.Abstractions.dll" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false" />
-    <None Include="$(OutputPath)\W4k.Either.Abstractions.pdb" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false" />
-    <None Include="$(OutputPath)\W4k.Either.Abstractions.xml" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false" />
-    <None Include="$(OutputPath)\$(AssemblyName).dll" Pack="true" PackagePath="lib\netstandard2.0" Visible="true" />
-    <None Include="$(OutputPath)\$(AssemblyName).pdb" Pack="true" PackagePath="lib\netstandard2.0" Visible="true" />
-    <None Include="$(OutputPath)\$(AssemblyName).xml" Pack="true" PackagePath="lib\netstandard2.0" Visible="true" />
+    <!-- Analyzer -->
+    <None Include="$(OutputPath)\netstandard2.0\$(AssemblyName).dll" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false" />
+    <None Include="$(OutputPath)\netstandard2.0\$(AssemblyName).pdb" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false" />
+    <None Include="$(OutputPath)\netstandard2.0\$(AssemblyName).xml" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false" />
+    <None Include="$(OutputPath)\netstandard2.0\W4k.Either.Abstractions.dll" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false" />
+    <None Include="$(OutputPath)\netstandard2.0\W4k.Either.Abstractions.pdb" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false" />
+    <None Include="$(OutputPath)\netstandard2.0\W4k.Either.Abstractions.xml" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false" />
+    
+    <!-- Library -->
+    <None Include="$(OutputPath)\netstandard2.0\$(AssemblyName).dll" Pack="true" PackagePath="lib\netstandard2.0" Visible="true" />
+    <None Include="$(OutputPath)\netstandard2.0\$(AssemblyName).pdb" Pack="true" PackagePath="lib\netstandard2.0" Visible="true" />
+    <None Include="$(OutputPath)\netstandard2.0\$(AssemblyName).xml" Pack="true" PackagePath="lib\netstandard2.0" Visible="true" />
+    <None Include="$(OutputPath)\net6.0\W4k.Either.Abstractions.dll" Pack="true" PackagePath="lib\net6.0" Visible="true" />
+    <None Include="$(OutputPath)\net6.0\W4k.Either.Abstractions.pdb" Pack="true" PackagePath="lib\net6.0" Visible="true" />
+    <None Include="$(OutputPath)\net6.0\W4k.Either.Abstractions.xml" Pack="true" PackagePath="lib\net6.0" Visible="true" />
   </ItemGroup>
 
 </Project>

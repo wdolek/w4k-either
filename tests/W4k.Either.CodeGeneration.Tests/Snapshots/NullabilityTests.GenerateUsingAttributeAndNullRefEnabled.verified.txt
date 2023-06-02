@@ -50,7 +50,7 @@ namespace MyLittleEither.MyLittleEitherMonad
                     case 3:
                         return _v3;
                     default:
-                        return ThrowHelper.ThrowOnInvalidState<object?>();
+                        return global::W4k.Either.ThrowHelper.ThrowOnInvalidState<object?>();
                 }
             }
         }
@@ -82,7 +82,7 @@ namespace MyLittleEither.MyLittleEitherMonad
                 case 3:
                     return _v3?.GetHashCode() ?? 0;
                 default:
-                    return ThrowHelper.ThrowOnInvalidState<int>();
+                    return global::W4k.Either.ThrowHelper.ThrowOnInvalidState<int>();
             }
         }
 
@@ -98,7 +98,7 @@ namespace MyLittleEither.MyLittleEitherMonad
                 case 3:
                     return _v3?.ToString() ?? string.Empty;
                 default:
-                    return ThrowHelper.ThrowOnInvalidState<string>();
+                    return global::W4k.Either.ThrowHelper.ThrowOnInvalidState<string>();
             }
         }
 
@@ -130,7 +130,7 @@ namespace MyLittleEither.MyLittleEitherMonad
                 case 3:
                     return _v3?.Equals(other._v3) ?? false;
                 default:
-                    return ThrowHelper.ThrowOnInvalidState<bool>();
+                    return global::W4k.Either.ThrowHelper.ThrowOnInvalidState<bool>();
             }
         }
 
@@ -191,7 +191,7 @@ namespace MyLittleEither.MyLittleEitherMonad
                 case 3:
                     return f3(_v3);
                 default:
-                    return ThrowHelper.ThrowOnInvalidState<TResult>();
+                    return global::W4k.Either.ThrowHelper.ThrowOnInvalidState<TResult>();
             }
         }
 
@@ -214,7 +214,7 @@ namespace MyLittleEither.MyLittleEitherMonad
                 case 3:
                     return f3(state, _v3);
                 default:
-                    return ThrowHelper.ThrowOnInvalidState<TResult>();
+                    return global::W4k.Either.ThrowHelper.ThrowOnInvalidState<TResult>();
             }
         }
 
@@ -237,7 +237,7 @@ namespace MyLittleEither.MyLittleEitherMonad
                 case 3:
                     return f3(_v3, cancellationToken);
                 default:
-                    return ThrowHelper.ThrowOnInvalidState<global::System.Threading.Tasks.Task<TResult>>();
+                    return global::W4k.Either.ThrowHelper.ThrowOnInvalidState<global::System.Threading.Tasks.Task<TResult>>();
             }
         }
 
@@ -261,7 +261,7 @@ namespace MyLittleEither.MyLittleEitherMonad
                 case 3:
                     return f3(state, _v3, cancellationToken);
                 default:
-                    return ThrowHelper.ThrowOnInvalidState<global::System.Threading.Tasks.Task<TResult>>();
+                    return global::W4k.Either.ThrowHelper.ThrowOnInvalidState<global::System.Threading.Tasks.Task<TResult>>();
             }
         }
 
@@ -271,9 +271,9 @@ namespace MyLittleEither.MyLittleEitherMonad
             global::System.Action<int?> a3)
         {
             Match(
-                v => { a1(v); return Unit.Default; },
-                v => { a2(v); return Unit.Default; },
-                v => { a3(v); return Unit.Default; });
+                v => { a1(v); return global::W4k.Either.Unit.Default; },
+                v => { a2(v); return global::W4k.Either.Unit.Default; },
+                v => { a3(v); return global::W4k.Either.Unit.Default; });
         }
 
         public void Switch<TState>(
@@ -284,9 +284,9 @@ namespace MyLittleEither.MyLittleEitherMonad
         {
             Match(
                 state,
-                (s, v) => { a1(s, v); return Unit.Default; },
-                (s, v) => { a2(s, v); return Unit.Default; },
-                (s, v) => { a3(s, v); return Unit.Default; });
+                (s, v) => { a1(s, v); return global::W4k.Either.Unit.Default; },
+                (s, v) => { a2(s, v); return global::W4k.Either.Unit.Default; },
+                (s, v) => { a3(s, v); return global::W4k.Either.Unit.Default; });
         }
 
         public global::System.Threading.Tasks.Task SwitchAsync(
@@ -296,9 +296,9 @@ namespace MyLittleEither.MyLittleEitherMonad
             global::System.Threading.CancellationToken cancellationToken = default)
         {
             return MatchAsync(
-                async (v, ct) => { await a1(v, ct); return Unit.Default; },
-                async (v, ct) => { await a2(v, ct); return Unit.Default; },
-                async (v, ct) => { await a3(v, ct); return Unit.Default; },
+                async (v, ct) => { await a1(v, ct); return global::W4k.Either.Unit.Default; },
+                async (v, ct) => { await a2(v, ct); return global::W4k.Either.Unit.Default; },
+                async (v, ct) => { await a3(v, ct); return global::W4k.Either.Unit.Default; },
                 cancellationToken);
         }
 
@@ -311,9 +311,9 @@ namespace MyLittleEither.MyLittleEitherMonad
         {
             return MatchAsync(
                 state,
-                async (s, v, ct) => { await a1(s, v, ct); return Unit.Default; },
-                async (s, v, ct) => { await a2(s, v, ct); return Unit.Default; },
-                async (s, v, ct) => { await a3(s, v, ct); return Unit.Default; },
+                async (s, v, ct) => { await a1(s, v, ct); return global::W4k.Either.Unit.Default; },
+                async (s, v, ct) => { await a2(s, v, ct); return global::W4k.Either.Unit.Default; },
+                async (s, v, ct) => { await a3(s, v, ct); return global::W4k.Either.Unit.Default; },
                 cancellationToken);
         }
     }

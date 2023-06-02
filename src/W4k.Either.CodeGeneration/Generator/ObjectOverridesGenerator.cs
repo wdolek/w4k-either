@@ -36,7 +36,7 @@ internal class ObjectOverridesGenerator : IMemberCodeGenerator
         }
         
         writer.AppendIndentedLine("        default:");
-        writer.AppendIndentedLine("            return ThrowHelper.ThrowOnInvalidState<int>();");
+        writer.AppendIndentedLine("            return global::W4k.Either.ThrowHelper.ThrowOnInvalidState<int>();");
         writer.AppendIndentedLine("    }");
         writer.AppendIndentedLine("}");
         writer.AppendLineBreak();
@@ -57,7 +57,7 @@ internal class ObjectOverridesGenerator : IMemberCodeGenerator
         }
         
         writer.AppendIndentedLine("        default:");
-        writer.AppendIndentedLine("            return ThrowHelper.ThrowOnInvalidState<string>();");
+        writer.AppendIndentedLine("            return global::W4k.Either.ThrowHelper.ThrowOnInvalidState<string>();");
         writer.AppendIndentedLine("    }");
         writer.AppendIndentedLine("}");
         writer.AppendLineBreak();

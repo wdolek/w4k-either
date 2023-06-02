@@ -174,7 +174,7 @@ internal class SerializableGenerator : IMemberCodeGenerator
             sb.AppendIndentedLine($"            {otherTypeParam.FieldName} = {otherTypeParam.AsDefault};");
         }          
         
-        sb.AppendIndentedLine("            ThrowHelper.ThrowOnInvalidState();");
+        sb.AppendIndentedLine("            global::W4k.Either.ThrowHelper.ThrowOnInvalidState();");
         sb.AppendIndentedLine("        break;");
         sb.AppendIndentedLine("    }");
         sb.AppendIndentedLine("}");
@@ -197,7 +197,7 @@ internal class SerializableGenerator : IMemberCodeGenerator
         }
         
         writer.AppendIndentedLine("        default:");
-        writer.AppendIndentedLine("            ThrowHelper.ThrowOnInvalidState();");
+        writer.AppendIndentedLine("            global::W4k.Either.ThrowHelper.ThrowOnInvalidState();");
         writer.AppendIndentedLine("            break;");
         writer.AppendIndentedLine("    }");
         writer.AppendIndentedLine("}");

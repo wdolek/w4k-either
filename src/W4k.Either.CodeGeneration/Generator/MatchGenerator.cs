@@ -59,7 +59,7 @@ internal class MatchGenerator : IMemberCodeGenerator
         }
 
         writer.AppendIndentedLine("        default:");
-        writer.AppendIndentedLine("            return ThrowHelper.ThrowOnInvalidState<TResult>();");
+        writer.AppendIndentedLine("            return global::W4k.Either.ThrowHelper.ThrowOnInvalidState<TResult>();");
         writer.AppendIndentedLine("    }");
         writer.AppendIndentedLine("}");
         writer.AppendLineBreak();
@@ -105,7 +105,7 @@ internal class MatchGenerator : IMemberCodeGenerator
         }        
 
         writer.AppendIndentedLine("        default:");
-        writer.AppendIndentedLine("            return ThrowHelper.ThrowOnInvalidState<TResult>();");
+        writer.AppendIndentedLine("            return global::W4k.Either.ThrowHelper.ThrowOnInvalidState<TResult>();");
         writer.AppendIndentedLine("    }");
         writer.AppendIndentedLine("}");
         writer.AppendLineBreak();
@@ -146,7 +146,7 @@ internal class MatchGenerator : IMemberCodeGenerator
         }        
 
         writer.AppendIndentedLine("        default:");
-        writer.AppendIndentedLine("            return ThrowHelper.ThrowOnInvalidState<global::System.Threading.Tasks.Task<TResult>>();");
+        writer.AppendIndentedLine("            return global::W4k.Either.ThrowHelper.ThrowOnInvalidState<global::System.Threading.Tasks.Task<TResult>>();");
         writer.AppendIndentedLine("    }");
         writer.AppendIndentedLine("}");
         writer.AppendLineBreak();
@@ -188,7 +188,7 @@ internal class MatchGenerator : IMemberCodeGenerator
         }
 
         writer.AppendIndentedLine("        default:");
-        writer.AppendIndentedLine("            return ThrowHelper.ThrowOnInvalidState<global::System.Threading.Tasks.Task<TResult>>();");
+        writer.AppendIndentedLine("            return global::W4k.Either.ThrowHelper.ThrowOnInvalidState<global::System.Threading.Tasks.Task<TResult>>();");
         writer.AppendIndentedLine("    }");
         writer.AppendIndentedLine("}");
         writer.AppendLineBreak();

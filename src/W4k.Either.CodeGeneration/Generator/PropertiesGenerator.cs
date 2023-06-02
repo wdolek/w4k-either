@@ -28,7 +28,7 @@ internal class PropertiesGenerator : IMemberCodeGenerator
         }
 
         sb.AppendIndentedLine("            default:");
-        sb.AppendIndentedLine("                return ThrowHelper.ThrowOnInvalidState<object?>();");
+        sb.AppendIndentedLine("                return global::W4k.Either.ThrowHelper.ThrowOnInvalidState<object?>();");
         sb.AppendIndentedLine("        }");
         sb.AppendIndentedLine("    }");
         sb.AppendIndentedLine("}");

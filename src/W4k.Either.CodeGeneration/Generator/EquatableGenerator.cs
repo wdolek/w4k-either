@@ -72,7 +72,7 @@ internal class EquatableGenerator : IMemberCodeGenerator
         }
         
         writer.AppendIndentedLine("        default:");
-        writer.AppendIndentedLine("            return ThrowHelper.ThrowOnInvalidState<bool>();");
+        writer.AppendIndentedLine("            return global::W4k.Either.ThrowHelper.ThrowOnInvalidState<bool>();");
         writer.AppendIndentedLine("    }");
         writer.AppendIndentedLine("}");
         writer.AppendLineBreak();
