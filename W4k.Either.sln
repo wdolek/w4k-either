@@ -7,7 +7,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "W4k.Either", "src\W4k.Eithe
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "W4k.Either.CodeGeneration", "src\W4k.Either.CodeGeneration\W4k.Either.CodeGeneration.csproj", "{3D54F6E0-5490-4E07-A300-AEB8816F5693}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "W4k.Either.Abstractions", "src\W4k.Either.Abstractions\W4k.Either.Abstractions.csproj", "{3B943510-000D-4F0D-85CA-69B75333AEB6}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "W4k.Either.Shared", "src\W4k.Either.Shared\W4k.Either.Shared.csproj", "{3B943510-000D-4F0D-85CA-69B75333AEB6}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "W4k.Either.CodeGeneration.Tests", "tests\W4k.Either.CodeGeneration.Tests\W4k.Either.CodeGeneration.Tests.csproj", "{BD719D0A-7987-48EB-9EA0-B92C6F67B1D2}"
 EndProject

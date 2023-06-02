@@ -33,7 +33,7 @@
   </PropertyGroup>
   
   <ItemGroup>
-    <ProjectReference Include="..\W4k.Either.Abstractions\W4k.Either.Abstractions.csproj" PrivateAssets="All" />
+    <ProjectReference Include="..\W4k.Either.Shared\W4k.Either.Shared.csproj" PrivateAssets="All" />
     <ProjectReference Include="..\W4k.Either.CodeGeneration\W4k.Either.CodeGeneration.csproj" PrivateAssets="All" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
   </ItemGroup>
 

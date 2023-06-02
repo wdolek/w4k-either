@@ -47,7 +47,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\W4k.Either.Abstractions\W4k.Either.Abstractions.csproj" PrivateAssets="All" />
+    <ProjectReference Include="..\W4k.Either.Shared\W4k.Either.Shared.csproj" PrivateAssets="All" />
   </ItemGroup>
 
   <ItemGroup>
@@ -55,17 +55,17 @@
     <None Include="$(OutputPath)\netstandard2.0\$(AssemblyName).dll" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false" />
     <None Include="$(OutputPath)\netstandard2.0\$(AssemblyName).pdb" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false" />
     <None Include="$(OutputPath)\netstandard2.0\$(AssemblyName).xml" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false" />
-    <None Include="$(OutputPath)\netstandard2.0\W4k.Either.Abstractions.dll" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false" />
-    <None Include="$(OutputPath)\netstandard2.0\W4k.Either.Abstractions.pdb" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false" />
-    <None Include="$(OutputPath)\netstandard2.0\W4k.Either.Abstractions.xml" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false" />
+    <None Include="$(OutputPath)\netstandard2.0\W4k.Either.Shared.dll" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false" />
+    <None Include="$(OutputPath)\netstandard2.0\W4k.Either.Shared.pdb" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false" />
+    <None Include="$(OutputPath)\netstandard2.0\W4k.Either.Shared.xml" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false" />
     
     <!-- Library -->
     <None Include="$(OutputPath)\netstandard2.0\$(AssemblyName).dll" Pack="true" PackagePath="lib\netstandard2.0" Visible="true" />
     <None Include="$(OutputPath)\netstandard2.0\$(AssemblyName).pdb" Pack="true" PackagePath="lib\netstandard2.0" Visible="true" />
     <None Include="$(OutputPath)\netstandard2.0\$(AssemblyName).xml" Pack="true" PackagePath="lib\netstandard2.0" Visible="true" />
-    <None Include="$(OutputPath)\net6.0\W4k.Either.Abstractions.dll" Pack="true" PackagePath="lib\net6.0" Visible="true" />
-    <None Include="$(OutputPath)\net6.0\W4k.Either.Abstractions.pdb" Pack="true" PackagePath="lib\net6.0" Visible="true" />
-    <None Include="$(OutputPath)\net6.0\W4k.Either.Abstractions.xml" Pack="true" PackagePath="lib\net6.0" Visible="true" />
+    <None Include="$(OutputPath)\net6.0\W4k.Either.Shared.dll" Pack="true" PackagePath="lib\net6.0" Visible="true" />
+    <None Include="$(OutputPath)\net6.0\W4k.Either.Shared.pdb" Pack="true" PackagePath="lib\net6.0" Visible="true" />
+    <None Include="$(OutputPath)\net6.0\W4k.Either.Shared.xml" Pack="true" PackagePath="lib\net6.0" Visible="true" />
   </ItemGroup>
 
 </Project>
