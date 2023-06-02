@@ -25,6 +25,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution", "Solution", "{26
 		LICENSE = LICENSE
 		README.md = README.md
 		clean.ps1 = clean.ps1
+		test_pack.ps1 = test_pack.ps1
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "W4k.Either.CodeGeneration.IntegrationTests", "tests\W4k.Either.CodeGeneration.IntegrationTests\W4k.Either.CodeGeneration.IntegrationTests.csproj", "{8EFA14E0-FA66-4CA8-9E70-BC4D39B4C9D7}"

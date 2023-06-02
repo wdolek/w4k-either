@@ -1,57 +1,57 @@
 # Either
 
-Library providing various types (and source generator) for handling results of operations or representing discriminated union of two or more types.
+This library provides a variety of types and a source generator for handling the results of operations or representing discriminated unions of two or more types.
 
 ## Why?
 
-There are several ways how to handle results of operations in C#:
+There are several ways to handle the results of operations in C#. For instance, you could:
 
-- you can throw exception - but that's expensive and not always appropriate, consider exception as `goto` within whole call stack
-- you can return tuple - but that's not very descriptive and adds a lot of noise to the code
-- you can write your own result type for every operation - but that's a lot of work and you are lazy developer
+- Throw an exception: However, this can be costly and isn't always appropriate. Exceptions can be thought of as goto commands within the entire call stack.
+- Return a tuple: While this method is feasible, it is not very descriptive and can clutter your code.
+- Write a unique result type for every operation: This approach requires significant effort, and we know developers prefer efficiency.
 
-... or you can use this library.
+A more practical solution is to use this library.
 
-Types included:
+Included Types:
 
-| Type                             | Description                                                                      |
-|----------------------------------|----------------------------------------------------------------------------------|
-| `Either<TLeft, TRight>`          | Represents discriminated union of two types (up to 8 types in total)             |
-| `Maybe<TValue>`                  | Represents optional value                                                        |
-| `Result<TError>`                 | Represents result without value                                                  |
-| `Result<TValue, TError>`         | Represents result with value                                                     |
-| `OptionalResult<TValue, TError>` | Represents optional result with value (consider `Result<Maybe<TValue>, TError>`) |
+| Type                             | Description                                                             |
+|----------------------------------|-------------------------------------------------------------------------|
+| `Either<TLeft, TRight>`          | Discriminated union of two types                                        |
+| `Maybe<TValue>`                  | Optional value representation                                           |
+| `Result<TError>`                 | Result representation without a value                                   |
+| `Result<TValue, TError>`         | Result representation with a value                                      |
+| `OptionalResult<TValue, TError>` | Optional result with a value (similar to Result<Maybe<TValue>, TError>) |
 
 ## How?
 
 Common API for all types:
 
-| Method/Property                 | Description                                                                |
-|---------------------------------|----------------------------------------------------------------------------|
-| ctor                            | Creates new instance of type with value (e.g. `Either(TLeft value)`)       |
-|                                 |                                                                            |
-| `Case` (property)               | Property to be used with pattern matching                                  | 
-| `TryPick`                       | Allows you to pick value from type (if present)                            |
-| `Match<TResult>`                | Handling all possible cases returning `TResult`                            |
-| `Match<TState, TResult>`        | Handling all possible cases returning `TResult` using state                |
-| `MatchAsync<TResult>`           | Handling all possible cases returning `TResult` asynchronously             |
-| `MatchAsync<TState, TResult>`   | Handling all possible cases returning `TResult` asynchronously using state |
-| `Switch`                        | Handling all possible cases (`void`)                                       |
-| `Switch<TState>`                | Handling all possible cases using state                                    |
-| `SwitchAsync`                   | Handling all possible cases asynchronously                                 |
-| `SwitchAsync<TState>`           | Handling all possible cases asynchronously using state                     |
-|                                 |                                                                            |
-| `ToString`                      | Returns string representation of value                                     |
-| `GetHashCode`                   | Returns hash code of value                                                 |
-| `Equals`                        | Equality comparison between monads                                         |
-|                                 |                                                                            |
-| `==` and `!=`                   | Equality comparison between monads                                         |
-|                                 |                                                                            |
-| conversion, `implicit operator` | Implicit conversion from value to monad                                    |
+| Method/Property                 | Description                                                                 |
+|---------------------------------|-----------------------------------------------------------------------------|
+| ctor                            | Creates a new instance of the type with a value                             |
+|                                 |                                                                             |
+| `Case` (property)               | Property for use with pattern matching                                      | 
+| `TryPick`                       | Allows retrieval of value from the type (if present)                        |
+| `Match<TResult>`                | Handles all possible cases, returning `TResult`                             |
+| `Match<TState, TResult>`        | Handles all possible cases returning `TResult` using a state                |
+| `MatchAsync<TResult>`           | Asynchronously handles all possible cases returning `TResult`               |
+| `MatchAsync<TState, TResult>`   | Asynchronously handles all possible cases returning `TResult` using a state |
+| `Switch`                        | Handles all possible cases (`void`)                                         |
+| `Switch<TState>`                | Handles all possible cases using a state                                    |
+| `SwitchAsync`                   | Asynchronously handles all possible cases                                   |
+| `SwitchAsync<TState>`           | Asynchronously handles all possible cases using a state                     |
+|                                 |                                                                             |
+| `ToString`                      | Returns the string representation of the value                              |
+| `GetHashCode`                   | Returns the hash code of the value                                          |
+| `Equals`                        | Compares equality between monads                                            |
+|                                 |                                                                             |
+| `==` and `!=`                   | Compares equality between monads                                            |
+|                                 |                                                                             |
+| conversion, `implicit operator` | Enables implicit conversion from a value to a monad                         |
 
 ### Either
 
-To not propagate exception, you can use `Either` to communicate to the caller that operation ended with either value or error.
+Use `Either` to communicate the result of an operation without propagating an exception.
 
 ```csharp
 Either<User, FetchError> GetUser(UserIdentifier userId)
@@ -77,7 +77,7 @@ var message = result.Match(
 
 ### Maybe
 
-To communicate to the caller that operation ended up with no value, instead of returning `null`, you can use `Maybe`.
+Use `Maybe` to communicate that an operation resulted in no value, as an alternative to returning `null`.
 
 ```csharp
 Maybe<User> FindUser(UserIdentifier userId)
@@ -106,8 +106,8 @@ if (user.HasValue)
 
 ### Result
 
-To avoid throwing exceptions or using tuples, you can simply indicate result of operation. This is same as `Either<TValue, TError>`
-with additional properties to check state of result object.
+To indicate the result of an operation without throwing exceptions or using tuples, use `Result`.
+This type is the same as `Either<TValue, TError>`, but with additional properties to inspect the state of the result object.
 
 ```csharp
 Result<User, FetchError> GetUser(UserIdentifier userId)
@@ -149,7 +149,7 @@ else
 
 ### OptionalResult
 
-Similarly to `Result`, with `OptionalResult` you can indicate result of operation with optional value. This is same as `Result<Maybe<TValue>, TError>`.
+`OptionalResult` can indicate the result of an operation with an optional value. It's the same as `Result<Maybe<TValue>, TError>`.
 
 ```csharp
 OptionalResult<User, FetchError> FindUser(UserIdentifier userId)
@@ -200,7 +200,97 @@ else
 
 ## Code generator
 
-...
+The `W4k.Either.CodeGeneration` package enables you to generate your own types with custom logic. It generates types in two ways:
+
+### Generic type
+
+Whenever you need another type with different properties representing several different things, you can declare generic
+type using `EitherAttribute`. Compiler will generate rest of type for you:
+
+```csharp
+[Either]
+public readonly struct Gelf<TCamille, TCat, TCrichton>
+{
+}
+```
+
+### Predefined types
+
+In case you know what types you want to use, you can specify them using `EitherAttribute` following way:
+
+```csharp
+[Either(typeof(string), typeof(int))]
+public readonly struct StringOrInt
+{
+}
+```
+
+### Usage
+
+#### Installation
+
+Reference `W4k.Either.CodeGeneration` package in your project and use generated types:
+
+```xml
+  <ItemGroup>
+    <PackageReference Include="W4k.Either.CodeGeneration" Version="0.0.0" PrivateAssets="All" />
+  </ItemGroup>
+```
+
+#### Decorating your types
+
+Declare your type as `partial` and decorate it with `EitherAttribute`. Remember to mark the containing type as `partial`
+as well if the type is nested.
+
+Please adhere to these rules:
+
+- The type itself **MUST** be `partial`.
+- If the type is nested, the containing type **MUST** be partial as well.
+- There must be type defined either as generic type or as predefined type using attribute.
+
+Other properties and behaviors include:
+
+- When declaring a generic type, it is up to you to define the type parameter constraint.
+- When implementing IEquatable<T>, the Equals and GetHashCode methods are automatically generated for you, unless you have implemented them yourself.
+- When implementing ISerializable, the serializable constructor and the GetObjectData method are automatically generated for you, unless you have implemented them yourself.
+- You are allowed to declare constructors matching those which would be generated. In that case, the constructors are not generated to avoid causing conflicts.
+
+```csharp
+[Either]
+[Serializable] // <- make type serializable
+public readonly partial struct Polymorph<T1, T2> : IEquatable<Polymorph<T1, T2>>, ISerializable // <- `IEquatable<>` and `ISerializable` are implemented by code generator for you 
+    where T1 : struct // <- generator reflects constraints in generated code
+    where T2 : notnull, ICrewMember
+{
+    // <- you can declare constructors matching those which would be generated, generator will skip it
+    public Polymorph(T2 value)
+    {
+        // NB! you are responsible for checking input - if you care about it ¯\_(ツ)_/¯
+        ArgumentNullException.ThrowIfNull(value);
+    
+        // your custom logic
+        if (value is Lister)
+        {
+            throw new ArgumentException("...");
+        }
+        
+        // NB! you are responsible for proper initialization of the monad
+        _idx = 2;
+        _v1 = default;
+        _v2 = value;
+    }
+    
+    // custom property
+    public bool IsLister => _idx == 2 && _v2 is Rimmer;
+}
+```
+
+Notice that value fields starts at `1`, as well as state index value:
+
+- State is stored in field `_idx`:
+  - `0` is reserved for invalid state (as this is default value)
+  - `1`, `2`, ..., `n` are used as state index (up to `255`)
+- Values are indexed from `1` as well, corresponding to state index
 
 ## Alternative/similar packages
 
