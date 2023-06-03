@@ -262,7 +262,7 @@ public readonly partial struct Polymorph<T1, T2> : IEquatable<Polymorph<T1, T2>>
     where T1 : struct // <- generator reflects constraints in generated code
     where T2 : notnull, ICrewMember
 {
-    // <- you can declare constructors matching those which would be generated, generator will skip it
+    // you can declare constructor with same signature as generator would normaly produce (generator will skip it)
     public Polymorph(T2 value)
     {
         // NB! you are responsible for checking input - if you care about it ¯\_(ツ)_/¯
@@ -274,14 +274,15 @@ public readonly partial struct Polymorph<T1, T2> : IEquatable<Polymorph<T1, T2>>
             throw new ArgumentException("...");
         }
         
-        // NB! you are responsible for proper initialization of the monad
+        // NB! you are responsible for proper initialization of the monad;
+        //     see rules below
         _idx = 2;
         _v1 = default;
         _v2 = value;
     }
     
     // custom property
-    public bool IsLister => _idx == 2 && _v2 is Rimmer;
+    public bool IsRimmer => _idx == 2 && _v2 is Rimmer;
 }
 ```
 
@@ -290,7 +291,9 @@ Notice that value fields starts at `1`, as well as state index value:
 - State is stored in field `_idx`:
   - `0` is reserved for invalid state (as this is default value)
   - `1`, `2`, ..., `n` are used as state index (up to `255`)
-- Values are indexed from `1` as well, corresponding to state index
+- Values are indexed from `1` as well corresponding to state index (`_idx = 1` means that value is kept in field `_v1`)
+
+You can declare any constructor you want, but keep in mind you need to initialize the monad properly - always set `_idx` and `_v*` fields!
 
 ## Alternative/similar packages
 
