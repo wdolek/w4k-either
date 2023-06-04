@@ -74,17 +74,20 @@ public readonly partial struct OptionalResult<TSuccess, TError> : IEquatable<Opt
                 break;
 
             default:
-                throw new InvalidOperationException();
+                ThrowHelper.ThrowOnInvalidState();
+                value = default;
+                error = default;
+                break;
         }
-    }    
+    }
 
     public TSuccess? Value =>
         _idx == 1
             ? _v1
-            : throw new InvalidOperationException();
+            : ThrowHelper.ThrowOnInvalidState<TSuccess>();
 
     public TError? Error =>
         _idx == 2
             ? _v2
-            : throw new InvalidOperationException();
+            : ThrowHelper.ThrowOnInvalidState<TError>();
 }
