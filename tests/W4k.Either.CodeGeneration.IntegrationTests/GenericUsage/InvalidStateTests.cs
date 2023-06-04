@@ -7,7 +7,7 @@ public class InvalidStateTests
     {
         var eitherCtor = new UnconstrainedEither<Scrooge, Unit>();
         Assert.Equal(0, eitherCtor.State);
-        
+
         UnconstrainedEither<Scrooge, Unit> eitherDefault = default;
         Assert.Equal(0, eitherDefault.State);
     }
@@ -19,13 +19,13 @@ public class InvalidStateTests
 
         var invalid1 = new UnconstrainedEither<Scrooge, Unit>();
         var invalid2 = new UnconstrainedEither<Scrooge, Unit>();
-        
+
         Assert.False(valid == invalid1);
         Assert.False(valid.Equals((object?)invalid1));
 
         Assert.False(invalid1 == valid);
         Assert.False(invalid1.Equals((object?)valid));
-        
+
         Assert.Throws<InvalidOperationException>(() => invalid1 == invalid2);
     }
 
@@ -42,19 +42,19 @@ public class InvalidStateTests
         var invalid = new UnconstrainedEither<Scrooge, Unit>();
         Assert.Throws<InvalidOperationException>(() => invalid.GetHashCode());
     }
-    
+
     [Fact]
     public void DisallowToString()
     {
         var invalid = new UnconstrainedEither<Scrooge, Unit>();
         Assert.Throws<InvalidOperationException>(() => invalid.ToString());
     }
-    
+
     [Fact]
     public void DisAllowTryPick()
     {
         var invalid = new UnconstrainedEither<Scrooge, Unit>();
-        Assert.False(invalid.TryPick(out Scrooge _));
+        Assert.False(invalid.TryPick(out Scrooge? _));
     }
 
     [Fact]
@@ -84,7 +84,7 @@ public class InvalidStateTests
                 (_, _, _) => Task.FromResult(Unit.Default),
                 (_, _, _) => Task.FromResult(Unit.Default)));
     }
-    
+
     [Fact]
     public async Task DisallowSwitch()
     {
@@ -111,5 +111,5 @@ public class InvalidStateTests
                 -1,
                 (_, _, _) => Task.CompletedTask,
                 (_, _, _) => Task.CompletedTask));
-    }    
+    }
 }

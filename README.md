@@ -200,6 +200,8 @@ else
 
 ## Code generator
 
+:warning: Code generator, despite targeting `netstandard2.0`, requires project to use at least `net6.0` (due to features used in generated code).
+
 The `W4k.Either.CodeGeneration` package enables you to generate your own types with custom logic. It generates types in two ways:
 
 ### Generic type
