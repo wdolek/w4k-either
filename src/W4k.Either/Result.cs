@@ -26,7 +26,6 @@ public static class Result
         => new(error);
 }
 
-
 [Either]
 [Serializable]
 [StructLayout(LayoutKind.Auto)]
@@ -80,6 +79,25 @@ public readonly partial struct Result<TSuccess, TError> : IEquatable<Result<TSuc
     [MemberNotNullWhen(true, nameof(Error))]
     public bool IsFailed => _idx == 2;
 
+    public void Deconstruct(out TSuccess? value, out TError? error)
+    {
+        switch (_idx)
+        {
+            case 1:
+                value = _v1;
+                error = default;
+                break;
+
+            case 2:
+                value = default;
+                error = _v2;
+                break;
+
+            default:
+                throw new InvalidOperationException();
+        }
+    }
+    
     public TSuccess? Value =>
         _idx == 1
             ? _v1

@@ -58,6 +58,25 @@ public readonly partial struct OptionalResult<TSuccess, TError> : IEquatable<Opt
 
     [MemberNotNullWhen(true, nameof(Value))]
     public bool HasValue { get; } = false;
+    
+    public void Deconstruct(out TSuccess? value, out TError? error)
+    {
+        switch (_idx)
+        {
+            case 1:
+                value = _v1;
+                error = default;
+                break;
+
+            case 2:
+                value = default;
+                error = _v2;
+                break;
+
+            default:
+                throw new InvalidOperationException();
+        }
+    }    
 
     public TSuccess? Value =>
         _idx == 1
