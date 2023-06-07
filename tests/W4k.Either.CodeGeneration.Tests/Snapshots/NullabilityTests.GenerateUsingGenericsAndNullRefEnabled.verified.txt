@@ -475,6 +475,586 @@ namespace MyLittleEither.MyLittleEitherMonad
             return false;
         }
 
+        public MyEither<TNew, TNonNullRef, TNullRef?, TStruct, TNotNull, TObj?, TNullObj?, TIFace?, TNullIFace?, TUnmanaged> Bind<TNew>(global::System.Func<TAny?, MyEither<TNew, TNonNullRef, TNullRef?, TStruct, TNotNull, TObj?, TNullObj?, TIFace?, TNullIFace?, TUnmanaged>> binder)
+        {
+            switch (_idx)
+            {
+                case 1:
+                    return binder(_v1);
+                case 2:
+                    return new MyEither<TNew, TNonNullRef, TNullRef?, TStruct, TNotNull, TObj?, TNullObj?, TIFace?, TNullIFace?, TUnmanaged>(_v2!);
+                case 3:
+                    return new MyEither<TNew, TNonNullRef, TNullRef?, TStruct, TNotNull, TObj?, TNullObj?, TIFace?, TNullIFace?, TUnmanaged>(_v3);
+                case 4:
+                    return new MyEither<TNew, TNonNullRef, TNullRef?, TStruct, TNotNull, TObj?, TNullObj?, TIFace?, TNullIFace?, TUnmanaged>(_v4);
+                case 5:
+                    return new MyEither<TNew, TNonNullRef, TNullRef?, TStruct, TNotNull, TObj?, TNullObj?, TIFace?, TNullIFace?, TUnmanaged>(_v5!);
+                case 6:
+                    return new MyEither<TNew, TNonNullRef, TNullRef?, TStruct, TNotNull, TObj?, TNullObj?, TIFace?, TNullIFace?, TUnmanaged>(_v6);
+                case 7:
+                    return new MyEither<TNew, TNonNullRef, TNullRef?, TStruct, TNotNull, TObj?, TNullObj?, TIFace?, TNullIFace?, TUnmanaged>(_v7);
+                case 8:
+                    return new MyEither<TNew, TNonNullRef, TNullRef?, TStruct, TNotNull, TObj?, TNullObj?, TIFace?, TNullIFace?, TUnmanaged>(_v8);
+                case 9:
+                    return new MyEither<TNew, TNonNullRef, TNullRef?, TStruct, TNotNull, TObj?, TNullObj?, TIFace?, TNullIFace?, TUnmanaged>(_v9);
+                case 10:
+                    return new MyEither<TNew, TNonNullRef, TNullRef?, TStruct, TNotNull, TObj?, TNullObj?, TIFace?, TNullIFace?, TUnmanaged>(_v10);
+                default:
+                    return global::W4k.Either.ThrowHelper.ThrowOnInvalidState<MyEither<TNew, TNonNullRef, TNullRef?, TStruct, TNotNull, TObj?, TNullObj?, TIFace?, TNullIFace?, TUnmanaged>>();
+            }
+        }
+
+        public MyEither<TAny?, TNew, TNullRef?, TStruct, TNotNull, TObj?, TNullObj?, TIFace?, TNullIFace?, TUnmanaged> Bind<TNew>(global::System.Func<TNonNullRef, MyEither<TAny?, TNew, TNullRef?, TStruct, TNotNull, TObj?, TNullObj?, TIFace?, TNullIFace?, TUnmanaged>> binder)
+        {
+            switch (_idx)
+            {
+                case 1:
+                    return new MyEither<TAny?, TNew, TNullRef?, TStruct, TNotNull, TObj?, TNullObj?, TIFace?, TNullIFace?, TUnmanaged>(_v1);
+                case 2:
+                    return binder(_v2!);
+                case 3:
+                    return new MyEither<TAny?, TNew, TNullRef?, TStruct, TNotNull, TObj?, TNullObj?, TIFace?, TNullIFace?, TUnmanaged>(_v3);
+                case 4:
+                    return new MyEither<TAny?, TNew, TNullRef?, TStruct, TNotNull, TObj?, TNullObj?, TIFace?, TNullIFace?, TUnmanaged>(_v4);
+                case 5:
+                    return new MyEither<TAny?, TNew, TNullRef?, TStruct, TNotNull, TObj?, TNullObj?, TIFace?, TNullIFace?, TUnmanaged>(_v5!);
+                case 6:
+                    return new MyEither<TAny?, TNew, TNullRef?, TStruct, TNotNull, TObj?, TNullObj?, TIFace?, TNullIFace?, TUnmanaged>(_v6);
+                case 7:
+                    return new MyEither<TAny?, TNew, TNullRef?, TStruct, TNotNull, TObj?, TNullObj?, TIFace?, TNullIFace?, TUnmanaged>(_v7);
+                case 8:
+                    return new MyEither<TAny?, TNew, TNullRef?, TStruct, TNotNull, TObj?, TNullObj?, TIFace?, TNullIFace?, TUnmanaged>(_v8);
+                case 9:
+                    return new MyEither<TAny?, TNew, TNullRef?, TStruct, TNotNull, TObj?, TNullObj?, TIFace?, TNullIFace?, TUnmanaged>(_v9);
+                case 10:
+                    return new MyEither<TAny?, TNew, TNullRef?, TStruct, TNotNull, TObj?, TNullObj?, TIFace?, TNullIFace?, TUnmanaged>(_v10);
+                default:
+                    return global::W4k.Either.ThrowHelper.ThrowOnInvalidState<MyEither<TAny?, TNew, TNullRef?, TStruct, TNotNull, TObj?, TNullObj?, TIFace?, TNullIFace?, TUnmanaged>>();
+            }
+        }
+
+        public MyEither<TAny?, TNonNullRef, TNew, TStruct, TNotNull, TObj?, TNullObj?, TIFace?, TNullIFace?, TUnmanaged> Bind<TNew>(global::System.Func<TNullRef?, MyEither<TAny?, TNonNullRef, TNew, TStruct, TNotNull, TObj?, TNullObj?, TIFace?, TNullIFace?, TUnmanaged>> binder)
+        {
+            switch (_idx)
+            {
+                case 1:
+                    return new MyEither<TAny?, TNonNullRef, TNew, TStruct, TNotNull, TObj?, TNullObj?, TIFace?, TNullIFace?, TUnmanaged>(_v1);
+                case 2:
+                    return new MyEither<TAny?, TNonNullRef, TNew, TStruct, TNotNull, TObj?, TNullObj?, TIFace?, TNullIFace?, TUnmanaged>(_v2!);
+                case 3:
+                    return binder(_v3);
+                case 4:
+                    return new MyEither<TAny?, TNonNullRef, TNew, TStruct, TNotNull, TObj?, TNullObj?, TIFace?, TNullIFace?, TUnmanaged>(_v4);
+                case 5:
+                    return new MyEither<TAny?, TNonNullRef, TNew, TStruct, TNotNull, TObj?, TNullObj?, TIFace?, TNullIFace?, TUnmanaged>(_v5!);
+                case 6:
+                    return new MyEither<TAny?, TNonNullRef, TNew, TStruct, TNotNull, TObj?, TNullObj?, TIFace?, TNullIFace?, TUnmanaged>(_v6);
+                case 7:
+                    return new MyEither<TAny?, TNonNullRef, TNew, TStruct, TNotNull, TObj?, TNullObj?, TIFace?, TNullIFace?, TUnmanaged>(_v7);
+                case 8:
+                    return new MyEither<TAny?, TNonNullRef, TNew, TStruct, TNotNull, TObj?, TNullObj?, TIFace?, TNullIFace?, TUnmanaged>(_v8);
+                case 9:
+                    return new MyEither<TAny?, TNonNullRef, TNew, TStruct, TNotNull, TObj?, TNullObj?, TIFace?, TNullIFace?, TUnmanaged>(_v9);
+                case 10:
+                    return new MyEither<TAny?, TNonNullRef, TNew, TStruct, TNotNull, TObj?, TNullObj?, TIFace?, TNullIFace?, TUnmanaged>(_v10);
+                default:
+                    return global::W4k.Either.ThrowHelper.ThrowOnInvalidState<MyEither<TAny?, TNonNullRef, TNew, TStruct, TNotNull, TObj?, TNullObj?, TIFace?, TNullIFace?, TUnmanaged>>();
+            }
+        }
+
+        public MyEither<TAny?, TNonNullRef, TNullRef?, TNew, TNotNull, TObj?, TNullObj?, TIFace?, TNullIFace?, TUnmanaged> Bind<TNew>(global::System.Func<TStruct, MyEither<TAny?, TNonNullRef, TNullRef?, TNew, TNotNull, TObj?, TNullObj?, TIFace?, TNullIFace?, TUnmanaged>> binder)
+        {
+            switch (_idx)
+            {
+                case 1:
+                    return new MyEither<TAny?, TNonNullRef, TNullRef?, TNew, TNotNull, TObj?, TNullObj?, TIFace?, TNullIFace?, TUnmanaged>(_v1);
+                case 2:
+                    return new MyEither<TAny?, TNonNullRef, TNullRef?, TNew, TNotNull, TObj?, TNullObj?, TIFace?, TNullIFace?, TUnmanaged>(_v2!);
+                case 3:
+                    return new MyEither<TAny?, TNonNullRef, TNullRef?, TNew, TNotNull, TObj?, TNullObj?, TIFace?, TNullIFace?, TUnmanaged>(_v3);
+                case 4:
+                    return binder(_v4);
+                case 5:
+                    return new MyEither<TAny?, TNonNullRef, TNullRef?, TNew, TNotNull, TObj?, TNullObj?, TIFace?, TNullIFace?, TUnmanaged>(_v5!);
+                case 6:
+                    return new MyEither<TAny?, TNonNullRef, TNullRef?, TNew, TNotNull, TObj?, TNullObj?, TIFace?, TNullIFace?, TUnmanaged>(_v6);
+                case 7:
+                    return new MyEither<TAny?, TNonNullRef, TNullRef?, TNew, TNotNull, TObj?, TNullObj?, TIFace?, TNullIFace?, TUnmanaged>(_v7);
+                case 8:
+                    return new MyEither<TAny?, TNonNullRef, TNullRef?, TNew, TNotNull, TObj?, TNullObj?, TIFace?, TNullIFace?, TUnmanaged>(_v8);
+                case 9:
+                    return new MyEither<TAny?, TNonNullRef, TNullRef?, TNew, TNotNull, TObj?, TNullObj?, TIFace?, TNullIFace?, TUnmanaged>(_v9);
+                case 10:
+                    return new MyEither<TAny?, TNonNullRef, TNullRef?, TNew, TNotNull, TObj?, TNullObj?, TIFace?, TNullIFace?, TUnmanaged>(_v10);
+                default:
+                    return global::W4k.Either.ThrowHelper.ThrowOnInvalidState<MyEither<TAny?, TNonNullRef, TNullRef?, TNew, TNotNull, TObj?, TNullObj?, TIFace?, TNullIFace?, TUnmanaged>>();
+            }
+        }
+
+        public MyEither<TAny?, TNonNullRef, TNullRef?, TStruct, TNew, TObj?, TNullObj?, TIFace?, TNullIFace?, TUnmanaged> Bind<TNew>(global::System.Func<TNotNull, MyEither<TAny?, TNonNullRef, TNullRef?, TStruct, TNew, TObj?, TNullObj?, TIFace?, TNullIFace?, TUnmanaged>> binder)
+        {
+            switch (_idx)
+            {
+                case 1:
+                    return new MyEither<TAny?, TNonNullRef, TNullRef?, TStruct, TNew, TObj?, TNullObj?, TIFace?, TNullIFace?, TUnmanaged>(_v1);
+                case 2:
+                    return new MyEither<TAny?, TNonNullRef, TNullRef?, TStruct, TNew, TObj?, TNullObj?, TIFace?, TNullIFace?, TUnmanaged>(_v2!);
+                case 3:
+                    return new MyEither<TAny?, TNonNullRef, TNullRef?, TStruct, TNew, TObj?, TNullObj?, TIFace?, TNullIFace?, TUnmanaged>(_v3);
+                case 4:
+                    return new MyEither<TAny?, TNonNullRef, TNullRef?, TStruct, TNew, TObj?, TNullObj?, TIFace?, TNullIFace?, TUnmanaged>(_v4);
+                case 5:
+                    return binder(_v5!);
+                case 6:
+                    return new MyEither<TAny?, TNonNullRef, TNullRef?, TStruct, TNew, TObj?, TNullObj?, TIFace?, TNullIFace?, TUnmanaged>(_v6);
+                case 7:
+                    return new MyEither<TAny?, TNonNullRef, TNullRef?, TStruct, TNew, TObj?, TNullObj?, TIFace?, TNullIFace?, TUnmanaged>(_v7);
+                case 8:
+                    return new MyEither<TAny?, TNonNullRef, TNullRef?, TStruct, TNew, TObj?, TNullObj?, TIFace?, TNullIFace?, TUnmanaged>(_v8);
+                case 9:
+                    return new MyEither<TAny?, TNonNullRef, TNullRef?, TStruct, TNew, TObj?, TNullObj?, TIFace?, TNullIFace?, TUnmanaged>(_v9);
+                case 10:
+                    return new MyEither<TAny?, TNonNullRef, TNullRef?, TStruct, TNew, TObj?, TNullObj?, TIFace?, TNullIFace?, TUnmanaged>(_v10);
+                default:
+                    return global::W4k.Either.ThrowHelper.ThrowOnInvalidState<MyEither<TAny?, TNonNullRef, TNullRef?, TStruct, TNew, TObj?, TNullObj?, TIFace?, TNullIFace?, TUnmanaged>>();
+            }
+        }
+
+        public MyEither<TAny?, TNonNullRef, TNullRef?, TStruct, TNotNull, TNew, TNullObj?, TIFace?, TNullIFace?, TUnmanaged> Bind<TNew>(global::System.Func<TObj?, MyEither<TAny?, TNonNullRef, TNullRef?, TStruct, TNotNull, TNew, TNullObj?, TIFace?, TNullIFace?, TUnmanaged>> binder)
+        {
+            switch (_idx)
+            {
+                case 1:
+                    return new MyEither<TAny?, TNonNullRef, TNullRef?, TStruct, TNotNull, TNew, TNullObj?, TIFace?, TNullIFace?, TUnmanaged>(_v1);
+                case 2:
+                    return new MyEither<TAny?, TNonNullRef, TNullRef?, TStruct, TNotNull, TNew, TNullObj?, TIFace?, TNullIFace?, TUnmanaged>(_v2!);
+                case 3:
+                    return new MyEither<TAny?, TNonNullRef, TNullRef?, TStruct, TNotNull, TNew, TNullObj?, TIFace?, TNullIFace?, TUnmanaged>(_v3);
+                case 4:
+                    return new MyEither<TAny?, TNonNullRef, TNullRef?, TStruct, TNotNull, TNew, TNullObj?, TIFace?, TNullIFace?, TUnmanaged>(_v4);
+                case 5:
+                    return new MyEither<TAny?, TNonNullRef, TNullRef?, TStruct, TNotNull, TNew, TNullObj?, TIFace?, TNullIFace?, TUnmanaged>(_v5!);
+                case 6:
+                    return binder(_v6);
+                case 7:
+                    return new MyEither<TAny?, TNonNullRef, TNullRef?, TStruct, TNotNull, TNew, TNullObj?, TIFace?, TNullIFace?, TUnmanaged>(_v7);
+                case 8:
+                    return new MyEither<TAny?, TNonNullRef, TNullRef?, TStruct, TNotNull, TNew, TNullObj?, TIFace?, TNullIFace?, TUnmanaged>(_v8);
+                case 9:
+                    return new MyEither<TAny?, TNonNullRef, TNullRef?, TStruct, TNotNull, TNew, TNullObj?, TIFace?, TNullIFace?, TUnmanaged>(_v9);
+                case 10:
+                    return new MyEither<TAny?, TNonNullRef, TNullRef?, TStruct, TNotNull, TNew, TNullObj?, TIFace?, TNullIFace?, TUnmanaged>(_v10);
+                default:
+                    return global::W4k.Either.ThrowHelper.ThrowOnInvalidState<MyEither<TAny?, TNonNullRef, TNullRef?, TStruct, TNotNull, TNew, TNullObj?, TIFace?, TNullIFace?, TUnmanaged>>();
+            }
+        }
+
+        public MyEither<TAny?, TNonNullRef, TNullRef?, TStruct, TNotNull, TObj?, TNew, TIFace?, TNullIFace?, TUnmanaged> Bind<TNew>(global::System.Func<TNullObj?, MyEither<TAny?, TNonNullRef, TNullRef?, TStruct, TNotNull, TObj?, TNew, TIFace?, TNullIFace?, TUnmanaged>> binder)
+        {
+            switch (_idx)
+            {
+                case 1:
+                    return new MyEither<TAny?, TNonNullRef, TNullRef?, TStruct, TNotNull, TObj?, TNew, TIFace?, TNullIFace?, TUnmanaged>(_v1);
+                case 2:
+                    return new MyEither<TAny?, TNonNullRef, TNullRef?, TStruct, TNotNull, TObj?, TNew, TIFace?, TNullIFace?, TUnmanaged>(_v2!);
+                case 3:
+                    return new MyEither<TAny?, TNonNullRef, TNullRef?, TStruct, TNotNull, TObj?, TNew, TIFace?, TNullIFace?, TUnmanaged>(_v3);
+                case 4:
+                    return new MyEither<TAny?, TNonNullRef, TNullRef?, TStruct, TNotNull, TObj?, TNew, TIFace?, TNullIFace?, TUnmanaged>(_v4);
+                case 5:
+                    return new MyEither<TAny?, TNonNullRef, TNullRef?, TStruct, TNotNull, TObj?, TNew, TIFace?, TNullIFace?, TUnmanaged>(_v5!);
+                case 6:
+                    return new MyEither<TAny?, TNonNullRef, TNullRef?, TStruct, TNotNull, TObj?, TNew, TIFace?, TNullIFace?, TUnmanaged>(_v6);
+                case 7:
+                    return binder(_v7);
+                case 8:
+                    return new MyEither<TAny?, TNonNullRef, TNullRef?, TStruct, TNotNull, TObj?, TNew, TIFace?, TNullIFace?, TUnmanaged>(_v8);
+                case 9:
+                    return new MyEither<TAny?, TNonNullRef, TNullRef?, TStruct, TNotNull, TObj?, TNew, TIFace?, TNullIFace?, TUnmanaged>(_v9);
+                case 10:
+                    return new MyEither<TAny?, TNonNullRef, TNullRef?, TStruct, TNotNull, TObj?, TNew, TIFace?, TNullIFace?, TUnmanaged>(_v10);
+                default:
+                    return global::W4k.Either.ThrowHelper.ThrowOnInvalidState<MyEither<TAny?, TNonNullRef, TNullRef?, TStruct, TNotNull, TObj?, TNew, TIFace?, TNullIFace?, TUnmanaged>>();
+            }
+        }
+
+        public MyEither<TAny?, TNonNullRef, TNullRef?, TStruct, TNotNull, TObj?, TNullObj?, TNew, TNullIFace?, TUnmanaged> Bind<TNew>(global::System.Func<TIFace?, MyEither<TAny?, TNonNullRef, TNullRef?, TStruct, TNotNull, TObj?, TNullObj?, TNew, TNullIFace?, TUnmanaged>> binder)
+        {
+            switch (_idx)
+            {
+                case 1:
+                    return new MyEither<TAny?, TNonNullRef, TNullRef?, TStruct, TNotNull, TObj?, TNullObj?, TNew, TNullIFace?, TUnmanaged>(_v1);
+                case 2:
+                    return new MyEither<TAny?, TNonNullRef, TNullRef?, TStruct, TNotNull, TObj?, TNullObj?, TNew, TNullIFace?, TUnmanaged>(_v2!);
+                case 3:
+                    return new MyEither<TAny?, TNonNullRef, TNullRef?, TStruct, TNotNull, TObj?, TNullObj?, TNew, TNullIFace?, TUnmanaged>(_v3);
+                case 4:
+                    return new MyEither<TAny?, TNonNullRef, TNullRef?, TStruct, TNotNull, TObj?, TNullObj?, TNew, TNullIFace?, TUnmanaged>(_v4);
+                case 5:
+                    return new MyEither<TAny?, TNonNullRef, TNullRef?, TStruct, TNotNull, TObj?, TNullObj?, TNew, TNullIFace?, TUnmanaged>(_v5!);
+                case 6:
+                    return new MyEither<TAny?, TNonNullRef, TNullRef?, TStruct, TNotNull, TObj?, TNullObj?, TNew, TNullIFace?, TUnmanaged>(_v6);
+                case 7:
+                    return new MyEither<TAny?, TNonNullRef, TNullRef?, TStruct, TNotNull, TObj?, TNullObj?, TNew, TNullIFace?, TUnmanaged>(_v7);
+                case 8:
+                    return binder(_v8);
+                case 9:
+                    return new MyEither<TAny?, TNonNullRef, TNullRef?, TStruct, TNotNull, TObj?, TNullObj?, TNew, TNullIFace?, TUnmanaged>(_v9);
+                case 10:
+                    return new MyEither<TAny?, TNonNullRef, TNullRef?, TStruct, TNotNull, TObj?, TNullObj?, TNew, TNullIFace?, TUnmanaged>(_v10);
+                default:
+                    return global::W4k.Either.ThrowHelper.ThrowOnInvalidState<MyEither<TAny?, TNonNullRef, TNullRef?, TStruct, TNotNull, TObj?, TNullObj?, TNew, TNullIFace?, TUnmanaged>>();
+            }
+        }
+
+        public MyEither<TAny?, TNonNullRef, TNullRef?, TStruct, TNotNull, TObj?, TNullObj?, TIFace?, TNew, TUnmanaged> Bind<TNew>(global::System.Func<TNullIFace?, MyEither<TAny?, TNonNullRef, TNullRef?, TStruct, TNotNull, TObj?, TNullObj?, TIFace?, TNew, TUnmanaged>> binder)
+        {
+            switch (_idx)
+            {
+                case 1:
+                    return new MyEither<TAny?, TNonNullRef, TNullRef?, TStruct, TNotNull, TObj?, TNullObj?, TIFace?, TNew, TUnmanaged>(_v1);
+                case 2:
+                    return new MyEither<TAny?, TNonNullRef, TNullRef?, TStruct, TNotNull, TObj?, TNullObj?, TIFace?, TNew, TUnmanaged>(_v2!);
+                case 3:
+                    return new MyEither<TAny?, TNonNullRef, TNullRef?, TStruct, TNotNull, TObj?, TNullObj?, TIFace?, TNew, TUnmanaged>(_v3);
+                case 4:
+                    return new MyEither<TAny?, TNonNullRef, TNullRef?, TStruct, TNotNull, TObj?, TNullObj?, TIFace?, TNew, TUnmanaged>(_v4);
+                case 5:
+                    return new MyEither<TAny?, TNonNullRef, TNullRef?, TStruct, TNotNull, TObj?, TNullObj?, TIFace?, TNew, TUnmanaged>(_v5!);
+                case 6:
+                    return new MyEither<TAny?, TNonNullRef, TNullRef?, TStruct, TNotNull, TObj?, TNullObj?, TIFace?, TNew, TUnmanaged>(_v6);
+                case 7:
+                    return new MyEither<TAny?, TNonNullRef, TNullRef?, TStruct, TNotNull, TObj?, TNullObj?, TIFace?, TNew, TUnmanaged>(_v7);
+                case 8:
+                    return new MyEither<TAny?, TNonNullRef, TNullRef?, TStruct, TNotNull, TObj?, TNullObj?, TIFace?, TNew, TUnmanaged>(_v8);
+                case 9:
+                    return binder(_v9);
+                case 10:
+                    return new MyEither<TAny?, TNonNullRef, TNullRef?, TStruct, TNotNull, TObj?, TNullObj?, TIFace?, TNew, TUnmanaged>(_v10);
+                default:
+                    return global::W4k.Either.ThrowHelper.ThrowOnInvalidState<MyEither<TAny?, TNonNullRef, TNullRef?, TStruct, TNotNull, TObj?, TNullObj?, TIFace?, TNew, TUnmanaged>>();
+            }
+        }
+
+        public MyEither<TAny?, TNonNullRef, TNullRef?, TStruct, TNotNull, TObj?, TNullObj?, TIFace?, TNullIFace?, TNew> Bind<TNew>(global::System.Func<TUnmanaged, MyEither<TAny?, TNonNullRef, TNullRef?, TStruct, TNotNull, TObj?, TNullObj?, TIFace?, TNullIFace?, TNew>> binder)
+        {
+            switch (_idx)
+            {
+                case 1:
+                    return new MyEither<TAny?, TNonNullRef, TNullRef?, TStruct, TNotNull, TObj?, TNullObj?, TIFace?, TNullIFace?, TNew>(_v1);
+                case 2:
+                    return new MyEither<TAny?, TNonNullRef, TNullRef?, TStruct, TNotNull, TObj?, TNullObj?, TIFace?, TNullIFace?, TNew>(_v2!);
+                case 3:
+                    return new MyEither<TAny?, TNonNullRef, TNullRef?, TStruct, TNotNull, TObj?, TNullObj?, TIFace?, TNullIFace?, TNew>(_v3);
+                case 4:
+                    return new MyEither<TAny?, TNonNullRef, TNullRef?, TStruct, TNotNull, TObj?, TNullObj?, TIFace?, TNullIFace?, TNew>(_v4);
+                case 5:
+                    return new MyEither<TAny?, TNonNullRef, TNullRef?, TStruct, TNotNull, TObj?, TNullObj?, TIFace?, TNullIFace?, TNew>(_v5!);
+                case 6:
+                    return new MyEither<TAny?, TNonNullRef, TNullRef?, TStruct, TNotNull, TObj?, TNullObj?, TIFace?, TNullIFace?, TNew>(_v6);
+                case 7:
+                    return new MyEither<TAny?, TNonNullRef, TNullRef?, TStruct, TNotNull, TObj?, TNullObj?, TIFace?, TNullIFace?, TNew>(_v7);
+                case 8:
+                    return new MyEither<TAny?, TNonNullRef, TNullRef?, TStruct, TNotNull, TObj?, TNullObj?, TIFace?, TNullIFace?, TNew>(_v8);
+                case 9:
+                    return new MyEither<TAny?, TNonNullRef, TNullRef?, TStruct, TNotNull, TObj?, TNullObj?, TIFace?, TNullIFace?, TNew>(_v9);
+                case 10:
+                    return binder(_v10);
+                default:
+                    return global::W4k.Either.ThrowHelper.ThrowOnInvalidState<MyEither<TAny?, TNonNullRef, TNullRef?, TStruct, TNotNull, TObj?, TNullObj?, TIFace?, TNullIFace?, TNew>>();
+            }
+        }
+
+        public MyEither<TNew, TNonNullRef, TNullRef?, TStruct, TNotNull, TObj?, TNullObj?, TIFace?, TNullIFace?, TUnmanaged> Map<TNew>(global::System.Func<TAny?, TNew> mapper)
+        {
+            switch (_idx)
+            {
+                case 1:
+                    return new MyEither<TNew, TNonNullRef, TNullRef?, TStruct, TNotNull, TObj?, TNullObj?, TIFace?, TNullIFace?, TUnmanaged>(mapper(_v1));
+                case 2:
+                    return new MyEither<TNew, TNonNullRef, TNullRef?, TStruct, TNotNull, TObj?, TNullObj?, TIFace?, TNullIFace?, TUnmanaged>(_v2!);
+                case 3:
+                    return new MyEither<TNew, TNonNullRef, TNullRef?, TStruct, TNotNull, TObj?, TNullObj?, TIFace?, TNullIFace?, TUnmanaged>(_v3);
+                case 4:
+                    return new MyEither<TNew, TNonNullRef, TNullRef?, TStruct, TNotNull, TObj?, TNullObj?, TIFace?, TNullIFace?, TUnmanaged>(_v4);
+                case 5:
+                    return new MyEither<TNew, TNonNullRef, TNullRef?, TStruct, TNotNull, TObj?, TNullObj?, TIFace?, TNullIFace?, TUnmanaged>(_v5!);
+                case 6:
+                    return new MyEither<TNew, TNonNullRef, TNullRef?, TStruct, TNotNull, TObj?, TNullObj?, TIFace?, TNullIFace?, TUnmanaged>(_v6);
+                case 7:
+                    return new MyEither<TNew, TNonNullRef, TNullRef?, TStruct, TNotNull, TObj?, TNullObj?, TIFace?, TNullIFace?, TUnmanaged>(_v7);
+                case 8:
+                    return new MyEither<TNew, TNonNullRef, TNullRef?, TStruct, TNotNull, TObj?, TNullObj?, TIFace?, TNullIFace?, TUnmanaged>(_v8);
+                case 9:
+                    return new MyEither<TNew, TNonNullRef, TNullRef?, TStruct, TNotNull, TObj?, TNullObj?, TIFace?, TNullIFace?, TUnmanaged>(_v9);
+                case 10:
+                    return new MyEither<TNew, TNonNullRef, TNullRef?, TStruct, TNotNull, TObj?, TNullObj?, TIFace?, TNullIFace?, TUnmanaged>(_v10);
+                default:
+                    return global::W4k.Either.ThrowHelper.ThrowOnInvalidState<MyEither<TNew, TNonNullRef, TNullRef?, TStruct, TNotNull, TObj?, TNullObj?, TIFace?, TNullIFace?, TUnmanaged>>();
+            }
+        }
+
+        public MyEither<TAny?, TNew, TNullRef?, TStruct, TNotNull, TObj?, TNullObj?, TIFace?, TNullIFace?, TUnmanaged> Map<TNew>(global::System.Func<TNonNullRef, TNew> mapper)
+        {
+            switch (_idx)
+            {
+                case 1:
+                    return new MyEither<TAny?, TNew, TNullRef?, TStruct, TNotNull, TObj?, TNullObj?, TIFace?, TNullIFace?, TUnmanaged>(_v1);
+                case 2:
+                    return new MyEither<TAny?, TNew, TNullRef?, TStruct, TNotNull, TObj?, TNullObj?, TIFace?, TNullIFace?, TUnmanaged>(mapper(_v2!));
+                case 3:
+                    return new MyEither<TAny?, TNew, TNullRef?, TStruct, TNotNull, TObj?, TNullObj?, TIFace?, TNullIFace?, TUnmanaged>(_v3);
+                case 4:
+                    return new MyEither<TAny?, TNew, TNullRef?, TStruct, TNotNull, TObj?, TNullObj?, TIFace?, TNullIFace?, TUnmanaged>(_v4);
+                case 5:
+                    return new MyEither<TAny?, TNew, TNullRef?, TStruct, TNotNull, TObj?, TNullObj?, TIFace?, TNullIFace?, TUnmanaged>(_v5!);
+                case 6:
+                    return new MyEither<TAny?, TNew, TNullRef?, TStruct, TNotNull, TObj?, TNullObj?, TIFace?, TNullIFace?, TUnmanaged>(_v6);
+                case 7:
+                    return new MyEither<TAny?, TNew, TNullRef?, TStruct, TNotNull, TObj?, TNullObj?, TIFace?, TNullIFace?, TUnmanaged>(_v7);
+                case 8:
+                    return new MyEither<TAny?, TNew, TNullRef?, TStruct, TNotNull, TObj?, TNullObj?, TIFace?, TNullIFace?, TUnmanaged>(_v8);
+                case 9:
+                    return new MyEither<TAny?, TNew, TNullRef?, TStruct, TNotNull, TObj?, TNullObj?, TIFace?, TNullIFace?, TUnmanaged>(_v9);
+                case 10:
+                    return new MyEither<TAny?, TNew, TNullRef?, TStruct, TNotNull, TObj?, TNullObj?, TIFace?, TNullIFace?, TUnmanaged>(_v10);
+                default:
+                    return global::W4k.Either.ThrowHelper.ThrowOnInvalidState<MyEither<TAny?, TNew, TNullRef?, TStruct, TNotNull, TObj?, TNullObj?, TIFace?, TNullIFace?, TUnmanaged>>();
+            }
+        }
+
+        public MyEither<TAny?, TNonNullRef, TNew, TStruct, TNotNull, TObj?, TNullObj?, TIFace?, TNullIFace?, TUnmanaged> Map<TNew>(global::System.Func<TNullRef?, TNew> mapper)
+        {
+            switch (_idx)
+            {
+                case 1:
+                    return new MyEither<TAny?, TNonNullRef, TNew, TStruct, TNotNull, TObj?, TNullObj?, TIFace?, TNullIFace?, TUnmanaged>(_v1);
+                case 2:
+                    return new MyEither<TAny?, TNonNullRef, TNew, TStruct, TNotNull, TObj?, TNullObj?, TIFace?, TNullIFace?, TUnmanaged>(_v2!);
+                case 3:
+                    return new MyEither<TAny?, TNonNullRef, TNew, TStruct, TNotNull, TObj?, TNullObj?, TIFace?, TNullIFace?, TUnmanaged>(mapper(_v3));
+                case 4:
+                    return new MyEither<TAny?, TNonNullRef, TNew, TStruct, TNotNull, TObj?, TNullObj?, TIFace?, TNullIFace?, TUnmanaged>(_v4);
+                case 5:
+                    return new MyEither<TAny?, TNonNullRef, TNew, TStruct, TNotNull, TObj?, TNullObj?, TIFace?, TNullIFace?, TUnmanaged>(_v5!);
+                case 6:
+                    return new MyEither<TAny?, TNonNullRef, TNew, TStruct, TNotNull, TObj?, TNullObj?, TIFace?, TNullIFace?, TUnmanaged>(_v6);
+                case 7:
+                    return new MyEither<TAny?, TNonNullRef, TNew, TStruct, TNotNull, TObj?, TNullObj?, TIFace?, TNullIFace?, TUnmanaged>(_v7);
+                case 8:
+                    return new MyEither<TAny?, TNonNullRef, TNew, TStruct, TNotNull, TObj?, TNullObj?, TIFace?, TNullIFace?, TUnmanaged>(_v8);
+                case 9:
+                    return new MyEither<TAny?, TNonNullRef, TNew, TStruct, TNotNull, TObj?, TNullObj?, TIFace?, TNullIFace?, TUnmanaged>(_v9);
+                case 10:
+                    return new MyEither<TAny?, TNonNullRef, TNew, TStruct, TNotNull, TObj?, TNullObj?, TIFace?, TNullIFace?, TUnmanaged>(_v10);
+                default:
+                    return global::W4k.Either.ThrowHelper.ThrowOnInvalidState<MyEither<TAny?, TNonNullRef, TNew, TStruct, TNotNull, TObj?, TNullObj?, TIFace?, TNullIFace?, TUnmanaged>>();
+            }
+        }
+
+        public MyEither<TAny?, TNonNullRef, TNullRef?, TNew, TNotNull, TObj?, TNullObj?, TIFace?, TNullIFace?, TUnmanaged> Map<TNew>(global::System.Func<TStruct, TNew> mapper)
+        {
+            switch (_idx)
+            {
+                case 1:
+                    return new MyEither<TAny?, TNonNullRef, TNullRef?, TNew, TNotNull, TObj?, TNullObj?, TIFace?, TNullIFace?, TUnmanaged>(_v1);
+                case 2:
+                    return new MyEither<TAny?, TNonNullRef, TNullRef?, TNew, TNotNull, TObj?, TNullObj?, TIFace?, TNullIFace?, TUnmanaged>(_v2!);
+                case 3:
+                    return new MyEither<TAny?, TNonNullRef, TNullRef?, TNew, TNotNull, TObj?, TNullObj?, TIFace?, TNullIFace?, TUnmanaged>(_v3);
+                case 4:
+                    return new MyEither<TAny?, TNonNullRef, TNullRef?, TNew, TNotNull, TObj?, TNullObj?, TIFace?, TNullIFace?, TUnmanaged>(mapper(_v4));
+                case 5:
+                    return new MyEither<TAny?, TNonNullRef, TNullRef?, TNew, TNotNull, TObj?, TNullObj?, TIFace?, TNullIFace?, TUnmanaged>(_v5!);
+                case 6:
+                    return new MyEither<TAny?, TNonNullRef, TNullRef?, TNew, TNotNull, TObj?, TNullObj?, TIFace?, TNullIFace?, TUnmanaged>(_v6);
+                case 7:
+                    return new MyEither<TAny?, TNonNullRef, TNullRef?, TNew, TNotNull, TObj?, TNullObj?, TIFace?, TNullIFace?, TUnmanaged>(_v7);
+                case 8:
+                    return new MyEither<TAny?, TNonNullRef, TNullRef?, TNew, TNotNull, TObj?, TNullObj?, TIFace?, TNullIFace?, TUnmanaged>(_v8);
+                case 9:
+                    return new MyEither<TAny?, TNonNullRef, TNullRef?, TNew, TNotNull, TObj?, TNullObj?, TIFace?, TNullIFace?, TUnmanaged>(_v9);
+                case 10:
+                    return new MyEither<TAny?, TNonNullRef, TNullRef?, TNew, TNotNull, TObj?, TNullObj?, TIFace?, TNullIFace?, TUnmanaged>(_v10);
+                default:
+                    return global::W4k.Either.ThrowHelper.ThrowOnInvalidState<MyEither<TAny?, TNonNullRef, TNullRef?, TNew, TNotNull, TObj?, TNullObj?, TIFace?, TNullIFace?, TUnmanaged>>();
+            }
+        }
+
+        public MyEither<TAny?, TNonNullRef, TNullRef?, TStruct, TNew, TObj?, TNullObj?, TIFace?, TNullIFace?, TUnmanaged> Map<TNew>(global::System.Func<TNotNull, TNew> mapper)
+        {
+            switch (_idx)
+            {
+                case 1:
+                    return new MyEither<TAny?, TNonNullRef, TNullRef?, TStruct, TNew, TObj?, TNullObj?, TIFace?, TNullIFace?, TUnmanaged>(_v1);
+                case 2:
+                    return new MyEither<TAny?, TNonNullRef, TNullRef?, TStruct, TNew, TObj?, TNullObj?, TIFace?, TNullIFace?, TUnmanaged>(_v2!);
+                case 3:
+                    return new MyEither<TAny?, TNonNullRef, TNullRef?, TStruct, TNew, TObj?, TNullObj?, TIFace?, TNullIFace?, TUnmanaged>(_v3);
+                case 4:
+                    return new MyEither<TAny?, TNonNullRef, TNullRef?, TStruct, TNew, TObj?, TNullObj?, TIFace?, TNullIFace?, TUnmanaged>(_v4);
+                case 5:
+                    return new MyEither<TAny?, TNonNullRef, TNullRef?, TStruct, TNew, TObj?, TNullObj?, TIFace?, TNullIFace?, TUnmanaged>(mapper(_v5!));
+                case 6:
+                    return new MyEither<TAny?, TNonNullRef, TNullRef?, TStruct, TNew, TObj?, TNullObj?, TIFace?, TNullIFace?, TUnmanaged>(_v6);
+                case 7:
+                    return new MyEither<TAny?, TNonNullRef, TNullRef?, TStruct, TNew, TObj?, TNullObj?, TIFace?, TNullIFace?, TUnmanaged>(_v7);
+                case 8:
+                    return new MyEither<TAny?, TNonNullRef, TNullRef?, TStruct, TNew, TObj?, TNullObj?, TIFace?, TNullIFace?, TUnmanaged>(_v8);
+                case 9:
+                    return new MyEither<TAny?, TNonNullRef, TNullRef?, TStruct, TNew, TObj?, TNullObj?, TIFace?, TNullIFace?, TUnmanaged>(_v9);
+                case 10:
+                    return new MyEither<TAny?, TNonNullRef, TNullRef?, TStruct, TNew, TObj?, TNullObj?, TIFace?, TNullIFace?, TUnmanaged>(_v10);
+                default:
+                    return global::W4k.Either.ThrowHelper.ThrowOnInvalidState<MyEither<TAny?, TNonNullRef, TNullRef?, TStruct, TNew, TObj?, TNullObj?, TIFace?, TNullIFace?, TUnmanaged>>();
+            }
+        }
+
+        public MyEither<TAny?, TNonNullRef, TNullRef?, TStruct, TNotNull, TNew, TNullObj?, TIFace?, TNullIFace?, TUnmanaged> Map<TNew>(global::System.Func<TObj?, TNew> mapper)
+        {
+            switch (_idx)
+            {
+                case 1:
+                    return new MyEither<TAny?, TNonNullRef, TNullRef?, TStruct, TNotNull, TNew, TNullObj?, TIFace?, TNullIFace?, TUnmanaged>(_v1);
+                case 2:
+                    return new MyEither<TAny?, TNonNullRef, TNullRef?, TStruct, TNotNull, TNew, TNullObj?, TIFace?, TNullIFace?, TUnmanaged>(_v2!);
+                case 3:
+                    return new MyEither<TAny?, TNonNullRef, TNullRef?, TStruct, TNotNull, TNew, TNullObj?, TIFace?, TNullIFace?, TUnmanaged>(_v3);
+                case 4:
+                    return new MyEither<TAny?, TNonNullRef, TNullRef?, TStruct, TNotNull, TNew, TNullObj?, TIFace?, TNullIFace?, TUnmanaged>(_v4);
+                case 5:
+                    return new MyEither<TAny?, TNonNullRef, TNullRef?, TStruct, TNotNull, TNew, TNullObj?, TIFace?, TNullIFace?, TUnmanaged>(_v5!);
+                case 6:
+                    return new MyEither<TAny?, TNonNullRef, TNullRef?, TStruct, TNotNull, TNew, TNullObj?, TIFace?, TNullIFace?, TUnmanaged>(mapper(_v6));
+                case 7:
+                    return new MyEither<TAny?, TNonNullRef, TNullRef?, TStruct, TNotNull, TNew, TNullObj?, TIFace?, TNullIFace?, TUnmanaged>(_v7);
+                case 8:
+                    return new MyEither<TAny?, TNonNullRef, TNullRef?, TStruct, TNotNull, TNew, TNullObj?, TIFace?, TNullIFace?, TUnmanaged>(_v8);
+                case 9:
+                    return new MyEither<TAny?, TNonNullRef, TNullRef?, TStruct, TNotNull, TNew, TNullObj?, TIFace?, TNullIFace?, TUnmanaged>(_v9);
+                case 10:
+                    return new MyEither<TAny?, TNonNullRef, TNullRef?, TStruct, TNotNull, TNew, TNullObj?, TIFace?, TNullIFace?, TUnmanaged>(_v10);
+                default:
+                    return global::W4k.Either.ThrowHelper.ThrowOnInvalidState<MyEither<TAny?, TNonNullRef, TNullRef?, TStruct, TNotNull, TNew, TNullObj?, TIFace?, TNullIFace?, TUnmanaged>>();
+            }
+        }
+
+        public MyEither<TAny?, TNonNullRef, TNullRef?, TStruct, TNotNull, TObj?, TNew, TIFace?, TNullIFace?, TUnmanaged> Map<TNew>(global::System.Func<TNullObj?, TNew> mapper)
+        {
+            switch (_idx)
+            {
+                case 1:
+                    return new MyEither<TAny?, TNonNullRef, TNullRef?, TStruct, TNotNull, TObj?, TNew, TIFace?, TNullIFace?, TUnmanaged>(_v1);
+                case 2:
+                    return new MyEither<TAny?, TNonNullRef, TNullRef?, TStruct, TNotNull, TObj?, TNew, TIFace?, TNullIFace?, TUnmanaged>(_v2!);
+                case 3:
+                    return new MyEither<TAny?, TNonNullRef, TNullRef?, TStruct, TNotNull, TObj?, TNew, TIFace?, TNullIFace?, TUnmanaged>(_v3);
+                case 4:
+                    return new MyEither<TAny?, TNonNullRef, TNullRef?, TStruct, TNotNull, TObj?, TNew, TIFace?, TNullIFace?, TUnmanaged>(_v4);
+                case 5:
+                    return new MyEither<TAny?, TNonNullRef, TNullRef?, TStruct, TNotNull, TObj?, TNew, TIFace?, TNullIFace?, TUnmanaged>(_v5!);
+                case 6:
+                    return new MyEither<TAny?, TNonNullRef, TNullRef?, TStruct, TNotNull, TObj?, TNew, TIFace?, TNullIFace?, TUnmanaged>(_v6);
+                case 7:
+                    return new MyEither<TAny?, TNonNullRef, TNullRef?, TStruct, TNotNull, TObj?, TNew, TIFace?, TNullIFace?, TUnmanaged>(mapper(_v7));
+                case 8:
+                    return new MyEither<TAny?, TNonNullRef, TNullRef?, TStruct, TNotNull, TObj?, TNew, TIFace?, TNullIFace?, TUnmanaged>(_v8);
+                case 9:
+                    return new MyEither<TAny?, TNonNullRef, TNullRef?, TStruct, TNotNull, TObj?, TNew, TIFace?, TNullIFace?, TUnmanaged>(_v9);
+                case 10:
+                    return new MyEither<TAny?, TNonNullRef, TNullRef?, TStruct, TNotNull, TObj?, TNew, TIFace?, TNullIFace?, TUnmanaged>(_v10);
+                default:
+                    return global::W4k.Either.ThrowHelper.ThrowOnInvalidState<MyEither<TAny?, TNonNullRef, TNullRef?, TStruct, TNotNull, TObj?, TNew, TIFace?, TNullIFace?, TUnmanaged>>();
+            }
+        }
+
+        public MyEither<TAny?, TNonNullRef, TNullRef?, TStruct, TNotNull, TObj?, TNullObj?, TNew, TNullIFace?, TUnmanaged> Map<TNew>(global::System.Func<TIFace?, TNew> mapper)
+        {
+            switch (_idx)
+            {
+                case 1:
+                    return new MyEither<TAny?, TNonNullRef, TNullRef?, TStruct, TNotNull, TObj?, TNullObj?, TNew, TNullIFace?, TUnmanaged>(_v1);
+                case 2:
+                    return new MyEither<TAny?, TNonNullRef, TNullRef?, TStruct, TNotNull, TObj?, TNullObj?, TNew, TNullIFace?, TUnmanaged>(_v2!);
+                case 3:
+                    return new MyEither<TAny?, TNonNullRef, TNullRef?, TStruct, TNotNull, TObj?, TNullObj?, TNew, TNullIFace?, TUnmanaged>(_v3);
+                case 4:
+                    return new MyEither<TAny?, TNonNullRef, TNullRef?, TStruct, TNotNull, TObj?, TNullObj?, TNew, TNullIFace?, TUnmanaged>(_v4);
+                case 5:
+                    return new MyEither<TAny?, TNonNullRef, TNullRef?, TStruct, TNotNull, TObj?, TNullObj?, TNew, TNullIFace?, TUnmanaged>(_v5!);
+                case 6:
+                    return new MyEither<TAny?, TNonNullRef, TNullRef?, TStruct, TNotNull, TObj?, TNullObj?, TNew, TNullIFace?, TUnmanaged>(_v6);
+                case 7:
+                    return new MyEither<TAny?, TNonNullRef, TNullRef?, TStruct, TNotNull, TObj?, TNullObj?, TNew, TNullIFace?, TUnmanaged>(_v7);
+                case 8:
+                    return new MyEither<TAny?, TNonNullRef, TNullRef?, TStruct, TNotNull, TObj?, TNullObj?, TNew, TNullIFace?, TUnmanaged>(mapper(_v8));
+                case 9:
+                    return new MyEither<TAny?, TNonNullRef, TNullRef?, TStruct, TNotNull, TObj?, TNullObj?, TNew, TNullIFace?, TUnmanaged>(_v9);
+                case 10:
+                    return new MyEither<TAny?, TNonNullRef, TNullRef?, TStruct, TNotNull, TObj?, TNullObj?, TNew, TNullIFace?, TUnmanaged>(_v10);
+                default:
+                    return global::W4k.Either.ThrowHelper.ThrowOnInvalidState<MyEither<TAny?, TNonNullRef, TNullRef?, TStruct, TNotNull, TObj?, TNullObj?, TNew, TNullIFace?, TUnmanaged>>();
+            }
+        }
+
+        public MyEither<TAny?, TNonNullRef, TNullRef?, TStruct, TNotNull, TObj?, TNullObj?, TIFace?, TNew, TUnmanaged> Map<TNew>(global::System.Func<TNullIFace?, TNew> mapper)
+        {
+            switch (_idx)
+            {
+                case 1:
+                    return new MyEither<TAny?, TNonNullRef, TNullRef?, TStruct, TNotNull, TObj?, TNullObj?, TIFace?, TNew, TUnmanaged>(_v1);
+                case 2:
+                    return new MyEither<TAny?, TNonNullRef, TNullRef?, TStruct, TNotNull, TObj?, TNullObj?, TIFace?, TNew, TUnmanaged>(_v2!);
+                case 3:
+                    return new MyEither<TAny?, TNonNullRef, TNullRef?, TStruct, TNotNull, TObj?, TNullObj?, TIFace?, TNew, TUnmanaged>(_v3);
+                case 4:
+                    return new MyEither<TAny?, TNonNullRef, TNullRef?, TStruct, TNotNull, TObj?, TNullObj?, TIFace?, TNew, TUnmanaged>(_v4);
+                case 5:
+                    return new MyEither<TAny?, TNonNullRef, TNullRef?, TStruct, TNotNull, TObj?, TNullObj?, TIFace?, TNew, TUnmanaged>(_v5!);
+                case 6:
+                    return new MyEither<TAny?, TNonNullRef, TNullRef?, TStruct, TNotNull, TObj?, TNullObj?, TIFace?, TNew, TUnmanaged>(_v6);
+                case 7:
+                    return new MyEither<TAny?, TNonNullRef, TNullRef?, TStruct, TNotNull, TObj?, TNullObj?, TIFace?, TNew, TUnmanaged>(_v7);
+                case 8:
+                    return new MyEither<TAny?, TNonNullRef, TNullRef?, TStruct, TNotNull, TObj?, TNullObj?, TIFace?, TNew, TUnmanaged>(_v8);
+                case 9:
+                    return new MyEither<TAny?, TNonNullRef, TNullRef?, TStruct, TNotNull, TObj?, TNullObj?, TIFace?, TNew, TUnmanaged>(mapper(_v9));
+                case 10:
+                    return new MyEither<TAny?, TNonNullRef, TNullRef?, TStruct, TNotNull, TObj?, TNullObj?, TIFace?, TNew, TUnmanaged>(_v10);
+                default:
+                    return global::W4k.Either.ThrowHelper.ThrowOnInvalidState<MyEither<TAny?, TNonNullRef, TNullRef?, TStruct, TNotNull, TObj?, TNullObj?, TIFace?, TNew, TUnmanaged>>();
+            }
+        }
+
+        public MyEither<TAny?, TNonNullRef, TNullRef?, TStruct, TNotNull, TObj?, TNullObj?, TIFace?, TNullIFace?, TNew> Map<TNew>(global::System.Func<TUnmanaged, TNew> mapper)
+        {
+            switch (_idx)
+            {
+                case 1:
+                    return new MyEither<TAny?, TNonNullRef, TNullRef?, TStruct, TNotNull, TObj?, TNullObj?, TIFace?, TNullIFace?, TNew>(_v1);
+                case 2:
+                    return new MyEither<TAny?, TNonNullRef, TNullRef?, TStruct, TNotNull, TObj?, TNullObj?, TIFace?, TNullIFace?, TNew>(_v2!);
+                case 3:
+                    return new MyEither<TAny?, TNonNullRef, TNullRef?, TStruct, TNotNull, TObj?, TNullObj?, TIFace?, TNullIFace?, TNew>(_v3);
+                case 4:
+                    return new MyEither<TAny?, TNonNullRef, TNullRef?, TStruct, TNotNull, TObj?, TNullObj?, TIFace?, TNullIFace?, TNew>(_v4);
+                case 5:
+                    return new MyEither<TAny?, TNonNullRef, TNullRef?, TStruct, TNotNull, TObj?, TNullObj?, TIFace?, TNullIFace?, TNew>(_v5!);
+                case 6:
+                    return new MyEither<TAny?, TNonNullRef, TNullRef?, TStruct, TNotNull, TObj?, TNullObj?, TIFace?, TNullIFace?, TNew>(_v6);
+                case 7:
+                    return new MyEither<TAny?, TNonNullRef, TNullRef?, TStruct, TNotNull, TObj?, TNullObj?, TIFace?, TNullIFace?, TNew>(_v7);
+                case 8:
+                    return new MyEither<TAny?, TNonNullRef, TNullRef?, TStruct, TNotNull, TObj?, TNullObj?, TIFace?, TNullIFace?, TNew>(_v8);
+                case 9:
+                    return new MyEither<TAny?, TNonNullRef, TNullRef?, TStruct, TNotNull, TObj?, TNullObj?, TIFace?, TNullIFace?, TNew>(_v9);
+                case 10:
+                    return new MyEither<TAny?, TNonNullRef, TNullRef?, TStruct, TNotNull, TObj?, TNullObj?, TIFace?, TNullIFace?, TNew>(mapper(_v10));
+                default:
+                    return global::W4k.Either.ThrowHelper.ThrowOnInvalidState<MyEither<TAny?, TNonNullRef, TNullRef?, TStruct, TNotNull, TObj?, TNullObj?, TIFace?, TNullIFace?, TNew>>();
+            }
+        }
+
         public TResult Match<TResult>(
             global::System.Func<TAny?, TResult> f1,
             global::System.Func<TNonNullRef, TResult> f2,

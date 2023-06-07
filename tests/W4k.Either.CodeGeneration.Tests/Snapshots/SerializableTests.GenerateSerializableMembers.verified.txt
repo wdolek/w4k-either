@@ -175,6 +175,58 @@ namespace MyLittleEither.MyLittleEitherMonad
             return false;
         }
 
+        public MyEither<TNew, TRight?> Bind<TNew>(global::System.Func<TLeft?, MyEither<TNew, TRight?>> binder)
+        {
+            switch (_idx)
+            {
+                case 1:
+                    return binder(_v1);
+                case 2:
+                    return new MyEither<TNew, TRight?>(_v2);
+                default:
+                    return global::W4k.Either.ThrowHelper.ThrowOnInvalidState<MyEither<TNew, TRight?>>();
+            }
+        }
+
+        public MyEither<TLeft?, TNew> Bind<TNew>(global::System.Func<TRight?, MyEither<TLeft?, TNew>> binder)
+        {
+            switch (_idx)
+            {
+                case 1:
+                    return new MyEither<TLeft?, TNew>(_v1);
+                case 2:
+                    return binder(_v2);
+                default:
+                    return global::W4k.Either.ThrowHelper.ThrowOnInvalidState<MyEither<TLeft?, TNew>>();
+            }
+        }
+
+        public MyEither<TNew, TRight?> Map<TNew>(global::System.Func<TLeft?, TNew> mapper)
+        {
+            switch (_idx)
+            {
+                case 1:
+                    return new MyEither<TNew, TRight?>(mapper(_v1));
+                case 2:
+                    return new MyEither<TNew, TRight?>(_v2);
+                default:
+                    return global::W4k.Either.ThrowHelper.ThrowOnInvalidState<MyEither<TNew, TRight?>>();
+            }
+        }
+
+        public MyEither<TLeft?, TNew> Map<TNew>(global::System.Func<TRight?, TNew> mapper)
+        {
+            switch (_idx)
+            {
+                case 1:
+                    return new MyEither<TLeft?, TNew>(_v1);
+                case 2:
+                    return new MyEither<TLeft?, TNew>(mapper(_v2));
+                default:
+                    return global::W4k.Either.ThrowHelper.ThrowOnInvalidState<MyEither<TLeft?, TNew>>();
+            }
+        }
+
         public TResult Match<TResult>(
             global::System.Func<TLeft?, TResult> f1,
             global::System.Func<TRight?, TResult> f2)

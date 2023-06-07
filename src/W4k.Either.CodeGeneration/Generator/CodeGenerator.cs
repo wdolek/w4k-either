@@ -18,6 +18,8 @@ internal class CodeGenerator
             new ObjectOverridesGenerator(context),
             new EquatableGenerator(context),
             new TryPickGenerator(context),
+            new BindGenerator(context),
+            new MapGenerator(context),
             new MatchGenerator(context),
             new SwitchGenerator(context),
         };
