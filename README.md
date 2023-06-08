@@ -30,8 +30,10 @@ Common API for all types:
 |---------------------------------|-----------------------------------------------------------------------------|
 | ctor                            | Creates a new instance of the type with a value                             |
 |                                 |                                                                             |
-| `Case` (property)               | Property for use with pattern matching                                      | 
+| `Case` (property)               | Property for use with pattern matching (returns current value as `object`)  | 
 | `TryPick`                       | Allows retrieval of value from the type (if present)                        |
+| `Bind<TNew>`                    | Binds the value to a new instance of type `TNew` using the binder function  |
+| `Map<TNew>`                     | Maps the value to a new value of type `TNew` using the mapper function      |
 | `Match<TResult>`                | Handles all possible cases, returning `TResult`                             |
 | `Match<TState, TResult>`        | Handles all possible cases returning `TResult` using a state                |
 | `MatchAsync<TResult>`           | Asynchronously handles all possible cases returning `TResult`               |
