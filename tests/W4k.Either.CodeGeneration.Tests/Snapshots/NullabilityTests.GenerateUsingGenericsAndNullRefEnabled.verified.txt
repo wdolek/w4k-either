@@ -505,6 +505,7 @@ namespace MyLittleEither.MyLittleEitherMonad
         }
 
         public MyEither<TAny?, TNew, TNullRef?, TStruct, TNotNull, TObj?, TNullObj?, TIFace?, TNullIFace?, TUnmanaged> Bind<TNew>(global::System.Func<TNonNullRef, MyEither<TAny?, TNew, TNullRef?, TStruct, TNotNull, TObj?, TNullObj?, TIFace?, TNullIFace?, TUnmanaged>> binder)
+            where TNew : class
         {
             switch (_idx)
             {
@@ -534,6 +535,7 @@ namespace MyLittleEither.MyLittleEitherMonad
         }
 
         public MyEither<TAny?, TNonNullRef, TNew, TStruct, TNotNull, TObj?, TNullObj?, TIFace?, TNullIFace?, TUnmanaged> Bind<TNew>(global::System.Func<TNullRef?, MyEither<TAny?, TNonNullRef, TNew, TStruct, TNotNull, TObj?, TNullObj?, TIFace?, TNullIFace?, TUnmanaged>> binder)
+            where TNew : class
         {
             switch (_idx)
             {
@@ -563,6 +565,7 @@ namespace MyLittleEither.MyLittleEitherMonad
         }
 
         public MyEither<TAny?, TNonNullRef, TNullRef?, TNew, TNotNull, TObj?, TNullObj?, TIFace?, TNullIFace?, TUnmanaged> Bind<TNew>(global::System.Func<TStruct, MyEither<TAny?, TNonNullRef, TNullRef?, TNew, TNotNull, TObj?, TNullObj?, TIFace?, TNullIFace?, TUnmanaged>> binder)
+            where TNew : struct
         {
             switch (_idx)
             {
@@ -592,6 +595,7 @@ namespace MyLittleEither.MyLittleEitherMonad
         }
 
         public MyEither<TAny?, TNonNullRef, TNullRef?, TStruct, TNew, TObj?, TNullObj?, TIFace?, TNullIFace?, TUnmanaged> Bind<TNew>(global::System.Func<TNotNull, MyEither<TAny?, TNonNullRef, TNullRef?, TStruct, TNew, TObj?, TNullObj?, TIFace?, TNullIFace?, TUnmanaged>> binder)
+            where TNew : notnull
         {
             switch (_idx)
             {
@@ -621,6 +625,7 @@ namespace MyLittleEither.MyLittleEitherMonad
         }
 
         public MyEither<TAny?, TNonNullRef, TNullRef?, TStruct, TNotNull, TNew, TNullObj?, TIFace?, TNullIFace?, TUnmanaged> Bind<TNew>(global::System.Func<TObj?, MyEither<TAny?, TNonNullRef, TNullRef?, TStruct, TNotNull, TNew, TNullObj?, TIFace?, TNullIFace?, TUnmanaged>> binder)
+            where TNew : MyLittleEither.MyLittleEitherMonad.LeObject
         {
             switch (_idx)
             {
@@ -650,6 +655,7 @@ namespace MyLittleEither.MyLittleEitherMonad
         }
 
         public MyEither<TAny?, TNonNullRef, TNullRef?, TStruct, TNotNull, TObj?, TNew, TIFace?, TNullIFace?, TUnmanaged> Bind<TNew>(global::System.Func<TNullObj?, MyEither<TAny?, TNonNullRef, TNullRef?, TStruct, TNotNull, TObj?, TNew, TIFace?, TNullIFace?, TUnmanaged>> binder)
+            where TNew : MyLittleEither.MyLittleEitherMonad.LeObject?
         {
             switch (_idx)
             {
@@ -679,6 +685,7 @@ namespace MyLittleEither.MyLittleEitherMonad
         }
 
         public MyEither<TAny?, TNonNullRef, TNullRef?, TStruct, TNotNull, TObj?, TNullObj?, TNew, TNullIFace?, TUnmanaged> Bind<TNew>(global::System.Func<TIFace?, MyEither<TAny?, TNonNullRef, TNullRef?, TStruct, TNotNull, TObj?, TNullObj?, TNew, TNullIFace?, TUnmanaged>> binder)
+            where TNew : MyLittleEither.MyLittleEitherMonad.IAmInterface
         {
             switch (_idx)
             {
@@ -708,6 +715,7 @@ namespace MyLittleEither.MyLittleEitherMonad
         }
 
         public MyEither<TAny?, TNonNullRef, TNullRef?, TStruct, TNotNull, TObj?, TNullObj?, TIFace?, TNew, TUnmanaged> Bind<TNew>(global::System.Func<TNullIFace?, MyEither<TAny?, TNonNullRef, TNullRef?, TStruct, TNotNull, TObj?, TNullObj?, TIFace?, TNew, TUnmanaged>> binder)
+            where TNew : MyLittleEither.MyLittleEitherMonad.IAmInterface?
         {
             switch (_idx)
             {
@@ -737,6 +745,7 @@ namespace MyLittleEither.MyLittleEitherMonad
         }
 
         public MyEither<TAny?, TNonNullRef, TNullRef?, TStruct, TNotNull, TObj?, TNullObj?, TIFace?, TNullIFace?, TNew> Bind<TNew>(global::System.Func<TUnmanaged, MyEither<TAny?, TNonNullRef, TNullRef?, TStruct, TNotNull, TObj?, TNullObj?, TIFace?, TNullIFace?, TNew>> binder)
+            where TNew : struct
         {
             switch (_idx)
             {
@@ -795,6 +804,7 @@ namespace MyLittleEither.MyLittleEitherMonad
         }
 
         public MyEither<TAny?, TNew, TNullRef?, TStruct, TNotNull, TObj?, TNullObj?, TIFace?, TNullIFace?, TUnmanaged> Map<TNew>(global::System.Func<TNonNullRef, TNew> mapper)
+            where TNew : class
         {
             switch (_idx)
             {
@@ -824,6 +834,7 @@ namespace MyLittleEither.MyLittleEitherMonad
         }
 
         public MyEither<TAny?, TNonNullRef, TNew, TStruct, TNotNull, TObj?, TNullObj?, TIFace?, TNullIFace?, TUnmanaged> Map<TNew>(global::System.Func<TNullRef?, TNew> mapper)
+            where TNew : class
         {
             switch (_idx)
             {
@@ -853,6 +864,7 @@ namespace MyLittleEither.MyLittleEitherMonad
         }
 
         public MyEither<TAny?, TNonNullRef, TNullRef?, TNew, TNotNull, TObj?, TNullObj?, TIFace?, TNullIFace?, TUnmanaged> Map<TNew>(global::System.Func<TStruct, TNew> mapper)
+            where TNew : struct
         {
             switch (_idx)
             {
@@ -882,6 +894,7 @@ namespace MyLittleEither.MyLittleEitherMonad
         }
 
         public MyEither<TAny?, TNonNullRef, TNullRef?, TStruct, TNew, TObj?, TNullObj?, TIFace?, TNullIFace?, TUnmanaged> Map<TNew>(global::System.Func<TNotNull, TNew> mapper)
+            where TNew : notnull
         {
             switch (_idx)
             {
@@ -911,6 +924,7 @@ namespace MyLittleEither.MyLittleEitherMonad
         }
 
         public MyEither<TAny?, TNonNullRef, TNullRef?, TStruct, TNotNull, TNew, TNullObj?, TIFace?, TNullIFace?, TUnmanaged> Map<TNew>(global::System.Func<TObj?, TNew> mapper)
+            where TNew : MyLittleEither.MyLittleEitherMonad.LeObject
         {
             switch (_idx)
             {
@@ -940,6 +954,7 @@ namespace MyLittleEither.MyLittleEitherMonad
         }
 
         public MyEither<TAny?, TNonNullRef, TNullRef?, TStruct, TNotNull, TObj?, TNew, TIFace?, TNullIFace?, TUnmanaged> Map<TNew>(global::System.Func<TNullObj?, TNew> mapper)
+            where TNew : MyLittleEither.MyLittleEitherMonad.LeObject?
         {
             switch (_idx)
             {
@@ -969,6 +984,7 @@ namespace MyLittleEither.MyLittleEitherMonad
         }
 
         public MyEither<TAny?, TNonNullRef, TNullRef?, TStruct, TNotNull, TObj?, TNullObj?, TNew, TNullIFace?, TUnmanaged> Map<TNew>(global::System.Func<TIFace?, TNew> mapper)
+            where TNew : MyLittleEither.MyLittleEitherMonad.IAmInterface
         {
             switch (_idx)
             {
@@ -998,6 +1014,7 @@ namespace MyLittleEither.MyLittleEitherMonad
         }
 
         public MyEither<TAny?, TNonNullRef, TNullRef?, TStruct, TNotNull, TObj?, TNullObj?, TIFace?, TNew, TUnmanaged> Map<TNew>(global::System.Func<TNullIFace?, TNew> mapper)
+            where TNew : MyLittleEither.MyLittleEitherMonad.IAmInterface?
         {
             switch (_idx)
             {
@@ -1027,6 +1044,7 @@ namespace MyLittleEither.MyLittleEitherMonad
         }
 
         public MyEither<TAny?, TNonNullRef, TNullRef?, TStruct, TNotNull, TObj?, TNullObj?, TIFace?, TNullIFace?, TNew> Map<TNew>(global::System.Func<TUnmanaged, TNew> mapper)
+            where TNew : struct
         {
             switch (_idx)
             {

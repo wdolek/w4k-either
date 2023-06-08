@@ -1,9 +1,11 @@
-﻿using System.Text;
+﻿using System.Collections.Generic;
+using System.Text;
+using Microsoft.CodeAnalysis;
 using W4k.Either.CodeGeneration.TypeParametrization;
 
 namespace W4k.Either.CodeGeneration.Generator;
 
-internal static class TypeNameBuilder
+internal static class TypeGeneratorHelper
 {
     private static readonly string[] CandidateNames = { "TNew", "TBound" };
 
@@ -34,7 +36,7 @@ internal static class TypeNameBuilder
         return sb.ToString();
     }
     
-    public static string GetUniqueTypeParamName(TypeParameter[] typeParameters)
+    public static string GetTypeParamName(TypeParameter[] typeParameters)
     {
         var candidateNames = CandidateNames;
         foreach (var candidate in candidateNames)
@@ -57,6 +59,48 @@ internal static class TypeNameBuilder
 
             ++suffix;
         }
+    }
+
+    public static List<string> GetTypeParamConstraints(ITypeParameterSymbol typeParamSymbol)
+    {
+        var constraints = new List<string>();
+
+        // 'notnull' constraint
+        // (branching since it's not possible to combine `notnull` with `class`/`struct` constraints)
+        if (typeParamSymbol.HasNotNullConstraint)
+        {
+            constraints.Add("notnull");
+        }
+        else
+        {
+            // 'class' / 'struct' constraints
+            if (typeParamSymbol.HasReferenceTypeConstraint)
+            {
+                constraints.Add("class");
+            }
+            else if (typeParamSymbol.HasValueTypeConstraint)
+            {
+                constraints.Add("struct");
+            }
+            else if (typeParamSymbol.HasUnmanagedTypeConstraint)
+            {
+                constraints.Add("unmanaged");
+            }
+        }
+
+        // constructor constraint 'new()'
+        if (typeParamSymbol.HasConstructorConstraint)
+        {
+            constraints.Add("new()");
+        }
+
+        // type constraints
+        foreach (var constraint in typeParamSymbol.ConstraintTypes)
+        {
+            constraints.Add(constraint.ToDisplayString());
+        }
+
+        return constraints;
     }
 
     private static bool IsTypeParamNamePresent(TypeParameter[] existingTypeParameters, string name)

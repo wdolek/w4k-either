@@ -1,11 +1,10 @@
-﻿using W4k.Either.CodeGeneration.TypeParametrization;
+﻿using Microsoft.CodeAnalysis;
+using W4k.Either.CodeGeneration.TypeParametrization;
 
 namespace W4k.Either.CodeGeneration.Generator;
 
 internal class BindGenerator : IMemberCodeGenerator
 {
-    private static readonly string[] CandidateNames = { "TNew", "TBound" };
-    
     private readonly GeneratorContext _context;
 
     public BindGenerator(GeneratorContext context)
@@ -19,13 +18,19 @@ internal class BindGenerator : IMemberCodeGenerator
     {
         var typeSymbolName = _context.TypeDeclaration.TypeSymbol.Name;
         var typeParameters = _context.TypeParameters;
-        var newTypeParamName = TypeNameBuilder.GetUniqueTypeParamName(typeParameters);
+        var newTypeParamName = TypeGeneratorHelper.GetTypeParamName(typeParameters);
         
         foreach (var typeParam in typeParameters)
         {
-            var typeName = TypeNameBuilder.GetTypeName(typeSymbolName, typeParameters, typeParam.Index, newTypeParamName);
+            var typeName = TypeGeneratorHelper.GetTypeName(typeSymbolName, typeParameters, typeParam.Index, newTypeParamName);
+            var constraints = TypeGeneratorHelper.GetTypeParamConstraints((ITypeParameterSymbol)typeParam.TypeSymbol);
 
             writer.AppendIndentedLine($"public {typeName} Bind<{newTypeParamName}>(global::System.Func<{typeParam.AsArgument}, {typeName}> binder)");
+            if (constraints.Count > 0)
+            {
+                writer.AppendIndentedLine($"    where {newTypeParamName} : {string.Join(", ", constraints)}");
+            }
+
             writer.AppendIndentedLine("{");
 
             writer.AppendIndentedLine("    switch (_idx)");
