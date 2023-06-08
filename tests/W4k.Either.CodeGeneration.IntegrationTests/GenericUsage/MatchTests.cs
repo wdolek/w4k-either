@@ -1,4 +1,4 @@
-﻿namespace W4k.Either.CodeGeneration.IntegrationTests.GenericUsage;
+﻿namespace W4k.Either.CodeGeneration.GenericUsage;
 
 public class MatchTests
 {
@@ -12,7 +12,7 @@ public class MatchTests
             _ => true,
             _ => false);
 
-        Assert.True(isHuey);
+        Assert.True((bool)isHuey);
 
         // match with state
         var hueyMatch = scrooge.Match(
@@ -33,7 +33,7 @@ public class MatchTests
             (_, _) => Task.FromResult(true),
             (_, _) => Task.FromResult(false));
 
-        Assert.True(isHueyAsync);
+        Assert.True((bool)isHueyAsync);
 
         // async match with state
         var hueyMatchAsync = await scrooge.MatchAsync(

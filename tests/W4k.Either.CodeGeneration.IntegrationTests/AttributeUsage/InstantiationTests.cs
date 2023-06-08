@@ -1,4 +1,4 @@
-﻿namespace W4k.Either.CodeGeneration.IntegrationTests.AttributeUsage;
+﻿namespace W4k.Either.CodeGeneration.AttributeUsage;
 
 public class InstantiationTests
 {

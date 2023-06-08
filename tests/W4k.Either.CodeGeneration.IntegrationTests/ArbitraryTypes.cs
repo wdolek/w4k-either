@@ -1,4 +1,4 @@
-﻿namespace W4k.Either.CodeGeneration.IntegrationTests;
+﻿namespace W4k.Either.CodeGeneration;
 
 public record Scrooge(decimal Money);
 

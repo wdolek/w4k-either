@@ -1,4 +1,4 @@
-﻿namespace W4k.Either.CodeGeneration.IntegrationTests.GenericUsage;
+﻿namespace W4k.Either.CodeGeneration.GenericUsage;
 
 public class SwitchTests
 {

@@ -1,4 +1,4 @@
-﻿namespace W4k.Either.CodeGeneration.IntegrationTests.AttributeUsage;
+﻿namespace W4k.Either.CodeGeneration.AttributeUsage;
 
 [Either(typeof(Scrooge), typeof(Duckula), typeof(Nanny?))]
 public readonly partial struct AttrTestEither

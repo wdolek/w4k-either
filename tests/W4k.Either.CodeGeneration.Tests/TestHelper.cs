@@ -2,7 +2,7 @@
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 
-namespace W4k.Either.CodeGeneration.Tests;
+namespace W4k.Either.CodeGeneration;
 
 public static class TestHelper
 {

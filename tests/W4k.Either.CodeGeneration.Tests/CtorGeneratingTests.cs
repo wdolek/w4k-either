@@ -1,4 +1,4 @@
-﻿namespace W4k.Either.CodeGeneration.Tests;
+﻿namespace W4k.Either.CodeGeneration;
 
 [UsesVerify]
 public class CtorGeneratingTests
