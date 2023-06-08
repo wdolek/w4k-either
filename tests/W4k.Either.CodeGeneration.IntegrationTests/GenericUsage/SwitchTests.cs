@@ -36,7 +36,6 @@ public class SwitchTests
         // async switch with state
         await scrooge.SwitchAsync(
             state: 42,
-            // ReSharper disable once ParameterOnlyUsedForPreconditionCheck.Local
             (state, _, _) =>
             {
                 Assert.Equal(42, state);

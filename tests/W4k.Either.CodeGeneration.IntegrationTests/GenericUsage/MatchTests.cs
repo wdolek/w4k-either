@@ -12,7 +12,7 @@ public class MatchTests
             _ => true,
             _ => false);
 
-        Assert.True((bool)isHuey);
+        Assert.True(isHuey);
 
         // match with state
         var hueyMatch = scrooge.Match(
@@ -33,7 +33,7 @@ public class MatchTests
             (_, _) => Task.FromResult(true),
             (_, _) => Task.FromResult(false));
 
-        Assert.True((bool)isHueyAsync);
+        Assert.True(isHueyAsync);
 
         // async match with state
         var hueyMatchAsync = await scrooge.MatchAsync(
