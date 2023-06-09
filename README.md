@@ -1,4 +1,6 @@
-# Either
+# W4k.Either
+
+![W4k.Either Build](https://github.com/wdolek/w4k-either/workflows/Build%20and%20test/badge.svg) [![NuGet Badge](https://buildstats.info/nuget/W4k.Either)](https://www.nuget.org/packages/W4k.Either/) [![NuGet Badge](https://buildstats.info/nuget/W4k.Either.CodeGeneration)](https://www.nuget.org/packages/W4k.Either.CodeGeneration/)
 
 This library provides a variety of types and a source generator for handling the results of operations or representing discriminated unions of two or more types.
 
@@ -278,8 +280,7 @@ public readonly partial struct Polymorph<T1, T2> : IEquatable<Polymorph<T1, T2>>
             throw new ArgumentException("...");
         }
         
-        // NB! you are responsible for proper initialization of the monad;
-        //     see rules below
+        // NB! you are responsible for proper initialization of the instance;
         _idx = 2;
         _v1 = default;
         _v2 = value;
