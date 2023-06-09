@@ -1,10 +1,11 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
 using Microsoft.CodeAnalysis;
 
 namespace W4k.Either.CodeGeneration.TypeParametrization;
 
 [DebuggerDisplay("{Index} -> {Name}")]
-internal class TypeParameter
+internal sealed class TypeParameter
 {
     public TypeParameter(ITypeSymbol typeSymbol, int index, string name, bool isReferenceType, bool isValueType, bool isNullable)
     {
@@ -26,7 +27,7 @@ internal class TypeParameter
         // - reference type is always stored as nullable
         // - value type is stored as nullable only if explicitly nullable
         // and additional exception when specifying types using attribute - in such case, nullable value type already contains `?`
-        AsFieldType = (isNullable || IsReferenceType) && !name.EndsWith("?")
+        AsFieldType = (isNullable || IsReferenceType) && !name.EndsWith("?", StringComparison.Ordinal)
             ? name + "?"
             : name;
 

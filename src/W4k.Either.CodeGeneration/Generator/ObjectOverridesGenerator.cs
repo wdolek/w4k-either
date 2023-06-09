@@ -1,6 +1,6 @@
 ﻿namespace W4k.Either.CodeGeneration.Generator;
 
-internal class ObjectOverridesGenerator : IMemberCodeGenerator
+internal sealed class ObjectOverridesGenerator : IMemberCodeGenerator
 {
     private readonly GeneratorContext _context;
 

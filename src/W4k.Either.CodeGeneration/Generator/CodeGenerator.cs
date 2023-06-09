@@ -1,6 +1,6 @@
 ﻿namespace W4k.Either.CodeGeneration.Generator;
 
-internal class CodeGenerator
+internal sealed class CodeGenerator
 {
     private readonly GeneratorContext _context;
     private readonly IMemberCodeGenerator[] _memberGenerators;

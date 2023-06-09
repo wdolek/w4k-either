@@ -1,6 +1,6 @@
 ﻿namespace W4k.Either.CodeGeneration.Generator;
 
-internal class PropertiesGenerator : IMemberCodeGenerator
+internal sealed class PropertiesGenerator : IMemberCodeGenerator
 {
     private readonly GeneratorContext _context;
 

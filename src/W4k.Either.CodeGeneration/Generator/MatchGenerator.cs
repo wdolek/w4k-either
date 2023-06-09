@@ -1,6 +1,6 @@
 ﻿namespace W4k.Either.CodeGeneration.Generator;
 
-internal class MatchGenerator : IMemberCodeGenerator
+internal sealed class MatchGenerator : IMemberCodeGenerator
 {
     private readonly GeneratorContext _context;
 

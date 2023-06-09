@@ -2,7 +2,7 @@ using Microsoft.CodeAnalysis;
 
 namespace W4k.Either.CodeGeneration.Generator;
 
-internal class EquatableGenerator : IMemberCodeGenerator
+internal sealed class EquatableGenerator : IMemberCodeGenerator
 {
     private const string GetObjectDataMethodName = "Equals";
 

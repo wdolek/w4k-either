@@ -5,7 +5,7 @@ namespace W4k.Either.CodeGeneration.TypeDeclaration;
 /// <summary>
 /// Representation of type declaration.
 /// </summary>
-internal class Declaration
+internal sealed class Declaration
 {
     /// <summary>
     /// Initializes new instance of <see cref="Declaration"/>.

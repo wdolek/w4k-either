@@ -6,7 +6,7 @@ using W4k.Either.CodeGeneration.TypeParametrization;
 
 namespace W4k.Either.CodeGeneration.Generator;
 
-internal class ConstructorsGenerator : IMemberCodeGenerator
+internal sealed class ConstructorsGenerator : IMemberCodeGenerator
 {
     private readonly GeneratorContext _context;
 

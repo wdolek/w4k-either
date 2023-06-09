@@ -1,6 +1,6 @@
 ﻿namespace W4k.Either.CodeGeneration.Generator;
 
-internal class TryPickGenerator : IMemberCodeGenerator
+internal sealed class TryPickGenerator : IMemberCodeGenerator
 {
     private readonly GeneratorContext _context;
 

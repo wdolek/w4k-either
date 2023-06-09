@@ -7,7 +7,7 @@ using W4k.Either.CodeGeneration.TypeParametrization;
 
 namespace W4k.Either.CodeGeneration;
 
-internal class Transformator
+internal sealed class Transformator
 {
     public static TransformationResult? Transform(GeneratorAttributeSyntaxContext context, CancellationToken cancellationToken)
     {

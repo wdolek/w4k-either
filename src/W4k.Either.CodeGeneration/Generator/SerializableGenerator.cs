@@ -3,7 +3,7 @@ using Microsoft.CodeAnalysis;
 
 namespace W4k.Either.CodeGeneration.Generator;
 
-internal class SerializableGenerator : IMemberCodeGenerator
+internal sealed class SerializableGenerator : IMemberCodeGenerator
 {
     private const string SerializableInterfaceName = "System.Runtime.Serialization.ISerializable";
     private const string SerializationInfoTypeName = "System.Runtime.Serialization.SerializationInfo";

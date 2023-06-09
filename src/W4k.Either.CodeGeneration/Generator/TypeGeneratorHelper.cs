@@ -14,7 +14,7 @@ internal static class TypeGeneratorHelper
         var sb = new StringBuilder();
 
         sb.Append(typeName);
-        sb.Append("<");
+        sb.Append('<');
         
         for (var i = 0; i < typeParameters.Length; i++)
         {
@@ -31,7 +31,7 @@ internal static class TypeGeneratorHelper
             }
         }
         
-        sb.Append(">");
+        sb.Append('>');
         
         return sb.ToString();
     }

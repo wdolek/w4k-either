@@ -65,12 +65,12 @@ internal static class DeclarationAnalyzer
         foreach (var modifier in typeDeclaration.Modifiers)
         {
             sb.Append(modifier.Text);
-            sb.Append(" ");
+            sb.Append(' ');
         }
 
         // class or struct keyword
         sb.Append(typeDeclaration.Keyword.Text);
-        sb.Append(" ");
+        sb.Append(' ');
 
         // type name
         var typeNamePos = sb.Length;

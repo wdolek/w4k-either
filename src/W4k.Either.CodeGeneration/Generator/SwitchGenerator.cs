@@ -1,6 +1,6 @@
 ﻿namespace W4k.Either.CodeGeneration.Generator;
 
-internal class SwitchGenerator : IMemberCodeGenerator
+internal sealed class SwitchGenerator : IMemberCodeGenerator
 {
     private readonly GeneratorContext _context;
 

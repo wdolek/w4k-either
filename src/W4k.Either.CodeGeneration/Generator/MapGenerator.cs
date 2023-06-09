@@ -3,7 +3,7 @@ using W4k.Either.CodeGeneration.TypeParametrization;
 
 namespace W4k.Either.CodeGeneration.Generator;
 
-internal class MapGenerator : IMemberCodeGenerator
+internal sealed class MapGenerator : IMemberCodeGenerator
 {
     private readonly GeneratorContext _context;
 

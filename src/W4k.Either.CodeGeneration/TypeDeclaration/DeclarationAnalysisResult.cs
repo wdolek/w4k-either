@@ -3,7 +3,7 @@ using Microsoft.CodeAnalysis;
 
 namespace W4k.Either.CodeGeneration.TypeDeclaration;
 
-internal class DeclarationAnalysisResult
+internal sealed class DeclarationAnalysisResult
 {
     private DeclarationAnalysisResult(bool isValid, bool hasValue, Declaration? typeDeclaration, Diagnostic? diagnostic)
     {

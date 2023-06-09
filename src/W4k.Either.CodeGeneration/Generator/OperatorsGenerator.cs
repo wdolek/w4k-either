@@ -2,7 +2,7 @@ using Microsoft.CodeAnalysis;
 
 namespace W4k.Either.CodeGeneration.Generator;
 
-internal class OperatorsGenerator : IMemberCodeGenerator
+internal sealed class OperatorsGenerator : IMemberCodeGenerator
 {
     private readonly GeneratorContext _context;
 

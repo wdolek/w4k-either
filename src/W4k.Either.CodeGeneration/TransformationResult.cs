@@ -7,7 +7,7 @@ using W4k.Either.CodeGeneration.TypeParametrization;
 
 namespace W4k.Either.CodeGeneration;
 
-internal class TransformationResult
+internal sealed class TransformationResult
 {
     private TransformationResult(TypeKind typeKind, Diagnostic diagnostic)
     {

@@ -3,7 +3,7 @@ using W4k.Either.CodeGeneration.TypeParametrization;
 
 namespace W4k.Either.CodeGeneration.Generator;
 
-internal class BindGenerator : IMemberCodeGenerator
+internal sealed class BindGenerator : IMemberCodeGenerator
 {
     private readonly GeneratorContext _context;
 
