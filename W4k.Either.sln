@@ -12,6 +12,9 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "W4k.Either.CodeGeneration.Tests", "tests\W4k.Either.CodeGeneration.Tests\W4k.Either.CodeGeneration.Tests.csproj", "{BD719D0A-7987-48EB-9EA0-B92C6F67B1D2}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{80323585-95E5-4B7A-980D-8E469628EF10}"
+	ProjectSection(SolutionItems) = preProject
+		src\Directory.Build.props = src\Directory.Build.props
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{D0F3E3DE-EF0E-4E4A-96E5-2F5ACA88039D}"
 	ProjectSection(SolutionItems) = preProject
