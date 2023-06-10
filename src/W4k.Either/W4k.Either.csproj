@@ -16,8 +16,9 @@
     <RepositoryUrl>https://github.com/wdolek/w4k-either.git</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <AllowedOutputExtensionsInPackageBuildOutputFolder>$(AllowedOutputExtensionsInPackageBuildOutputFolder);.pdb</AllowedOutputExtensionsInPackageBuildOutputFolder>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
   </PropertyGroup>
-
+  
   <PropertyGroup>
     <EmitCompilerGeneratedFiles>false</EmitCompilerGeneratedFiles>
     <CompilerGeneratedFilesOutputPath>$(BaseIntermediateOutputPath)Generated</CompilerGeneratedFilesOutputPath>
@@ -26,6 +27,10 @@
   <ItemGroup>
     <ProjectReference Include="..\W4k.Either.Shared\W4k.Either.Shared.csproj" PrivateAssets="All" />
     <ProjectReference Include="..\W4k.Either.CodeGeneration\W4k.Either.CodeGeneration.csproj" PrivateAssets="All" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="README.md" Pack="true" PackagePath="\" />
   </ItemGroup>
 
 </Project>

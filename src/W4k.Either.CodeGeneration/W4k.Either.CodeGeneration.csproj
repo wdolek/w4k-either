@@ -20,6 +20,7 @@
     <RepositoryUrl>https://github.com/wdolek/w4k-either.git</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <AllowedOutputExtensionsInPackageBuildOutputFolder>$(AllowedOutputExtensionsInPackageBuildOutputFolder);.pdb</AllowedOutputExtensionsInPackageBuildOutputFolder>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
   </PropertyGroup>
   
   <PropertyGroup>
@@ -58,6 +59,9 @@
     <None Include="$(OutputPath)\net6.0\W4k.Either.Shared.dll" Pack="true" PackagePath="lib\net6.0" Visible="true" />
     <None Include="$(OutputPath)\net6.0\W4k.Either.Shared.pdb" Pack="true" PackagePath="lib\net6.0" Visible="true" />
     <None Include="$(OutputPath)\net6.0\W4k.Either.Shared.xml" Pack="true" PackagePath="lib\net6.0" Visible="true" />
+
+    <!-- Readme -->
+    <None Include="README.md" Pack="true" PackagePath="\" />
   </ItemGroup>
 
 </Project>
