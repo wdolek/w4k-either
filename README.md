@@ -16,8 +16,8 @@ A more practical solution is to use this project.
 
 This project is source for two packages:
 
-- [`W4k.Either`](src/W4k.Either/README.md): Predefined types that can be used to represent discriminated union.
-- [`W4k.Either.CodeGeneration`](src/W4k.Either.CodeGeneration/README.md): Provides source generator that can be used to generate your own types with custom logic/rules.
+- [`W4k.Either`](src/W4k.Either): Predefined types that can be used to represent discriminated union.
+- [`W4k.Either.CodeGeneration`](src/W4k.Either.CodeGeneration): Provides source generator that can be used to generate your own types with custom logic/rules.
 
 Please follow links above to get more information about each package.
 
