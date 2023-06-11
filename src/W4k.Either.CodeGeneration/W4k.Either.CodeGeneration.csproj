@@ -14,7 +14,7 @@
     <Authors>Zdenek Havlin</Authors>
     <Description>Source generator for creating discriminated union-like value type.</Description>
     <PackageId>W4k.Either.CodeGeneration</PackageId>
-    <PackageTags>either, choice, result, oneof, generic sum type, discriminated union</PackageTags>
+    <PackageTags>C#, Functional, Code Generation, Language Extension, Monad, Either, Maybe, Result, OptionalResult, Discriminated Union</PackageTags>
     <PackageProjectUrl>https://github.com/wdolek/w4k-either</PackageProjectUrl>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <RepositoryUrl>https://github.com/wdolek/w4k-either.git</RepositoryUrl>

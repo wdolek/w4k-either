@@ -10,7 +10,7 @@
     <Description>
       An 'Either' type for C#, inspired by FP. This sum type represents values of two (or more) possible types.</Description>
     <PackageId>W4k.Either</PackageId>
-    <PackageTags>either, choice, result, oneof, generic sum type, discriminated union</PackageTags>
+    <PackageTags>C#, Functional, Language Extension, Monad, Either, Maybe, Result, OptionalResult, Discriminated Union</PackageTags>
     <PackageProjectUrl>https://github.com/wdolek/w4k-either</PackageProjectUrl>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <RepositoryUrl>https://github.com/wdolek/w4k-either.git</RepositoryUrl>
