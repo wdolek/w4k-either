@@ -10,15 +10,15 @@ public class TryPickTests
         var nanny = new AttrTestEither((Nanny?)null);
 
         // current state, value is set
-        Assert.True((bool)scrooge.TryPick(out Scrooge? scroogeValue));
+        Assert.True(scrooge.TryPick(out Scrooge? scroogeValue));
         Assert.NotNull(scroogeValue);
 
         // current state, value is present
-        Assert.True((bool)duckula.TryPick(out Duckula duckulaValue));
+        Assert.True(duckula.TryPick(out Duckula duckulaValue));
         Assert.True(duckulaValue.IsKetchupLover);
 
         // current state, value is null
-        Assert.True((bool)nanny.TryPick(out Nanny? nannyValue));
+        Assert.True(nanny.TryPick(out Nanny? nannyValue));
         Assert.False(nannyValue.HasValue);
     }
     
@@ -28,7 +28,7 @@ public class TryPickTests
         var scrooge = new NullableDisabledAttrTestEither((Scrooge)null!);
 
         // current state, value is not set
-        Assert.True((bool)scrooge.TryPick(out Scrooge? scroogeValue));
+        Assert.True(scrooge.TryPick(out Scrooge? scroogeValue));
         Assert.Null(scroogeValue);
     }    
 }
