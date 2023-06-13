@@ -4,35 +4,35 @@ using Microsoft.CodeAnalysis;
 
 namespace W4k.Either.CodeGeneration.TypeParametrization;
 
-internal static class AttributeAnalyzer
+internal static class GenericAttributeAnalyzer
 {
     public static ParamAnalysisResult Analyze(ParamAnalysisContext context, CancellationToken cancellationToken)
     {
         var attribute = context.Attribute;
         var ctor = attribute.AttributeConstructor;
-        if (ctor is null || ctor.Parameters.Length == 0)
+        if (ctor is null || ctor.TypeArguments.Length == 0)
         {
-            return ParamAnalysisResult.Empty(ParametrizationKind.Attribute);
+            return ParamAnalysisResult.Empty(ParametrizationKind.GenericAttribute);
         }
+        
+        var attrTypeParams = ctor.TypeArguments;
 
-        var attrCtorArguments = attribute.ConstructorArguments;
-
-        var typeParams = new TypeParameter[attrCtorArguments.Length];
+        var typeParams = new TypeParameter[attrTypeParams.Length];
         var typeParamsSpan = typeParams.AsSpan();
 
         for (var i = 0; i < typeParams.Length; i++)
         {
             cancellationToken.ThrowIfCancellationRequested();
 
-            var arg = attrCtorArguments[i];
-            if (arg.Value is not INamedTypeSymbol typeSymbol)
+            var typeSymbol = attrTypeParams[i] as INamedTypeSymbol;
+            if (typeSymbol == null)
             {
                 continue;
             }
 
             var typeParamName = typeSymbol.ToDisplayString(AttributeAnalyzerHelper.DisplayFormat);
 
-            // use of `[Either(typeof(MyGenericType<>))]` is forbidden, type using open generics couldn't be generated
+            // use of `[Either<MyGenericType<>>]` is forbidden, type using open generics couldn't be generated
             if (typeSymbol.IsUnboundGenericType)
             {
                 var unboundGenericTypeDiagnostic = Diagnostic.Create(
@@ -43,7 +43,7 @@ internal static class AttributeAnalyzer
                 return ParamAnalysisResult.Failure(ParametrizationKind.Attribute, unboundGenericTypeDiagnostic);
             }
 
-            // check that types are unique, `[Either(typeof(int), typeof(int))]` is forbidden,
+            // check that types are unique, `[Either<int, int>]` is forbidden,
             // it wouldn't be possible to determine which field to use based on its type
             var (isTypeUsed, typeUsedDiagnostic) = AttributeAnalyzerHelper.IsTypeUsed(
                 typeParamsSpan.Slice(0, i),

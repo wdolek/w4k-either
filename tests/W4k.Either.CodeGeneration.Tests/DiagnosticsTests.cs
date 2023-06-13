@@ -50,6 +50,29 @@ namespace MyLittleEither.MyLittleEitherMonad
     }
 }";
         
+        const string ambiguousTypeParamsWithGenericAttr = @"
+using W4k.Either;
+
+namespace MyLittleEither.MyLittleEitherMonad
+{
+    [Either<int, string>]
+    public partial struct MyEither<T0, T1>
+    {
+    }
+}";
+        
+        const string ambiguousTypeParamsWithGenericAttrAndOtherAttr = @"
+using W4k.Either;
+
+namespace MyLittleEither.MyLittleEitherMonad
+{
+    [Either(typeof(int), typeof(string))]
+    [Either<int, string>]
+    public partial struct MyEither
+    {
+    }
+}";
+        
         const string noTypeParam = @"
 using W4k.Either;
 
@@ -96,6 +119,14 @@ namespace MyLittleEither.MyLittleEitherMonad
             },
             {
                 ambiguousTypeParams,
+                "W4KE003"
+            },
+            {
+                ambiguousTypeParamsWithGenericAttr,
+                "W4KE003"
+            },
+            {
+                ambiguousTypeParamsWithGenericAttrAndOtherAttr,
                 "W4KE003"
             },
             {

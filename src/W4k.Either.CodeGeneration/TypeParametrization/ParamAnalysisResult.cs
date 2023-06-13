@@ -36,4 +36,5 @@ internal enum ParametrizationKind
     Unknown = 0,
     Generic,
     Attribute,
+    GenericAttribute,
 }

@@ -15,6 +15,7 @@ public class EitherGenerator : IIncrementalGenerator
     /// <inheritdoc/>
     public void Initialize(IncrementalGeneratorInitializationContext context)
     {
+        // TODO: to support generic attribute `Either<>` we need to use other way of collecting metadata needed for code generation
         IncrementalValuesProvider<TransformationResult> toGenerate = context.SyntaxProvider
             .ForAttributeWithMetadataName(
                 Constants.EitherAttributeFullyQualifiedName,
