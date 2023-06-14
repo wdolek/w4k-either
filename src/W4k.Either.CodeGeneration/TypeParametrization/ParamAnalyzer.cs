@@ -29,13 +29,15 @@ internal static class ParamAnalyzer
             return genericAttributeAnalysisResult;
         }
 
+        var typeSymbol = context.TypeSymbol;
+
         // handle `boolean` information about value as 0 or 1
         var hasGenericTypes = genericAnalysisResult.TypeParameters.HasValue();
         var hasAttrTypes = attributeAnalysisResult.TypeParameters.HasValue();
         var hasGenericAttrTypes = genericAttributeAnalysisResult.TypeParameters.HasValue();
 
         var sum = hasGenericTypes + hasAttrTypes + hasGenericAttrTypes;
-        
+
         // user has not specified any type parameter
         if (sum == 0)
         {
@@ -43,27 +45,27 @@ internal static class ParamAnalyzer
                 ParametrizationKind.Unknown,
                 Diagnostic.Create(
                     descriptor: DiagnosticDescriptors.NoTypeParameter,
-                    location: context.TypeSymbol.Locations[0],
-                    messageArgs: context.TypeSymbol.Name));
+                    location: typeSymbol.Locations[0],
+                    messageArgs: typeSymbol.Name));
         }
 
         // user specified types using attribute and generic type parameters
+        // (this extends analysis of found marking attribute)
         if (sum > 1)
         {
             return ParamAnalysisResult.Failure(
                 ParametrizationKind.Unknown,
                 Diagnostic.Create(
                     descriptor: DiagnosticDescriptors.AmbiguousTypeParameters,
-                    location: context.TypeSymbol.Locations[0],
-                    messageArgs: context.TypeSymbol.Name));
+                    location: typeSymbol.Locations[0],
+                    messageArgs: typeSymbol.Name));
         }
 
-        return (numOfGenericTypes: hasGenericTypes, numOfAttrTypes: hasAttrTypes, numOfGenericAttrTypes: hasGenericAttrTypes) switch
-        {
-            (1, 0, 0) => genericAnalysisResult,
-            (0, 1, 0) => attributeAnalysisResult,
-            _ => genericAttributeAnalysisResult,
-        };
+        return hasGenericTypes == 1
+            ? genericAnalysisResult
+            : hasAttrTypes == 1
+                ? attributeAnalysisResult
+                : genericAttributeAnalysisResult;
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]

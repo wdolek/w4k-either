@@ -9,13 +9,13 @@ internal static class GenericAttributeAnalyzer
     public static ParamAnalysisResult Analyze(ParamAnalysisContext context, CancellationToken cancellationToken)
     {
         var attribute = context.Attribute;
-        var ctor = attribute.AttributeConstructor;
-        if (ctor is null || ctor.TypeArguments.Length == 0)
+        var attributeClass = attribute.AttributeClass;
+        if (attributeClass is null || attributeClass.TypeArguments.Length == 0)
         {
             return ParamAnalysisResult.Empty(ParametrizationKind.GenericAttribute);
         }
         
-        var attrTypeParams = ctor.TypeArguments;
+        var attrTypeParams = attributeClass.TypeArguments;
 
         var typeParams = new TypeParameter[attrTypeParams.Length];
         var typeParamsSpan = typeParams.AsSpan();

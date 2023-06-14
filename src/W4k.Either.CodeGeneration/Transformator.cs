@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Immutable;
-using System.Threading;
+﻿using System.Threading;
 using Microsoft.CodeAnalysis;
 using W4k.Either.CodeGeneration.TypeDeclaration;
 using W4k.Either.CodeGeneration.TypeParametrization;
@@ -9,13 +7,28 @@ namespace W4k.Either.CodeGeneration;
 
 internal sealed class Transformator
 {
-    public static TransformationResult? Transform(GeneratorAttributeSyntaxContext context, CancellationToken cancellationToken)
+    public static TransformationResult? Transform(GeneratorSyntaxContext context, CancellationToken cancellationToken)
     {
         // type not available in current compilation
-        if (context.TargetSymbol is not INamedTypeSymbol typeSymbol)
+        if (context.SemanticModel.GetDeclaredSymbol(context.Node, cancellationToken) is not INamedTypeSymbol typeSymbol)
         {
             return null;
         }
+
+        // type not marked with `EitherAttribute`
+        var eitherAttributeResult = AttributeFinder.FindAttribute(typeSymbol, cancellationToken);
+        if (!eitherAttributeResult.IsFound)
+        {
+            if (eitherAttributeResult.Diagnostic is not null)
+            {
+                return TransformationResult.Invalid(eitherAttributeResult.Diagnostic);
+            }
+
+            // type not marked -> nothing to do here
+            return null;
+        }
+
+        var eitherAttribute = eitherAttributeResult.AttributeData;
 
         // analyze marked type itself
         // e.g. `partial struct Either<TLeft, TRight> { }`
@@ -25,7 +38,7 @@ internal sealed class Transformator
             return TransformationResult.Invalid(typeDeclarationResult.Diagnostic);
         }
 
-        // optionally analyze containing type (if any, when marked type is nested)
+        // analyze containing type (if any, when marked type is nested)
         // e.g. `partial class ContainingType { private partial struct Either<TLeft, TRight> { } }`
         var containingTypeDeclarationResult = DeclarationAnalyzer.Analyze(typeSymbol.ContainingType, cancellationToken);
         if (!containingTypeDeclarationResult.IsValid)
@@ -34,10 +47,7 @@ internal sealed class Transformator
         }
 
         // analyze and retrieve type parametrization
-        var paramAnalysisContext = new ParamAnalysisContext(
-            FindAttribute(context.Attributes, cancellationToken),
-            context.SemanticModel,
-            typeSymbol);
+        var paramAnalysisContext = new ParamAnalysisContext(eitherAttribute, context.SemanticModel, typeSymbol);
 
         var paramAnalysisResult = ParamAnalyzer.Analyze(paramAnalysisContext, cancellationToken);
         if (!paramAnalysisResult.IsSuccess)
@@ -48,41 +58,12 @@ internal sealed class Transformator
         var typeDeclaration = typeDeclarationResult.TypeDeclaration!;
         var containingTypeDeclaration = containingTypeDeclarationResult.TypeDeclaration;
 
-        // generator matches only `struct` and `class` declarations - we don't need to check `TypeKind`
+        // generator matches only `struct` and `class` declarations - we don't need to check `TypeKind` further
         return TransformationResult.Valid(
             typeSymbol.TypeKind,
             typeDeclaration,
             containingTypeDeclaration,
             paramAnalysisResult.ParametrizationKind,
             paramAnalysisResult.TypeParameters);
-    }
-
-    private static AttributeData FindAttribute(ImmutableArray<AttributeData> attributes, CancellationToken cancellationToken)
-    {
-        AttributeData? foundAttribute = null;
-        if (attributes.Length == 1)
-        {
-            foundAttribute = attributes[0];
-            goto ReturnAttribute;
-        }
-
-        cancellationToken.ThrowIfCancellationRequested();
-        foreach (var attribute in attributes)
-        {
-            if (attribute.AttributeClass?.ToDisplayString() == Constants.EitherAttributeFullyQualifiedName)
-            {
-                foundAttribute = attribute;
-                break;
-            }
-        }
-
-        // Should Never Happen™ as generator already matched type with attribute
-        if (foundAttribute is null)
-        {
-            throw new InvalidOperationException($"Cannot find attribute of type `{Constants.EitherAttributeFullyQualifiedName}`.");
-        }
-
-        ReturnAttribute:
-        return foundAttribute;
     }
 }
