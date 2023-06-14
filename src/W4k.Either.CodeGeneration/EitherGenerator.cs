@@ -15,7 +15,8 @@ public class EitherGenerator : IIncrementalGenerator
     /// <inheritdoc/>
     public void Initialize(IncrementalGeneratorInitializationContext context)
     {
-        IncrementalValuesProvider<TransformationResult> toGenerate = context.SyntaxProvider.CreateSyntaxProvider(
+        IncrementalValuesProvider<TransformationResult> toGenerate = context.SyntaxProvider
+            .CreateSyntaxProvider(
                 static (node, _) => IsStructOrClassDeclarationSyntax(node),
                 static (ctx, ct) => Transformator.Transform(ctx, ct))
             .Where(c => c is not null)!;
