@@ -15,6 +15,7 @@ public class DiagnosticsTests
     public static TheoryData<string, string> CreateDiagnosticErrorProducingSourceCode()
     {
         const string notPartial = @"
+// struct not partial
 using W4k.Either;
 
 namespace MyLittleEither.MyLittleEitherMonad
@@ -26,6 +27,7 @@ namespace MyLittleEither.MyLittleEitherMonad
 }";
         
         const string containingNotPartial = @"
+// class not partial
 using W4k.Either;
 
 namespace MyLittleEither.MyLittleEitherMonad
@@ -40,6 +42,7 @@ namespace MyLittleEither.MyLittleEitherMonad
 }";
         
         const string ambiguousTypeParams = @"
+// ambiguous type params #1
 using W4k.Either;
 
 namespace MyLittleEither.MyLittleEitherMonad
@@ -50,7 +53,33 @@ namespace MyLittleEither.MyLittleEitherMonad
     }
 }";
         
+        const string ambiguousTypeParamsWithGenericAttr = @"
+// ambiguous type params #2
+using W4k.Either;
+
+namespace MyLittleEither.MyLittleEitherMonad
+{
+    [Either<int, string>]
+    public partial struct MyEither<T0, T1>
+    {
+    }
+}";
+        
+        const string ambiguousTypeParamsWithGenericAttrAndOtherAttr = @"
+// ambiguous type params #3
+using W4k.Either;
+
+namespace MyLittleEither.MyLittleEitherMonad
+{
+    [Either(typeof(int), typeof(string))]
+    [Either<int, string>]
+    public partial struct MyEither
+    {
+    }
+}";
+        
         const string noTypeParam = @"
+// no type parametrization
 using W4k.Either;
 
 namespace MyLittleEither.MyLittleEitherMonad
@@ -62,6 +91,7 @@ namespace MyLittleEither.MyLittleEitherMonad
 }";
         
         const string typesNotUnique = @"
+// types not unique
 using W4k.Either;
 
 namespace MyLittleEither.MyLittleEitherMonad
@@ -73,6 +103,7 @@ namespace MyLittleEither.MyLittleEitherMonad
 }";
         
         const string attrWithOpenGenerics = @"
+// attr with open generics
 using W4k.Either;
 using System.Collections.Generic;
 
@@ -96,6 +127,14 @@ namespace MyLittleEither.MyLittleEitherMonad
             },
             {
                 ambiguousTypeParams,
+                "W4KE003"
+            },
+            {
+                ambiguousTypeParamsWithGenericAttr,
+                "W4KE003"
+            },
+            {
+                ambiguousTypeParamsWithGenericAttrAndOtherAttr,
                 "W4KE003"
             },
             {

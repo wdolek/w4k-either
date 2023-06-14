@@ -20,7 +20,7 @@ namespace W4k.Either;
 /// partial struct IntOrString { }
 /// </code>
 /// </example>
-[AttributeUsage(AttributeTargets.Struct, AllowMultiple = false, Inherited = false)]
+[AttributeUsage(AttributeTargets.Struct | AttributeTargets.Class, AllowMultiple = false, Inherited = false)]
 public class EitherAttribute : Attribute
 {
     /// <summary>
@@ -176,4 +176,44 @@ public class EitherAttribute : Attribute
         ThrowHelper.ThrowIfNull(t7);
         ThrowHelper.ThrowIfNull(t8);
     }
+}
+
+[AttributeUsage(AttributeTargets.Struct | AttributeTargets.Class, AllowMultiple = false, Inherited = false)]
+public class EitherAttribute<T1> : Attribute
+{
+}
+
+[AttributeUsage(AttributeTargets.Struct | AttributeTargets.Class, AllowMultiple = false, Inherited = false)]
+public class EitherAttribute<T1, T2> : Attribute
+{
+}
+
+[AttributeUsage(AttributeTargets.Struct | AttributeTargets.Class, AllowMultiple = false, Inherited = false)]
+public class EitherAttribute<T1, T2, T3> : Attribute
+{
+}
+
+[AttributeUsage(AttributeTargets.Struct | AttributeTargets.Class, AllowMultiple = false, Inherited = false)]
+public class EitherAttribute<T1, T2, T3, T4> : Attribute
+{
+}
+
+[AttributeUsage(AttributeTargets.Struct | AttributeTargets.Class, AllowMultiple = false, Inherited = false)]
+public class EitherAttribute<T1, T2, T3, T4, T5> : Attribute
+{
+}
+
+[AttributeUsage(AttributeTargets.Struct | AttributeTargets.Class, AllowMultiple = false, Inherited = false)]
+public class EitherAttribute<T1, T2, T3, T4, T5, T6> : Attribute
+{
+}
+
+[AttributeUsage(AttributeTargets.Struct | AttributeTargets.Class, AllowMultiple = false, Inherited = false)]
+public class EitherAttribute<T1, T2, T3, T4, T5, T6, T7> : Attribute
+{
+}
+
+[AttributeUsage(AttributeTargets.Struct | AttributeTargets.Class, AllowMultiple = false, Inherited = false)]
+public class EitherAttribute<T1, T2, T3, T4, T5, T6, T7, T8> : Attribute
+{
 }
