@@ -24,7 +24,15 @@ public readonly struct Gelf<TCamille, TCat, TCrichton>
 In case you know what types you want to use, you can specify them using `EitherAttribute` following way:
 
 ```csharp
+// use `EitherAttribute` and provide types in its constructor
 [Either(typeof(string), typeof(int))]
+public readonly struct StringOrInt
+{
+}
+```
+```csharp
+// use generic `EitherAttribute<,>`
+[Either<string, int>]
 public readonly struct StringOrInt
 {
 }

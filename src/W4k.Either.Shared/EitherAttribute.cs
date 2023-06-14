@@ -6,7 +6,7 @@ namespace W4k.Either;
 /// Using source generator, <c>partial struct</c> decorated with this attribute will become choice monad.
 /// </summary>
 /// <remarks>
-/// Minimum number of items <c>Either</c> can contain is 2 and maximum 8.
+/// Minimum number of types <c>Either</c> can use is 1 and maximum 8.
 /// </remarks>
 /// <example>
 /// Generic choice monad:
@@ -21,7 +21,7 @@ namespace W4k.Either;
 /// </code>
 /// </example>
 [AttributeUsage(AttributeTargets.Struct | AttributeTargets.Class, AllowMultiple = false, Inherited = false)]
-public class EitherAttribute : Attribute
+public sealed class EitherAttribute : Attribute
 {
     /// <summary>
     /// Initializes a new instance of the <see cref="EitherAttribute"/> class.
@@ -178,42 +178,135 @@ public class EitherAttribute : Attribute
     }
 }
 
+/// <summary>
+/// Using source generator, a <c>partial struct</c> decorated with this attribute will become a choice monad of two predefined types.
+/// </summary>
+/// <typeparam name="T1">Type of the first value.</typeparam>
+/// <typeparam name="T2">Type of the second value.</typeparam>
+/// <example>
+/// <code>
+/// [Either&lt;int, string&gt;]
+/// partial struct IntOrString { }
+/// </code>
+/// </example>
 [AttributeUsage(AttributeTargets.Struct | AttributeTargets.Class, AllowMultiple = false, Inherited = false)]
-public class EitherAttribute<T1> : Attribute
+public sealed class EitherAttribute<T1, T2> : Attribute
 {
 }
 
+/// <summary>
+/// Using source generator, a <c>partial struct</c> decorated with this attribute will become a choice monad of three predefined types.
+/// </summary>
+/// <typeparam name="T1">Type of the first value.</typeparam>
+/// <typeparam name="T2">Type of the second value.</typeparam>
+/// <typeparam name="T3">Type of the third value.</typeparam>
+/// <example>
+/// <code>
+/// [Either&lt;int, string, bool&gt;]
+/// partial struct IntStringOrBool { }
+/// </code>
+/// </example>
 [AttributeUsage(AttributeTargets.Struct | AttributeTargets.Class, AllowMultiple = false, Inherited = false)]
-public class EitherAttribute<T1, T2> : Attribute
+public sealed class EitherAttribute<T1, T2, T3> : Attribute
 {
 }
 
+/// <summary>
+/// Using source generator, a <c>partial struct</c> decorated with this attribute will become a choice monad of four predefined types.
+/// </summary>
+/// <typeparam name="T1">Type of the first value.</typeparam>
+/// <typeparam name="T2">Type of the second value.</typeparam>
+/// <typeparam name="T3">Type of the third value.</typeparam>
+/// <typeparam name="T4">Type of the fourth value.</typeparam>
+/// <example>
+/// <code>
+/// [Either&lt;int, string, bool, double&gt;]
+/// partial struct IntStringBoolOrDouble { }
+/// </code>
+/// </example>
 [AttributeUsage(AttributeTargets.Struct | AttributeTargets.Class, AllowMultiple = false, Inherited = false)]
-public class EitherAttribute<T1, T2, T3> : Attribute
+public sealed class EitherAttribute<T1, T2, T3, T4> : Attribute
 {
 }
 
+/// <summary>
+/// Using source generator, a <c>partial struct</c> decorated with this attribute will become a choice monad of five predefined types.
+/// </summary>
+/// <typeparam name="T1">Type of the first value.</typeparam>
+/// <typeparam name="T2">Type of the second value.</typeparam>
+/// <typeparam name="T3">Type of the third value.</typeparam>
+/// <typeparam name="T4">Type of the fourth value.</typeparam>
+/// <typeparam name="T5">Type of the fifth value.</typeparam>
+/// <example>
+/// <code>
+/// [Either&lt;int, string, bool, double, char&gt;]
+/// partial struct IntStringBoolDoubleOrChar { }
+/// </code>
+/// </example>
 [AttributeUsage(AttributeTargets.Struct | AttributeTargets.Class, AllowMultiple = false, Inherited = false)]
-public class EitherAttribute<T1, T2, T3, T4> : Attribute
+public sealed class EitherAttribute<T1, T2, T3, T4, T5> : Attribute
 {
 }
 
+/// <summary>
+/// Using source generator, a <c>partial struct</c> decorated with this attribute will become a choice monad of six predefined types.
+/// </summary>
+/// <typeparam name="T1">Type of the first value.</typeparam>
+/// <typeparam name="T2">Type of the second value.</typeparam>
+/// <typeparam name="T3">Type of the third value.</typeparam>
+/// <typeparam name="T4">Type of the fourth value.</typeparam>
+/// <typeparam name="T5">Type of the fifth value.</typeparam>
+/// <typeparam name="T6">Type of the sixth value.</typeparam>
+/// <example>
+/// <code>
+/// [Either&lt;int, string, bool, double, char, float&gt;]
+/// partial struct IntStringBoolDoubleCharOrFloat { }
+/// </code>
+/// </example>
 [AttributeUsage(AttributeTargets.Struct | AttributeTargets.Class, AllowMultiple = false, Inherited = false)]
-public class EitherAttribute<T1, T2, T3, T4, T5> : Attribute
+public sealed class EitherAttribute<T1, T2, T3, T4, T5, T6> : Attribute
 {
 }
 
+/// <summary>
+/// Using source generator, a <c>partial struct</c> decorated with this attribute will become a choice monad of seven predefined types.
+/// </summary>
+/// <typeparam name="T1">Type of the first value.</typeparam>
+/// <typeparam name="T2">Type of the second value.</typeparam>
+/// <typeparam name="T3">Type of the third value.</typeparam>
+/// <typeparam name="T4">Type of the fourth value.</typeparam>
+/// <typeparam name="T5">Type of the fifth value.</typeparam>
+/// <typeparam name="T6">Type of the sixth value.</typeparam>
+/// <typeparam name="T7">Type of the seventh value.</typeparam>
+/// <example>
+/// <code>
+/// [Either&lt;int, string, bool, double, char, float, long&gt;]
+/// partial struct IntStringBoolDoubleCharFloatOrLong { }
+/// </code>
+/// </example>
 [AttributeUsage(AttributeTargets.Struct | AttributeTargets.Class, AllowMultiple = false, Inherited = false)]
-public class EitherAttribute<T1, T2, T3, T4, T5, T6> : Attribute
+public sealed class EitherAttribute<T1, T2, T3, T4, T5, T6, T7> : Attribute
 {
 }
 
+/// <summary>
+/// Using source generator, a <c>partial struct</c> decorated with this attribute will become a choice monad of eight predefined types.
+/// </summary>
+/// <typeparam name="T1">Type of the first value.</typeparam>
+/// <typeparam name="T2">Type of the second value.</typeparam>
+/// <typeparam name="T3">Type of the third value.</typeparam>
+/// <typeparam name="T4">Type of the fourth value.</typeparam>
+/// <typeparam name="T5">Type of the fifth value.</typeparam>
+/// <typeparam name="T6">Type of the sixth value.</typeparam>
+/// <typeparam name="T7">Type of the seventh value.</typeparam>
+/// <typeparam name="T8">Type of the eighth value.</typeparam>
+/// <example>
+/// <code>
+/// [Either&lt;int, string, bool, double, char, float, long, byte&gt;]
+/// partial struct IntStringBoolDoubleCharFloatLongOrByte { }
+/// </code>
+/// </example>
 [AttributeUsage(AttributeTargets.Struct | AttributeTargets.Class, AllowMultiple = false, Inherited = false)]
-public class EitherAttribute<T1, T2, T3, T4, T5, T6, T7> : Attribute
-{
-}
-
-[AttributeUsage(AttributeTargets.Struct | AttributeTargets.Class, AllowMultiple = false, Inherited = false)]
-public class EitherAttribute<T1, T2, T3, T4, T5, T6, T7, T8> : Attribute
+public sealed class EitherAttribute<T1, T2, T3, T4, T5, T6, T7, T8> : Attribute
 {
 }
