@@ -63,6 +63,7 @@ internal sealed class Transformator
             typeSymbol.TypeKind,
             typeDeclaration,
             containingTypeDeclaration,
+            eitherAttribute,
             paramAnalysisResult.ParametrizationKind,
             paramAnalysisResult.TypeParameters);
     }
