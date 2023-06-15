@@ -1,6 +1,6 @@
 # W4k.Either
 
-![W4k.Either Build](https://github.com/wdolek/w4k-either/workflows/Build%20and%20test/badge.svg) [![NuGet Badge](https://buildstats.info/nuget/W4k.Either)](https://www.nuget.org/packages/W4k.Either/) [![NuGet Badge](https://buildstats.info/nuget/W4k.Either.CodeGeneration)](https://www.nuget.org/packages/W4k.Either.CodeGeneration/)
+![W4k.Either Build](https://github.com/wdolek/w4k-either/workflows/Build%20and%20test/badge.svg) [![NuGet Badge](https://buildstats.info/nuget/W4k.Either?includePreReleases=true)](https://www.nuget.org/packages/W4k.Either/) [![NuGet Badge](https://buildstats.info/nuget/W4k.Either.CodeGeneration?includePreReleases=true)](https://www.nuget.org/packages/W4k.Either.CodeGeneration/)
 
 ## Why?
 
@@ -62,3 +62,7 @@ Listed alphabetically
 ## Additional resources
 
 Technical notes describing possible states of monad regarding to C# type system, [here](./docs/notes.md).
+
+---
+
+[Shapes and symbols icons](https://www.flaticon.com/free-icons/shapes-and-symbols) created by [Freepik](https://www.flaticon.com/authors/freepik) - [Flaticon](https://www.flaticon.com/)

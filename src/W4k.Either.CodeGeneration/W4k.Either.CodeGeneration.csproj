@@ -17,6 +17,8 @@
     <PackageTags>C#, Functional, Code Generation, Language Extension, Monad, Either, Maybe, Result, OptionalResult, Discriminated Union</PackageTags>
     <PackageProjectUrl>https://github.com/wdolek/w4k-either</PackageProjectUrl>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageIconUrl>https://github.com/wdolek/w4k-either/blob/main/images/either_128px.png</PackageIconUrl>
+    <PackageIcon>_img/either_128px.png</PackageIcon>
     <RepositoryUrl>https://github.com/wdolek/w4k-either.git</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <AllowedOutputExtensionsInPackageBuildOutputFolder>$(AllowedOutputExtensionsInPackageBuildOutputFolder);.pdb</AllowedOutputExtensionsInPackageBuildOutputFolder>
