@@ -7,6 +7,8 @@ namespace W4k.Either.CodeGeneration.TypeParametrization;
 
 internal static class AttributeFinder
 {
+    private const string EitherAttributeFullyQualifiedName = "W4k.Either.EitherAttribute";
+
     public static AttributeFindResult FindAttribute(INamedTypeSymbol typeSymbol, CancellationToken cancellationToken)
     {
         AttributeData? foundAttribute = null;
@@ -20,7 +22,7 @@ internal static class AttributeFinder
                 continue;
             }
 
-            if (attrTypeName.StartsWith(Constants.EitherAttributeFullyQualifiedName, StringComparison.Ordinal))
+            if (attrTypeName.StartsWith(EitherAttributeFullyQualifiedName, StringComparison.Ordinal))
             {
                 // we already found marking attribute
                 // (it is technically possible to decorate type with `[Either]` and `[Either<Foo, Bar>]` attributes, we need to prevent that)

@@ -21,7 +21,7 @@ namespace W4k.Either;
 /// </code>
 /// </example>
 [AttributeUsage(AttributeTargets.Struct | AttributeTargets.Class, AllowMultiple = false, Inherited = false)]
-public sealed class EitherAttribute : Attribute
+public sealed class EitherAttribute : EitherBaseAttribute
 {
     /// <summary>
     /// Initializes a new instance of the <see cref="EitherAttribute"/> class.
@@ -190,7 +190,7 @@ public sealed class EitherAttribute : Attribute
 /// </code>
 /// </example>
 [AttributeUsage(AttributeTargets.Struct | AttributeTargets.Class, AllowMultiple = false, Inherited = false)]
-public sealed class EitherAttribute<T1, T2> : Attribute
+public sealed class EitherAttribute<T1, T2> : EitherBaseAttribute
 {
 }
 
@@ -207,7 +207,7 @@ public sealed class EitherAttribute<T1, T2> : Attribute
 /// </code>
 /// </example>
 [AttributeUsage(AttributeTargets.Struct | AttributeTargets.Class, AllowMultiple = false, Inherited = false)]
-public sealed class EitherAttribute<T1, T2, T3> : Attribute
+public sealed class EitherAttribute<T1, T2, T3> : EitherBaseAttribute
 {
 }
 
@@ -225,7 +225,7 @@ public sealed class EitherAttribute<T1, T2, T3> : Attribute
 /// </code>
 /// </example>
 [AttributeUsage(AttributeTargets.Struct | AttributeTargets.Class, AllowMultiple = false, Inherited = false)]
-public sealed class EitherAttribute<T1, T2, T3, T4> : Attribute
+public sealed class EitherAttribute<T1, T2, T3, T4> : EitherBaseAttribute
 {
 }
 
@@ -244,7 +244,7 @@ public sealed class EitherAttribute<T1, T2, T3, T4> : Attribute
 /// </code>
 /// </example>
 [AttributeUsage(AttributeTargets.Struct | AttributeTargets.Class, AllowMultiple = false, Inherited = false)]
-public sealed class EitherAttribute<T1, T2, T3, T4, T5> : Attribute
+public sealed class EitherAttribute<T1, T2, T3, T4, T5> : EitherBaseAttribute
 {
 }
 
@@ -264,7 +264,7 @@ public sealed class EitherAttribute<T1, T2, T3, T4, T5> : Attribute
 /// </code>
 /// </example>
 [AttributeUsage(AttributeTargets.Struct | AttributeTargets.Class, AllowMultiple = false, Inherited = false)]
-public sealed class EitherAttribute<T1, T2, T3, T4, T5, T6> : Attribute
+public sealed class EitherAttribute<T1, T2, T3, T4, T5, T6> : EitherBaseAttribute
 {
 }
 
@@ -285,7 +285,7 @@ public sealed class EitherAttribute<T1, T2, T3, T4, T5, T6> : Attribute
 /// </code>
 /// </example>
 [AttributeUsage(AttributeTargets.Struct | AttributeTargets.Class, AllowMultiple = false, Inherited = false)]
-public sealed class EitherAttribute<T1, T2, T3, T4, T5, T6, T7> : Attribute
+public sealed class EitherAttribute<T1, T2, T3, T4, T5, T6, T7> : EitherBaseAttribute
 {
 }
 
@@ -307,6 +307,17 @@ public sealed class EitherAttribute<T1, T2, T3, T4, T5, T6, T7> : Attribute
 /// </code>
 /// </example>
 [AttributeUsage(AttributeTargets.Struct | AttributeTargets.Class, AllowMultiple = false, Inherited = false)]
-public sealed class EitherAttribute<T1, T2, T3, T4, T5, T6, T7, T8> : Attribute
+public sealed class EitherAttribute<T1, T2, T3, T4, T5, T6, T7, T8> : EitherBaseAttribute
 {
+}
+
+/// <summary>
+/// Base Either attribute class.
+/// </summary>
+public abstract class EitherBaseAttribute : Attribute
+{
+    /// <summary>
+    /// Gets or sets member names to skip by the source generator.
+    /// </summary>
+    public string[] Skip { get; set; } = Array.Empty<string>();
 }

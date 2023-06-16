@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
 using Microsoft.CodeAnalysis;
@@ -9,11 +10,13 @@ namespace W4k.Either.CodeGeneration.Generator;
 
 internal sealed class GeneratorContext
 {
+    private const string SkipMembersPropertyName = "Skip";
+
     public GeneratorContext(TransformationResult transformationResult)
     {
         if (!transformationResult.IsValid)
         {
-            ThrowOnInvalidTransformationResult(transformationResult);
+            ThrowOnInvalidTransformationResult(nameof(transformationResult));
         }
 
         TypeKind = transformationResult.TypeKind;
@@ -21,13 +24,15 @@ internal sealed class GeneratorContext
         ContainingTypeDeclaration = transformationResult.ContainingTypeDeclaration;
         ParametrizationKind = transformationResult.ParametrizationKind;
         TypeParameters = transformationResult.TypeParameters;
+        Skip = GetSkippedMembers(transformationResult.Attribute);
     }
-    
+
     public TypeKind TypeKind { get; }
     public Declaration TypeDeclaration { get; }
     public Declaration? ContainingTypeDeclaration { get; }
     public ParametrizationKind ParametrizationKind { get; }
     public TypeParameter[] TypeParameters { get; }
+    public HashSet<string> Skip { get; set; }
 
     public string GetFileName()
     {
@@ -48,10 +53,27 @@ internal sealed class GeneratorContext
 
     [DoesNotReturn]
     [MethodImpl(MethodImplOptions.NoInlining)]
-    private static void ThrowOnInvalidTransformationResult(
-        TransformationResult transformationResult,
-        [CallerArgumentExpression(nameof(transformationResult))] string exp = "")
+    private static void ThrowOnInvalidTransformationResult(string argName) => 
+        throw new ArgumentException("Transformation result is invalid.", argName);
+
+    private static HashSet<string> GetSkippedMembers(AttributeData attr)
     {
-        throw new ArgumentException("Transformation result is invalid.", exp);
+        var skip = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+        foreach (var arg in attr.NamedArguments)
+        {
+            if (!string.Equals(arg.Key, SkipMembersPropertyName, StringComparison.Ordinal))
+            {
+                continue;
+            }
+
+            foreach (var v in arg.Value.Values)
+            {
+                skip.Add((string)v.Value!);
+            }
+
+            break;
+        }
+
+        return skip;
     }
 }

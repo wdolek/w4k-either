@@ -9,14 +9,30 @@ internal sealed class SwitchGenerator : IMemberCodeGenerator
         _context = context;
     }
 
-    public bool CanGenerate() => true;
+    // `Switch` depends on `Match` - if `Match` is skipped, we can't generate `Switch`
+    public bool CanGenerate() => !(_context.Skip.Contains("Switch*") || _context.Skip.Contains("Match*"));
 
     public void Generate(IndentedWriter writer)
     {
-        WriteSwitch(writer);
-        WriteSwitchWithState(writer);
-        WriteAsyncSwitch(writer);
-        WriteAsyncSwitchWithState(writer);
+        if (!(_context.Skip.Contains("Switch") || _context.Skip.Contains("Match")))
+        {
+            WriteSwitch(writer);
+        }
+
+        if (!(_context.Skip.Contains("Switch<TState>") || _context.Skip.Contains("Match<TState>")))
+        {
+            WriteSwitchWithState(writer);
+        }
+
+        if (!(_context.Skip.Contains("SwitchAsync") || _context.Skip.Contains("MatchAsync")))
+        {
+            WriteAsyncSwitch(writer);
+        }
+
+        if (!(_context.Skip.Contains("SwitchAsync<TState>") || _context.Skip.Contains("MatchAsync<TState>")))
+        {
+            WriteAsyncSwitchWithState(writer);
+        }
     }
 
     private void WriteSwitch(IndentedWriter writer)
@@ -144,5 +160,6 @@ internal sealed class SwitchGenerator : IMemberCodeGenerator
 
         writer.AppendIndentedLine("        cancellationToken);");
         writer.AppendIndentedLine("}");
+        writer.AppendLineBreak();
     }
 }

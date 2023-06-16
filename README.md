@@ -45,6 +45,31 @@ var message = result.Match(
 );
 ```
 
+## Types provided by library
+
+| Type                             | Description                                                             |
+|----------------------------------|-------------------------------------------------------------------------|
+| `Either<TLeft, TRight>`          | Discriminated union of two or more types                                |
+| `Maybe<TValue>`                  | Optional value representation                                           |
+| `Result<TError>`                 | Result representation without a value                                   |
+| `Result<TValue, TError>`         | Result representation with a value                                      |
+| `OptionalResult<TValue, TError>` | Optional result with a value (similar to Result<Maybe<TValue>, TError>) |
+
+More details about each type can be found [here](./src/W4k.Either/README.md).
+
+## Generating own types
+
+You can generate your own types with custom logic/rules:
+
+```csharp
+[Either]
+public readonly partial struct Gelf<TCamille, TCat, TCrichton>
+{
+}
+```
+
+Please follow [this](./src/W4k.Either.CodeGeneration/README.md) link to get more information.
+
 ## Alternative/similar packages
 
 Listed alphabetically

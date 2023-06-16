@@ -14,7 +14,7 @@ type using `EitherAttribute`. Compiler will generate rest of type for you:
 
 ```csharp
 [Either]
-public readonly struct Gelf<TCamille, TCat, TCrichton>
+public readonly partial struct Gelf<TCamille, TCat, TCrichton>
 {
 }
 ```
@@ -26,14 +26,14 @@ In case you know what types you want to use, you can specify them using `EitherA
 ```csharp
 // use `EitherAttribute` and provide types in its constructor
 [Either(typeof(string), typeof(int))]
-public readonly struct StringOrInt
+public readonly partial struct StringOrInt
 {
 }
 ```
 ```csharp
 // use generic `EitherAttribute<,>`
 [Either<string, int>]
-public readonly struct StringOrInt
+public readonly partial struct StringOrInt
 {
 }
 ```
@@ -58,7 +58,7 @@ as well if the type is nested.
 Please adhere to these rules:
 
 - The type itself **MUST** be `partial`.
-- If the type is nested, the containing type **MUST** be partial as well.
+- If the type is nested, the containing type **MUST** be `partial` as well.
 - There must be type defined either as generic type or as predefined type using attribute.
 
 Other properties and behaviors include:
@@ -105,4 +105,43 @@ Notice that value fields starts at `1`, as well as state index value:
     - `1`, `2`, ..., `n` are used as state index (up to `255`)
 - Values are indexed from `1` as well corresponding to state index (`_idx = 1` means that value is kept in field `_v1`)
 
-You can declare any constructor you want, but keep in mind you need to initialize the monad properly - always set `_idx` and `_v*` fields!
+You can declare any constructor you want, but keep in mind you need to initialize the monad properly - always set `_idx` and `_v#` fields.
+
+### Skip generating (some) members
+
+When decorating your type by `[Either]` attribute, it's possible to let generator know that you want to skip (some) members
+normally generated. This is done by specifying `Skip` property of the attribute:
+
+```csharp
+[Either(Skip = new[] { "Case", "Switch*" })]
+public partial readonly struct ThisOrThat<TLeft, TRight>
+{
+}
+```
+
+Code above generates type while skipping generating `Case` property and all `Switch` methods.
+
+Members you can omit from being generated:
+
+| Member name / alias     | Skip generating...                                                  |
+|-------------------------|---------------------------------------------------------------------|
+| `"Case"`                | `Case` property                                                     |
+| `"Bind"`                | `Bind` method                                                       |
+| `"Map"`                 | `Map` method                                                        |
+| `"TryPick"`             | `TryPick` method                                                    |
+| `"Match*"`              | all `Match`, `MatchAsync`, `Switch` and `SwitchAsync` methods       |
+| `"Match"`               | `Match` and `Switch` method                                         |
+| `"MatchWithState"`      | `Match` and `Switch` method override with provided state            |
+| `"MatchAsync"`          | `MatchAsync` and `SwitchAsync` method                               |
+| `"MatchAsync<TState>"`  | `MatchAsync` and `SwitchAsync` method overrides with provided state |
+| `"Switch*"`             | all `Switch` and `SwitchAsync` methods                              |
+| `"Switch"`              | `Switch` method                                                     |
+| `"Switch<TState>"`      | `Switch` method override with provided state                        |
+| `"SwitchAsync"`         | `SwitchAsync` method                                                |
+| `"SwitchAsync<TState>"` | `SwitchAsync` method override with provided state                   |
+ 
+`Switch` method implementation relies on `Match`, thus skipping generation of `Match` will also skip `Switch` method.
+
+---
+
+[Shapes and symbols icons](https://www.flaticon.com/free-icons/shapes-and-symbols) created by [Freepik](https://www.flaticon.com/authors/freepik) - [Flaticon](https://www.flaticon.com/)
