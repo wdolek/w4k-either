@@ -12,7 +12,9 @@ internal sealed class MapGenerator : IMemberCodeGenerator
         _context = context;
     }
 
-    public bool CanGenerate() => _context.ParametrizationKind == ParametrizationKind.Generic;
+    public bool CanGenerate() => 
+        _context.ParametrizationKind == ParametrizationKind.Generic
+        && !_context.Skip.Contains("Map");
 
     public void Generate(IndentedWriter writer)
     {

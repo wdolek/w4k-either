@@ -12,7 +12,9 @@ internal sealed class BindGenerator : IMemberCodeGenerator
         _context = context;
     }
 
-    public bool CanGenerate() => _context.ParametrizationKind == ParametrizationKind.Generic;
+    public bool CanGenerate() => 
+        _context.ParametrizationKind == ParametrizationKind.Generic 
+        && !_context.Skip.Contains("Bind");
 
     public void Generate(IndentedWriter writer)
     {
