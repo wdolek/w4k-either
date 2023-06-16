@@ -79,6 +79,9 @@ internal sealed class CodeGenerator
             }
         }
         
+        // generators may leave empty line at the end
+        writer.RemoveLastLineBreak();
+
         writer.AppendIndentedLine("}");
     }
 }
