@@ -19,13 +19,13 @@ To install the library, add the following package reference to your project file
 Types provided by this library are intended to be used as return types of methods and functions.
 They are designed to be used in functional programming style, but can be used in any other style as well.
 
-| Type                             | Description                                                             |
-|----------------------------------|-------------------------------------------------------------------------|
-| `Either<TLeft, TRight>`          | Discriminated union of two or more types                                |
-| `Maybe<TValue>`                  | Optional value representation                                           |
-| `Result<TError>`                 | Result representation without a value                                   |
-| `Result<TValue, TError>`         | Result representation with a value                                      |
-| `OptionalResult<TValue, TError>` | Optional result with a value (similar to Result<Maybe<TValue>, TError>) |
+| Type                                                 | Description                                                             |
+|------------------------------------------------------|-------------------------------------------------------------------------|
+| [`Either<TLeft, TRight>`](#either)                   | Discriminated union of two or more types                                |
+| [`Maybe<TValue>`](#maybe)                            | Optional value representation                                           |
+| [`Result<TError>`](#result)                          | Result representation without a value                                   |
+| [`Result<TValue, TError>`](#result)                  | Result representation with a value                                      |
+| [`OptionalResult<TValue, TError>`](#optional_result) | Optional result with a value (similar to Result<Maybe<TValue>, TError>) |
 
 All types are generated using [`W4k.Either.CodeGeneration` package](https://www.nuget.org/packages/W4k.Either.CodeGeneration/).
 
@@ -58,6 +58,7 @@ Common API for all provided types:
 |                                 |                                                                             |
 | conversion, `implicit operator` | Enables implicit conversion from a value to a monad                         |
 
+<a id="either"></a>
 ### Either
 
 Use `Either` to communicate the result of an operation without propagating an exception.
@@ -91,6 +92,7 @@ For `Either<TLeft, TRight>`, there are additional properties for inspecting the 
 | `IsLeft`        | Returns `true` if value is of type `TLeft`, otherwise `false`  |
 | `IsRight`       | Returns `true` if value is of type `TRight`, otherwise `false` |
 
+<a id="maybe"></a>
 ### Maybe
 
 Use `Maybe` to communicate that an operation resulted in no value, as an alternative to returning `null`.
@@ -120,6 +122,7 @@ if (user.HasValue)
 | `static Maybe.Some<T>(T)` | Creates new instance of `Maybe<T>` with value         |
 | `static Maybe.None<T>()`  | Creates new instance of `Maybe<T>` without value      |
 
+<a id="result"></a>
 ### Result
 
 To indicate the result of an operation without throwing exceptions or using tuples, use `Result`.
@@ -174,6 +177,7 @@ Console.WriteLine($"User found: {user.Name}");
 | `static Result.Failed<TError>(TError)`          | Creates new instance of `Result<TError>` with error             |
 | `static Result.Failed<TValue, TError>(TError)`  | Creates new instance of `Result<TValue, TError>` with error     |
 
+<a id="optional_result"></a>
 ### OptionalResult
 
 `OptionalResult` can indicate the result of an operation with an optional value. It's the same as `Result<Maybe<TValue>, TError>`.
@@ -226,3 +230,7 @@ else
 | `static OptionalResult.Success<TError, TError>(TValue)` | Creates new instance of `OptionalResult<TValue, TError>` with value         |
 | `static OptionalResult.Empty<TValue, TError>()`         | Creates new instance of `OptionalResult<TValue, TError>` without value      |
 | `static OptionalResult.Failed<TValue, TError>(TError)`  | Creates new instance of `OptionalResult<TValue, TError>` with error         |
+
+---
+
+[Shapes and symbols icons](https://www.flaticon.com/free-icons/shapes-and-symbols) created by [Freepik](https://www.flaticon.com/authors/freepik) - [Flaticon](https://www.flaticon.com/)
