@@ -7,6 +7,8 @@
   <PropertyGroup>
     <TargetFrameworks>netstandard2.0;net6.0</TargetFrameworks>
     <NoWarn>RS2007</NoWarn>
+    <EnablePackageValidation>true</EnablePackageValidation>
+    <RootNamespace>W4k.Either</RootNamespace>
   </PropertyGroup>
 
   <PropertyGroup>
@@ -64,6 +66,9 @@
 
     <!-- Readme -->
     <None Include="README.md" Pack="true" PackagePath="\" />
+    
+    <!-- Icon -->
+    <None Include="..\..\images\either_128px.png" Pack="true" PackagePath="_img" />
   </ItemGroup>
 
 </Project>
