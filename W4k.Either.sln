@@ -36,6 +36,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docs", "docs", "{CF4A053F-B
 		docs\notes.md = docs\notes.md
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "W4k.Either.UnitTests", "tests\W4k.Either.UnitTests\W4k.Either.UnitTests.csproj", "{43D36E15-6EF5-4E18-A28F-9D8155EE35A5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -62,6 +64,10 @@ Global
 		{8EFA14E0-FA66-4CA8-9E70-BC4D39B4C9D7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8EFA14E0-FA66-4CA8-9E70-BC4D39B4C9D7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8EFA14E0-FA66-4CA8-9E70-BC4D39B4C9D7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{43D36E15-6EF5-4E18-A28F-9D8155EE35A5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{43D36E15-6EF5-4E18-A28F-9D8155EE35A5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{43D36E15-6EF5-4E18-A28F-9D8155EE35A5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{43D36E15-6EF5-4E18-A28F-9D8155EE35A5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -75,5 +81,6 @@ Global
 		{3D54F6E0-5490-4E07-A300-AEB8816F5693} = {80323585-95E5-4B7A-980D-8E469628EF10}
 		{BD719D0A-7987-48EB-9EA0-B92C6F67B1D2} = {D0F3E3DE-EF0E-4E4A-96E5-2F5ACA88039D}
 		{8EFA14E0-FA66-4CA8-9E70-BC4D39B4C9D7} = {D0F3E3DE-EF0E-4E4A-96E5-2F5ACA88039D}
+		{43D36E15-6EF5-4E18-A28F-9D8155EE35A5} = {D0F3E3DE-EF0E-4E4A-96E5-2F5ACA88039D}
 	EndGlobalSection
 EndGlobal
