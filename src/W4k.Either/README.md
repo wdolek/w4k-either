@@ -33,30 +33,34 @@ All types are generated using [`W4k.Either.CodeGeneration` package](https://www.
 
 Common API for all provided types:
 
-| Method/Property                 | Description                                                                 |
-|---------------------------------|-----------------------------------------------------------------------------|
-| ctor                            | Creates a new instance of the type with a value                             |
-|                                 |                                                                             |
-| `Case` (property)               | Property for use with pattern matching (returns current value as `object`)  | 
-| `TryPick`                       | Allows retrieval of value from the type (if present)                        |
-| `Bind<TNew>`                    | Binds the value to a new instance of type `TNew` using the binder function  |
-| `Map<TNew>`                     | Maps the value to a new value of type `TNew` using the mapper function      |
-| `Match<TResult>`                | Handles all possible cases, returning `TResult`                             |
-| `Match<TState, TResult>`        | Handles all possible cases returning `TResult` using a state                |
-| `MatchAsync<TResult>`           | Asynchronously handles all possible cases returning `TResult`               |
-| `MatchAsync<TState, TResult>`   | Asynchronously handles all possible cases returning `TResult` using a state |
-| `Switch`                        | Handles all possible cases (`void`)                                         |
-| `Switch<TState>`                | Handles all possible cases using a state                                    |
-| `SwitchAsync`                   | Asynchronously handles all possible cases                                   |
-| `SwitchAsync<TState>`           | Asynchronously handles all possible cases using a state                     |
-|                                 |                                                                             |
-| `ToString`                      | Returns the string representation of the value                              |
-| `GetHashCode`                   | Returns the hash code of the value                                          |
-| `Equals`                        | Compares equality between monads                                            |
-|                                 |                                                                             |
-| `==` and `!=`                   | Compares equality between monads                                            |
-|                                 |                                                                             |
-| conversion, `implicit operator` | Enables implicit conversion from a value to a monad                         |
+| Method/Property                 | Description                                                                                                                            |
+|---------------------------------|----------------------------------------------------------------------------------------------------------------------------------------|
+| ctor                            | Creates a new instance of the type with a value                                                                                        |
+|                                 |                                                                                                                                        |
+| `Case` (property)               | Property for use with pattern matching (returns current value as `object`)                                                             | 
+| `TryPick`                       | Allows retrieval of value from the type (if present)                                                                                   |
+| `Bind<TNew>` *                  | Applies the provided function to the current value, resulting in a new instance of monad with `TNew` value                             |
+| `Map<TNew>` **                  | Transforms current value using the supplied function, if the value exists, and wraps the result in a new instance of monad with `TNew` |
+| `Match<TResult>`                | Handles all possible cases, returning `TResult`                                                                                        |
+| `Match<TState, TResult>`        | Handles all possible cases returning `TResult` using a state                                                                           |
+| `MatchAsync<TResult>`           | Asynchronously handles all possible cases returning `TResult`                                                                          |
+| `MatchAsync<TState, TResult>`   | Asynchronously handles all possible cases returning `TResult` using a state                                                            |
+| `Switch`                        | Handles all possible cases (`void`)                                                                                                    |
+| `Switch<TState>`                | Handles all possible cases using a state                                                                                               |
+| `SwitchAsync`                   | Asynchronously handles all possible cases                                                                                              |
+| `SwitchAsync<TState>`           | Asynchronously handles all possible cases using a state                                                                                |
+|                                 |                                                                                                                                        |
+| `ToString`                      | Returns the string representation of the value                                                                                         |
+| `GetHashCode`                   | Returns the hash code of the value                                                                                                     |
+| `Equals`                        | Compares equality between monads                                                                                                       |
+|                                 |                                                                                                                                        |
+| `==` and `!=`                   | Compares equality between monads                                                                                                       |
+|                                 |                                                                                                                                        |
+| conversion, `implicit operator` | Enables implicit conversion from a value to a monad                                                                                    |
+
+\* `Bind<TNew>` allows for chaining of operations where the result of one operation can affect subsequent ones.
+
+\** `Map<TNew>` is used for pure transformation of the value without affecting the flow of operations.
 
 <a id="either"></a>
 ### Either
