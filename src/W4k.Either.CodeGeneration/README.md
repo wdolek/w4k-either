@@ -44,7 +44,7 @@ Reference `W4k.Either.CodeGeneration` package in your project and use generated 
 
 ```xml
   <ItemGroup>
-    <PackageReference Include="W4k.Either.CodeGeneration" Version="0.0.0" PrivateAssets="All" />
+    <PackageReference Include="W4k.Either.CodeGeneration" Version="1.0.0" PrivateAssets="All" />
   </ItemGroup>
 ```
 
