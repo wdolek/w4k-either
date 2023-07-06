@@ -108,7 +108,7 @@ namespace MyLittleEither.MyLittleEitherMonad
                 return false;
             }
 
-            if (ReferenceEquals(thid, other))
+            if (ReferenceEquals(this, other))
             {
                 return true;
             }

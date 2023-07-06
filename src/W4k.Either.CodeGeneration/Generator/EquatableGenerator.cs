@@ -35,7 +35,7 @@ internal sealed class EquatableGenerator : IMemberCodeGenerator
             writer.AppendIndentedLine("        return false;");
             writer.AppendIndentedLine("    }");
             writer.AppendLineBreak();
-            writer.AppendIndentedLine("    if (ReferenceEquals(thid, other))");
+            writer.AppendIndentedLine("    if (ReferenceEquals(this, other))");
             writer.AppendIndentedLine("    {");
             writer.AppendIndentedLine("        return true;");
             writer.AppendIndentedLine("    }");
