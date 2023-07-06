@@ -152,6 +152,19 @@ namespace MyLittleEither.MyLittleEitherMonad
                 }
             }
 
+            public MyNestedEither<TNew, TRight?> Bind<TState, TNew>(TState state, global::System.Func<TState, TLeft?, MyNestedEither<TNew, TRight?>> binder)
+            {
+                switch (_idx)
+                {
+                    case 1:
+                        return binder(state, _v1);
+                    case 2:
+                        return new MyNestedEither<TNew, TRight?>(_v2);
+                    default:
+                        return global::W4k.Either.ThrowHelper.ThrowOnInvalidState<MyNestedEither<TNew, TRight?>>();
+                }
+            }
+
             public MyNestedEither<TLeft?, TNew> Bind<TNew>(global::System.Func<TRight?, MyNestedEither<TLeft?, TNew>> binder)
             {
                 switch (_idx)
@@ -160,6 +173,19 @@ namespace MyLittleEither.MyLittleEitherMonad
                         return new MyNestedEither<TLeft?, TNew>(_v1);
                     case 2:
                         return binder(_v2);
+                    default:
+                        return global::W4k.Either.ThrowHelper.ThrowOnInvalidState<MyNestedEither<TLeft?, TNew>>();
+                }
+            }
+
+            public MyNestedEither<TLeft?, TNew> Bind<TState, TNew>(TState state, global::System.Func<TState, TRight?, MyNestedEither<TLeft?, TNew>> binder)
+            {
+                switch (_idx)
+                {
+                    case 1:
+                        return new MyNestedEither<TLeft?, TNew>(_v1);
+                    case 2:
+                        return binder(state, _v2);
                     default:
                         return global::W4k.Either.ThrowHelper.ThrowOnInvalidState<MyNestedEither<TLeft?, TNew>>();
                 }
@@ -178,6 +204,19 @@ namespace MyLittleEither.MyLittleEitherMonad
                 }
             }
 
+            public MyNestedEither<TNew, TRight?> Map<TState, TNew>(TState state, global::System.Func<TState, TLeft?, TNew> mapper)
+            {
+                switch (_idx)
+                {
+                    case 1:
+                        return new MyNestedEither<TNew, TRight?>(mapper(state, _v1));
+                    case 2:
+                        return new MyNestedEither<TNew, TRight?>(_v2);
+                    default:
+                        return global::W4k.Either.ThrowHelper.ThrowOnInvalidState<MyNestedEither<TNew, TRight?>>();
+                }
+            }
+
             public MyNestedEither<TLeft?, TNew> Map<TNew>(global::System.Func<TRight?, TNew> mapper)
             {
                 switch (_idx)
@@ -186,6 +225,19 @@ namespace MyLittleEither.MyLittleEitherMonad
                         return new MyNestedEither<TLeft?, TNew>(_v1);
                     case 2:
                         return new MyNestedEither<TLeft?, TNew>(mapper(_v2));
+                    default:
+                        return global::W4k.Either.ThrowHelper.ThrowOnInvalidState<MyNestedEither<TLeft?, TNew>>();
+                }
+            }
+
+            public MyNestedEither<TLeft?, TNew> Map<TState, TNew>(TState state, global::System.Func<TState, TRight?, TNew> mapper)
+            {
+                switch (_idx)
+                {
+                    case 1:
+                        return new MyNestedEither<TLeft?, TNew>(_v1);
+                    case 2:
+                        return new MyNestedEither<TLeft?, TNew>(mapper(state, _v2));
                     default:
                         return global::W4k.Either.ThrowHelper.ThrowOnInvalidState<MyNestedEither<TLeft?, TNew>>();
                 }

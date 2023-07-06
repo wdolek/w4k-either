@@ -3,7 +3,8 @@
 :warning: Code generator - despite targeting `netstandard2.0` - requires project to use at least `net6.0` (due to features used in generated code).
 
 All types distributed with `W4k.Either` package are generated using _this_ source generator.
-To see how to use those types and what is being generated, please refer to [`W4k.Either`](https://www.nuget.org/packages/W4k.Either/) package.
+To see how to use those types and what is being generated, please refer to [`W4k.Either`](https://www.nuget.org/packages/W4k.Either/) package
+or find generated code snapshots in [tests](../../tests/W4k.Either.CodeGeneration.Tests/Snapshots).
 
 The `W4k.Either.CodeGeneration` package enables you to generate your own types with custom logic. It generates types in two ways:
 
@@ -126,14 +127,22 @@ Members you can omit from being generated:
 | Member name / alias     | Skip generating...                                                  |
 |-------------------------|---------------------------------------------------------------------|
 | `"Case"`                | `Case` property                                                     |
-| `"Bind"`                | `Bind` method                                                       |
-| `"Map"`                 | `Map` method                                                        |
 | `"TryPick"`             | `TryPick` method                                                    |
+|                         |                                                                     |
+| `"Bind*"`               | all `Bind` methods                                                  |
+| `"Bind"`                | `Bind` method                                                       |
+| `"Bind<TState>"`        | `Bind` method override with provided state                          |
+|                         |                                                                     |
+| `"Map*"`                | all `Map` methods                                                   |
+| `"Map"`                 | `Map` method                                                        |
+| `"Map<TState>"`         | `Map` method override with provided state                           |
+|                         |                                                                     |
 | `"Match*"`              | all `Match`, `MatchAsync`, `Switch` and `SwitchAsync` methods       |
 | `"Match"`               | `Match` and `Switch` method                                         |
-| `"MatchWithState"`      | `Match` and `Switch` method override with provided state            |
+| `"Match<TState>"`       | `Match` and `Switch` method override with provided state            |
 | `"MatchAsync"`          | `MatchAsync` and `SwitchAsync` method                               |
 | `"MatchAsync<TState>"`  | `MatchAsync` and `SwitchAsync` method overrides with provided state |
+|                         |                                                                     |
 | `"Switch*"`             | all `Switch` and `SwitchAsync` methods                              |
 | `"Switch"`              | `Switch` method                                                     |
 | `"Switch<TState>"`      | `Switch` method override with provided state                        |
