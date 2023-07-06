@@ -1,4 +1,4 @@
-﻿namespace W4k.Either.CodeGeneration.Generator;
+﻿namespace W4k.Either.Generator;
 
 internal sealed class PropertiesGenerator : IMemberCodeGenerator
 {

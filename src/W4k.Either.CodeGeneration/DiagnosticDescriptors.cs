@@ -1,6 +1,6 @@
 ﻿using Microsoft.CodeAnalysis;
 
-namespace W4k.Either.CodeGeneration;
+namespace W4k.Either;
 
 internal static class DiagnosticDescriptors
 {

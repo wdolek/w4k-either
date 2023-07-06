@@ -3,7 +3,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.Threading;
 using Microsoft.CodeAnalysis;
 
-namespace W4k.Either.CodeGeneration.TypeParametrization;
+namespace W4k.Either.TypeParametrization;
 
 internal static class AttributeFinder
 {

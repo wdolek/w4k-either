@@ -2,7 +2,7 @@
 using System.Diagnostics;
 using Microsoft.CodeAnalysis;
 
-namespace W4k.Either.CodeGeneration.TypeParametrization;
+namespace W4k.Either.TypeParametrization;
 
 [DebuggerDisplay("{Index} -> {Name}")]
 internal sealed class TypeParameter

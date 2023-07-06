@@ -1,6 +1,6 @@
 ﻿using Microsoft.CodeAnalysis;
 
-namespace W4k.Either.CodeGeneration.TypeDeclaration;
+namespace W4k.Either.TypeDeclaration;
 
 /// <summary>
 /// Representation of type declaration.

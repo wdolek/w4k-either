@@ -1,6 +1,6 @@
 ﻿using Microsoft.CodeAnalysis;
 
-namespace W4k.Either.CodeGeneration.TypeParametrization;
+namespace W4k.Either.TypeParametrization;
 
 internal readonly struct ParamAnalysisContext
 {

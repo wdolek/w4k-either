@@ -2,9 +2,9 @@
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.Text;
-using W4k.Either.CodeGeneration.Generator;
+using W4k.Either.Generator;
 
-namespace W4k.Either.CodeGeneration;
+namespace W4k.Either;
 
 /// <summary>
 /// Either choice monad code generator.

@@ -4,7 +4,7 @@ using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 
-namespace W4k.Either.CodeGeneration.TypeDeclaration;
+namespace W4k.Either.TypeDeclaration;
 
 internal static class DeclarationAnalyzer
 {

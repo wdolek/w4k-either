@@ -1,7 +1,7 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using Microsoft.CodeAnalysis;
 
-namespace W4k.Either.CodeGeneration.TypeDeclaration;
+namespace W4k.Either.TypeDeclaration;
 
 internal sealed class DeclarationAnalysisResult
 {

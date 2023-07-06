@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
 using Microsoft.CodeAnalysis;
-using W4k.Either.CodeGeneration.TypeDeclaration;
-using W4k.Either.CodeGeneration.TypeParametrization;
+using W4k.Either.TypeDeclaration;
+using W4k.Either.TypeParametrization;
 
-namespace W4k.Either.CodeGeneration.Generator;
+namespace W4k.Either.Generator;
 
 internal sealed class GeneratorContext
 {

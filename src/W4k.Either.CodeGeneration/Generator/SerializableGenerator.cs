@@ -1,7 +1,7 @@
 using System.Collections.Immutable;
 using Microsoft.CodeAnalysis;
 
-namespace W4k.Either.CodeGeneration.Generator;
+namespace W4k.Either.Generator;
 
 internal sealed class SerializableGenerator : IMemberCodeGenerator
 {

@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using Microsoft.CodeAnalysis;
-using W4k.Either.CodeGeneration.TypeDeclaration;
-using W4k.Either.CodeGeneration.TypeParametrization;
+using W4k.Either.TypeDeclaration;
+using W4k.Either.TypeParametrization;
 
-namespace W4k.Either.CodeGeneration;
+namespace W4k.Either;
 
 internal sealed class TransformationResult
 {

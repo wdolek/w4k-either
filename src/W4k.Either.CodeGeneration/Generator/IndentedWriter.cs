@@ -1,6 +1,6 @@
 ﻿using System.Text;
 
-namespace W4k.Either.CodeGeneration.Generator;
+namespace W4k.Either.Generator;
 
 internal readonly struct IndentedWriter
 {

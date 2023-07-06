@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Text;
 using Microsoft.CodeAnalysis;
-using W4k.Either.CodeGeneration.TypeParametrization;
+using W4k.Either.TypeParametrization;
 
-namespace W4k.Either.CodeGeneration.Generator;
+namespace W4k.Either.Generator;
 
 internal static class TypeGeneratorHelper
 {
