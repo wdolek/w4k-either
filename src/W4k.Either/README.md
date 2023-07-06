@@ -10,7 +10,7 @@ To install the library, add the following package reference to your project file
 
 ```xml
   <ItemGroup>
-    <PackageReference Include="W4k.Either" Version="1.0.0" />
+    <PackageReference Include="W4k.Either" Version="1.1.0" />
   </ItemGroup>
 ```
 
