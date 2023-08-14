@@ -1,6 +1,9 @@
 # W4k.Either
 
-![W4k.Either Build](https://github.com/wdolek/w4k-either/workflows/Build%20and%20test/badge.svg) [![NuGet Badge](https://buildstats.info/nuget/W4k.Either?includePreReleases=true)](https://www.nuget.org/packages/W4k.Either/) [![NuGet Badge](https://buildstats.info/nuget/W4k.Either.CodeGeneration?includePreReleases=true)](https://www.nuget.org/packages/W4k.Either.CodeGeneration/) ![CodeQL](https://github.com/wdolek/w4k-either/actions/workflows/github-code-scanning/codeql/badge.svg)
+![W4k.Either Build](https://github.com/wdolek/w4k-either/workflows/Build%20and%20test/badge.svg) 
+[![NuGet Badge](https://buildstats.info/nuget/W4k.Either?includePreReleases=true)](https://www.nuget.org/packages/W4k.Either/) 
+[![NuGet Badge](https://buildstats.info/nuget/W4k.Either.CodeGeneration?includePreReleases=true)](https://www.nuget.org/packages/W4k.Either.CodeGeneration/) 
+[![CodeQL](https://github.com/wdolek/w4k-either/actions/workflows/github-code-scanning/codeql/badge.svg)](https://github.com/wdolek/w4k-either/security/code-scanning)
 
 ## Why?
 
