@@ -18,13 +18,14 @@ internal sealed class CodeGenerator
             new ObjectOverridesGenerator(context),
             new EquatableGenerator(context),
             new TryPickGenerator(context),
+            new TryPickWithRemainderGenerator(context),
             new BindGenerator(context),
             new MapGenerator(context),
             new MatchGenerator(context),
             new SwitchGenerator(context),
         };
     }
-    
+
     public void Generate(IndentedWriter writer)
     {
         GenerateFileHeader(writer);
@@ -38,14 +39,14 @@ internal sealed class CodeGenerator
         writer.AppendIndentedLine("#nullable enable");
         writer.AppendLineBreak();
     }
-    
+
     private void GenerateNamespace(IndentedWriter writer)
     {
         writer.AppendIndentedLine($"namespace {_context.TypeDeclaration.TargetNamespace}");
         writer.AppendIndentedLine("{");
-        
+
         GenerateContainingType(writer.Indent());
-        
+
         writer.AppendIndentedLine("}");
     }
 
@@ -56,12 +57,12 @@ internal sealed class CodeGenerator
             GenerateType(writer);
             return;
         }
-        
+
         writer.AppendIndentedLine(_context.ContainingTypeDeclaration.FullDeclaration);
         writer.AppendIndentedLine("{");
 
         GenerateType(writer.Indent());
-        
+
         writer.AppendIndentedLine("}");
     }
 
@@ -69,7 +70,7 @@ internal sealed class CodeGenerator
     {
         writer.AppendIndentedLine(_context.TypeDeclaration.FullDeclaration);
         writer.AppendIndentedLine("{");
-        
+
         var indentedWriter = writer.Indent();
         foreach (var generator in _memberGenerators)
         {
@@ -78,7 +79,7 @@ internal sealed class CodeGenerator
                 generator.Generate(indentedWriter);
             }
         }
-        
+
         // generators may leave empty line at the end
         writer.RemoveLastLineBreak();
 

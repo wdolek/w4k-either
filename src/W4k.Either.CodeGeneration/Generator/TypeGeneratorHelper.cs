@@ -9,13 +9,40 @@ internal static class TypeGeneratorHelper
 {
     private static readonly string[] CandidateNames = { "TNew", "TBound" };
 
+    public static string GetTypeName(string typeName, TypeParameter[] typeParameters, int removeIndex)
+    {
+        var sb = new StringBuilder();
+
+        sb.Append(typeName);
+        sb.Append('<');
+
+        for (var i = 0; i < typeParameters.Length; i++)
+        {
+            var typeParameter = typeParameters[i];
+            if (typeParameter.Index == removeIndex)
+            {
+                continue;
+            }
+
+            sb.Append(typeParameter.AsArgument);
+            if (i < typeParameters.Length - 1)
+            {
+                sb.Append(", ");
+            }
+        }
+
+        sb.Append('>');
+
+        return sb.ToString();
+    }
+
     public static string GetTypeName(string typeName, TypeParameter[] typeParameters, int replaceIndex, string replaceTypeParamName)
     {
         var sb = new StringBuilder();
 
         sb.Append(typeName);
         sb.Append('<');
-        
+
         for (var i = 0; i < typeParameters.Length; i++)
         {
             var typeParameter = typeParameters[i];
@@ -27,15 +54,15 @@ internal static class TypeGeneratorHelper
 
             if (i < typeParameters.Length - 1)
             {
-                sb.Append(", ");                
+                sb.Append(", ");
             }
         }
-        
+
         sb.Append('>');
-        
+
         return sb.ToString();
     }
-    
+
     public static string GetTypeParamName(TypeParameter[] typeParameters)
     {
         var candidateNames = CandidateNames;
