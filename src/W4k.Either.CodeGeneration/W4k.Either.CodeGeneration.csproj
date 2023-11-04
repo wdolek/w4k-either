@@ -26,7 +26,7 @@
     <AllowedOutputExtensionsInPackageBuildOutputFolder>$(AllowedOutputExtensionsInPackageBuildOutputFolder);.pdb</AllowedOutputExtensionsInPackageBuildOutputFolder>
     <PackageReadmeFile>README.md</PackageReadmeFile>
   </PropertyGroup>
-  
+
   <PropertyGroup>
     <IncludeBuildOutput>false</IncludeBuildOutput>
     <IsRoslynComponent>true</IsRoslynComponent>
@@ -55,17 +55,16 @@
     <None Include="$(OutputPath)\netstandard2.0\W4k.Either.Shared.dll" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false" />
     <None Include="$(OutputPath)\netstandard2.0\W4k.Either.Shared.pdb" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false" />
     <None Include="$(OutputPath)\netstandard2.0\W4k.Either.Shared.xml" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false" />
-    
+
     <!-- Library -->
     <!-- intentionally not including any `netstandard2.0` assemblies, `EnsureNet60OrHigher` target won't allow anything below net6.0 anyway -->
     <None Include="$(OutputPath)\net6.0\W4k.Either.Shared.dll" Pack="true" PackagePath="lib\net6.0" Visible="true" />
     <None Include="$(OutputPath)\net6.0\W4k.Either.Shared.pdb" Pack="true" PackagePath="lib\net6.0" Visible="true" />
     <None Include="$(OutputPath)\net6.0\W4k.Either.Shared.xml" Pack="true" PackagePath="lib\net6.0" Visible="true" />
+  </ItemGroup>
 
-    <!-- Readme -->
+  <ItemGroup>
     <None Include="README.md" Pack="true" PackagePath="\" />
-    
-    <!-- Icon -->
     <None Include="..\..\images\either_128px.png" Pack="true" PackagePath="_img" />
   </ItemGroup>
 

@@ -21,15 +21,22 @@
     <AllowedOutputExtensionsInPackageBuildOutputFolder>$(AllowedOutputExtensionsInPackageBuildOutputFolder);.pdb</AllowedOutputExtensionsInPackageBuildOutputFolder>
     <PackageReadmeFile>README.md</PackageReadmeFile>
   </PropertyGroup>
-  
+
   <PropertyGroup>
+    <AppendTargetFrameworkToOutputPath>true</AppendTargetFrameworkToOutputPath>
     <EmitCompilerGeneratedFiles>false</EmitCompilerGeneratedFiles>
     <CompilerGeneratedFilesOutputPath>$(BaseIntermediateOutputPath)Generated</CompilerGeneratedFilesOutputPath>
   </PropertyGroup>
-  
+
   <ItemGroup>
     <ProjectReference Include="..\W4k.Either.Shared\W4k.Either.Shared.csproj" PrivateAssets="All" />
     <ProjectReference Include="..\W4k.Either.CodeGeneration\W4k.Either.CodeGeneration.csproj" PrivateAssets="All" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- Include shared assembly in package -->
+    <None Include="$(OutputPath)\W4k.Either.Shared.dll" Pack="true" PackagePath="lib\net6.0" Visible="true" />
+    <None Include="$(OutputPath)\W4k.Either.Shared.pdb" Pack="true" PackagePath="lib\net6.0" Visible="true" />
   </ItemGroup>
 
   <ItemGroup>
