@@ -43,10 +43,8 @@ public readonly partial struct StringOrInt
 
 Reference `W4k.Either.CodeGeneration` package in your project and use generated types:
 
-```xml
-  <ItemGroup>
-    <PackageReference Include="W4k.Either.CodeGeneration" Version="1.1.0" PrivateAssets="All" />
-  </ItemGroup>
+```shell
+dotnet add package W4k.Either.CodeGeneration
 ```
 
 ## Usage
@@ -72,7 +70,7 @@ Other properties and behaviors include:
 ```csharp
 [Either]
 [Serializable] // <- make type serializable
-public readonly partial struct Polymorph<T1, T2> : IEquatable<Polymorph<T1, T2>>, ISerializable // <- `IEquatable<>` and `ISerializable` are implemented by code generator for you 
+public readonly partial struct Polymorph<T1, T2> : IEquatable<Polymorph<T1, T2>>, ISerializable // <- `IEquatable<>` and `ISerializable` are implemented by code generator for you
     where T1 : struct // <- generator reflects constraints in generated code
     where T2 : notnull, ICrewMember
 {
@@ -81,19 +79,19 @@ public readonly partial struct Polymorph<T1, T2> : IEquatable<Polymorph<T1, T2>>
     {
         // NB! you are responsible for checking input - if you care about it ¯\_(ツ)_/¯
         ArgumentNullException.ThrowIfNull(value);
-    
+
         // your custom logic
         if (value is Lister)
         {
             throw new ArgumentException("...");
         }
-        
+
         // NB! you are responsible for proper initialization of the instance;
         _idx = 2;
         _v1 = default;
         _v2 = value;
     }
-    
+
     // custom property
     public bool IsRimmer => _idx == 2 && _v2 is Rimmer;
 }
@@ -148,7 +146,7 @@ Members you can omit from being generated:
 | `"Switch<TState>"`      | `Switch` method override with provided state                        |
 | `"SwitchAsync"`         | `SwitchAsync` method                                                |
 | `"SwitchAsync<TState>"` | `SwitchAsync` method override with provided state                   |
- 
+
 `Switch` method implementation relies on `Match`, thus skipping generation of `Match` will also skip `Switch` method.
 
 ---

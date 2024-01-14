@@ -6,7 +6,7 @@
     <ImplicitUsings>disable</ImplicitUsings>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <Deterministic>true</Deterministic>
-  </PropertyGroup>  
+  </PropertyGroup>
 
   <PropertyGroup>
     <NoWarn>CS1591</NoWarn>
@@ -14,7 +14,6 @@
 
   <PropertyGroup>
     <AnalysisLevel>latest-Recommended</AnalysisLevel>
-    <EnableNETAnalyzers>true</EnableNETAnalyzers>
     <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
   </PropertyGroup>
 
@@ -31,6 +30,6 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1" PrivateAssets="All" />
-  </ItemGroup>  
+  </ItemGroup>
 
 </Project>

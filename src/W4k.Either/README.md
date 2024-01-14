@@ -6,12 +6,10 @@ This library provides a variety of types for handling the results of operations 
 
 ## Installation
 
-To install the library, add the following package reference to your project file: 
+To install the library, add the following package reference to your project file:
 
-```xml
-  <ItemGroup>
-    <PackageReference Include="W4k.Either" Version="1.1.0" />
-  </ItemGroup>
+```shell
+dotnet add package W4k.Either
 ```
 
 ## Description
@@ -37,7 +35,7 @@ Common API for all provided types:
 |---------------------------------|----------------------------------------------------------------------------------------------------------------------------------------|
 | ctor                            | Creates a new instance of the type with a value                                                                                        |
 |                                 |                                                                                                                                        |
-| `Case` (property)               | Property for use with pattern matching (returns current value as `object`)                                                             | 
+| `Case` (property)               | Property for use with pattern matching (returns current value as `object`)                                                             |
 | `TryPick`                       | Allows retrieval of value from the type (if present)                                                                                   |
 | `Bind<TNew>` *                  | Applies the provided function to the current value, resulting in a new instance of monad with `TNew` value                             |
 | `Map<TNew>` **                  | Transforms current value using the supplied function, if the value exists, and wraps the result in a new instance of monad with `TNew` |
@@ -105,7 +103,7 @@ Use `Maybe` to communicate that an operation resulted in no value, as an alterna
 Maybe<User> FindUser(UserIdentifier userId)
 {
     // ...
-    return userFound 
+    return userFound
         ? new User(...) // or Maybe<User>.Some(new User(...))
         : Maybe<User>.None;
 }
