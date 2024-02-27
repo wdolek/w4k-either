@@ -86,6 +86,7 @@ Listed alphabetically
 - [OneOf](https://github.com/mcintyre321/OneOf): Discriminated unions for C#
 - [Optional](https://github.com/nlkl/Optional): A robust option/maybe type for C#
 - [Result.Net](https://github.com/YoussefSell/Result.Net): A simple wrapper over an operation execution results to indicate success or failure
+- [SimpleResults](https://github.com/MrDave1999/SimpleResults): A simple library to implement the Result pattern for returning from services
 
 ## Additional resources
 
