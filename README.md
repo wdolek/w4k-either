@@ -79,6 +79,7 @@ Listed alphabetically
 
 - [Ardalis.Result](https://github.com/ardalis/result): A simple implementation of Result for C#
 - [CSharpFunctionalExtensions](https://github.com/vkhorikov/CSharpFunctionalExtensions/): Functional extensions for C#
+- [dunet](https://github.com/domn1995/dunet): Simple source generator for discriminated unions in C#
 - [ErrorOr](https://github.com/amantinband/error-or): A simple, fluent discriminated union of an error or a result
 - [FluentResults](https://github.com/altmann/FluentResults): A lightweight .NET library to handle errors and failures in a fluent way
 - [LanguageExt](https://github.com/louthy/language-ext): Provides functional-programming "base class" library
