@@ -1,12 +1,12 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
+    <TargetFrameworks>net8.0;net9.0</TargetFrameworks>
     <EnablePackageValidation>true</EnablePackageValidation>
   </PropertyGroup>
 
   <PropertyGroup>
-    <VersionPrefix>1.0.0</VersionPrefix>
+    <VersionPrefix>1.1.0</VersionPrefix>
     <Authors>Zdenek Havlin</Authors>
     <Description>An 'Either' type for C#, inspired by FP. This sum type represents values of two (or more) possible types.</Description>
     <PackageId>W4k.Either</PackageId>
@@ -22,7 +22,7 @@
   </PropertyGroup>
 
   <PropertyGroup>
-    <AppendTargetFrameworkToOutputPath>true</AppendTargetFrameworkToOutputPath>
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
     <EmitCompilerGeneratedFiles>false</EmitCompilerGeneratedFiles>
     <CompilerGeneratedFilesOutputPath>$(BaseIntermediateOutputPath)Generated</CompilerGeneratedFilesOutputPath>
   </PropertyGroup>
@@ -34,8 +34,12 @@
 
   <ItemGroup>
     <!-- Include shared assembly in package -->
-    <None Include="$(OutputPath)\W4k.Either.Shared.dll" Pack="true" PackagePath="lib\net6.0" Visible="true" />
-    <None Include="$(OutputPath)\W4k.Either.Shared.pdb" Pack="true" PackagePath="lib\net6.0" Visible="true" />
+    <!-- .NET 8.0 -->
+    <None Include="$(OutputPath)\net8.0\W4k.Either.Shared.dll" Pack="true" PackagePath="lib\net8.0" Visible="true" />
+    <None Include="$(OutputPath)\net8.0\W4k.Either.Shared.pdb" Pack="true" PackagePath="lib\net8.0" Visible="true" />
+    <!-- .NET 9.0 -->
+    <None Include="$(OutputPath)\net9.0\W4k.Either.Shared.dll" Pack="true" PackagePath="lib\net9.0" Visible="true" />
+    <None Include="$(OutputPath)\net9.0\W4k.Either.Shared.pdb" Pack="true" PackagePath="lib\net9.0" Visible="true" />
   </ItemGroup>
 
   <ItemGroup>
