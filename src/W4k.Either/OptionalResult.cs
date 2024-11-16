@@ -85,14 +85,14 @@ public readonly partial struct OptionalResult<TSuccess, TError> : IEquatable<Opt
         _v2 = default;
 
         HasValue = true;
-    } 
-    
+    }
+
     /// <summary>
     /// Gets a value indicating whether this <see cref="OptionalResult{TSuccess, TError}"/> represents a successful result.
     /// </summary>
     [MemberNotNullWhen(false, nameof(Error))]
     public bool IsSuccess => _idx == 1;
-    
+
     /// <summary>
     /// Gets a value indicating whether this <see cref="OptionalResult{TSuccess, TError}"/> represents a failed result.
     /// </summary>
@@ -104,7 +104,7 @@ public readonly partial struct OptionalResult<TSuccess, TError> : IEquatable<Opt
     /// </summary>
     [MemberNotNullWhen(true, nameof(Value))]
     public bool HasValue { get; } = false;
-    
+
     /// <summary>
     /// Deconstructs the <see cref="OptionalResult{TSuccess, TError}"/> into its constituent values.
     /// </summary>

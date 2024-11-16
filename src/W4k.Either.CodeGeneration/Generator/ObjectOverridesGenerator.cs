@@ -17,7 +17,7 @@ internal sealed class ObjectOverridesGenerator : IMemberCodeGenerator
         WriteToString(writer);
         WriteObjectEquals(writer);
     }
-    
+
     private void WriteGetHashCode(IndentedWriter writer)
     {
         writer.AppendIndentedLine("[global::System.Diagnostics.Contracts.Pure]");
@@ -34,14 +34,14 @@ internal sealed class ObjectOverridesGenerator : IMemberCodeGenerator
                     ? $"            return {typeParam.AsFieldInvoker}.GetHashCode() ?? 0;"
                     : $"            return {typeParam.AsFieldInvoker}.GetHashCode();");
         }
-        
+
         writer.AppendIndentedLine("        default:");
         writer.AppendIndentedLine("            return global::W4k.Either.ThrowHelper.ThrowOnInvalidState<int>();");
         writer.AppendIndentedLine("    }");
         writer.AppendIndentedLine("}");
         writer.AppendLineBreak();
     }
-    
+
     private void WriteToString(IndentedWriter writer)
     {
         writer.AppendIndentedLine("[global::System.Diagnostics.Contracts.Pure]");
@@ -55,7 +55,7 @@ internal sealed class ObjectOverridesGenerator : IMemberCodeGenerator
             writer.AppendIndentedLine($"        case {typeParam.Index}:");
             writer.AppendIndentedLine($"            return {typeParam.AsFieldInvoker}.ToString() ?? string.Empty;");
         }
-        
+
         writer.AppendIndentedLine("        default:");
         writer.AppendIndentedLine("            return global::W4k.Either.ThrowHelper.ThrowOnInvalidState<string>();");
         writer.AppendIndentedLine("    }");

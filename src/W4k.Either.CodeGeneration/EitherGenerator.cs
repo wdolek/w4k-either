@@ -25,10 +25,10 @@ public class EitherGenerator : IIncrementalGenerator
             toGenerate,
             static (ctx, transformationResult) => Execute(ctx, transformationResult));
     }
-    
+
     private static bool IsStructOrClassDeclarationSyntax(SyntaxNode node) =>
         node is StructDeclarationSyntax or ClassDeclarationSyntax;
-    
+
     private static void Execute(SourceProductionContext context, TransformationResult transformationResult)
     {
         var diagnostics = transformationResult.Diagnostics;
@@ -51,5 +51,5 @@ public class EitherGenerator : IIncrementalGenerator
         context.AddSource(
             generatorContext.GetFileName(),
             SourceText.From(sb.ToString(), Encoding.UTF8));
-    }    
+    }
 }

@@ -319,5 +319,5 @@ public abstract class EitherBaseAttribute : Attribute
     /// <summary>
     /// Gets or sets member names to skip by the source generator.
     /// </summary>
-    public string[] Skip { get; set; } = Array.Empty<string>();
+    public string[] Skip { get; set; } = [];
 }

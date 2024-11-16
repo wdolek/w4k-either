@@ -14,7 +14,7 @@ internal static class GenericAttributeAnalyzer
         {
             return ParamAnalysisResult.Empty(ParametrizationKind.GenericAttribute);
         }
-        
+
         var attrTypeParams = attributeClass.TypeArguments;
 
         var typeParams = new TypeParameter[attrTypeParams.Length];

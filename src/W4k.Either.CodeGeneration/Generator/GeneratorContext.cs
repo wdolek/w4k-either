@@ -53,7 +53,7 @@ internal sealed class GeneratorContext
 
     [DoesNotReturn]
     [MethodImpl(MethodImplOptions.NoInlining)]
-    private static void ThrowOnInvalidTransformationResult(string argName) => 
+    private static void ThrowOnInvalidTransformationResult(string argName) =>
         throw new ArgumentException("Transformation result is invalid.", argName);
 
     private static HashSet<string> GetSkippedMembers(AttributeData attr)

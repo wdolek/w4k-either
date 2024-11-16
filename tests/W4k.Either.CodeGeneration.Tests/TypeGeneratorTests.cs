@@ -22,7 +22,7 @@ namespace MyLittleEither.MyLittleEitherMonad
 
         return Verify(output).UseDirectory("Snapshots");
     }
-    
+
     [Fact]
     public Task GenerateClass()
     {

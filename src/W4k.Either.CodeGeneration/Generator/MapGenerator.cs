@@ -12,7 +12,7 @@ internal sealed class MapGenerator : IMemberCodeGenerator
         _context = context;
     }
 
-    public bool CanGenerate() => 
+    public bool CanGenerate() =>
         _context.ParametrizationKind == ParametrizationKind.Generic
         && !_context.Skip.Contains("Map*");
 
@@ -28,7 +28,7 @@ internal sealed class MapGenerator : IMemberCodeGenerator
             {
                 WriteMap(writer, typeParam, typeSymbolName, typeParameters, newTypeParamName);
             }
-            
+
             if (!_context.Skip.Contains("Map<TState>"))
             {
                 WriteMapWithState(writer, typeParam, typeSymbolName, typeParameters, newTypeParamName);
@@ -75,7 +75,7 @@ internal sealed class MapGenerator : IMemberCodeGenerator
         writer.AppendIndentedLine("}");
         writer.AppendLineBreak();
     }
-    
+
     private static void WriteMapWithState(
         IndentedWriter writer,
         TypeParameter typeParam,

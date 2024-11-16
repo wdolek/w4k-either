@@ -18,7 +18,7 @@ public static class Result
     public static Result<TError> Success<TError>()
         where TError : notnull
         => new();
-    
+
     /// <summary>
     /// Creates a new instance of the <see cref="Result{TError}"/> struct representing a failed result.
     /// </summary>
@@ -29,7 +29,7 @@ public static class Result
     public static Result<TError> Failed<TError>(TError error)
         where TError : notnull
         => new(error);
-    
+
     /// <summary>
     /// Creates a new instance of the <see cref="Result{TSuccess, TError}"/> struct representing a successful result.
     /// </summary>
@@ -94,13 +94,13 @@ public readonly partial struct Result<TError> : IEquatable<Result<TError>>, ISer
         IsSuccess = false;
         IsFailed = true;
     }
-    
+
     /// <summary>
     /// Gets a value indicating whether this Result struct represents a successful result.
     /// </summary>
     [MemberNotNullWhen(false, nameof(Error))]
     public bool IsSuccess { get; }
-    
+
     /// <summary>
     /// Gets a value indicating whether this Result struct represents a failed result.
     /// </summary>
@@ -136,7 +136,7 @@ public readonly partial struct Result<TSuccess, TError> : IEquatable<Result<TSuc
     [MemberNotNullWhen(true, nameof(Value))]
     [MemberNotNullWhen(false, nameof(Error))]
     public bool IsSuccess => _idx == 1;
-    
+
     /// <summary>
     /// Gets a value indicating whether this Result struct represents a failed result.
     /// </summary>
@@ -170,7 +170,7 @@ public readonly partial struct Result<TSuccess, TError> : IEquatable<Result<TSuc
                 break;
         }
     }
-    
+
     /// <summary>
     /// Gets the success value if the Result represents a successful result; otherwise, throws an exception.
     /// </summary>

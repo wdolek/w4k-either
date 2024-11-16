@@ -58,7 +58,7 @@ internal sealed class EquatableGenerator : IMemberCodeGenerator
             {
                 // -> non-nullable
                 writer.AppendIndentedLine($"            return {typeParam.AsFieldInvoker}.Equals(other.{typeParam.FieldName});");
-            } 
+            }
             else if (typeParam.IsReferenceType)
             {
                 // -> possibly nullable reference type
@@ -70,7 +70,7 @@ internal sealed class EquatableGenerator : IMemberCodeGenerator
                 writer.AppendIndentedLine($"            return {typeParam.AsFieldInvoker}.Equals(other.{typeParam.FieldName}) ?? false;");
             }
         }
-        
+
         writer.AppendIndentedLine("        default:");
         writer.AppendIndentedLine("            return global::W4k.Either.ThrowHelper.ThrowOnInvalidState<bool>();");
         writer.AppendIndentedLine("    }");

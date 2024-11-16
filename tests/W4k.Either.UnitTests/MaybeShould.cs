@@ -10,7 +10,7 @@ public class MaybeShould
         Assert.True(maybe.HasValue);
         Assert.Equal(42, maybe.Value);
     }
-    
+
     [Fact]
     public void BeCreatedWithNone()
     {

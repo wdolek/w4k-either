@@ -24,7 +24,7 @@ internal sealed class PropertiesGenerator : IMemberCodeGenerator
         foreach (var typeParam in _context.TypeParameters)
         {
             sb.AppendIndentedLine($"            case {typeParam.Index}:");
-            sb.AppendIndentedLine($"                return {typeParam.FieldName};");            
+            sb.AppendIndentedLine($"                return {typeParam.FieldName};");
         }
 
         sb.AppendIndentedLine("            default:");

@@ -25,7 +25,7 @@ public static class ThrowHelper
     [DoesNotReturn]
     public static T ThrowOnInvalidState<T>() => throw new InvalidOperationException();
 
-    internal static void ThrowIfNull([NotNull] object? argument, [CallerArgumentExpression("argument")] string? paramName = null)
+    internal static void ThrowIfNull([NotNull] object? argument, [CallerArgumentExpression(nameof(argument))] string? paramName = null)
     {
         if (argument is null)
         {

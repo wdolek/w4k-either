@@ -21,7 +21,7 @@ internal static class ParamAnalyzer
         {
             return attributeAnalysisResult;
         }
-        
+
         // [Either<string, int>] partial struct E { }
         var genericAttributeAnalysisResult = GenericAttributeAnalyzer.Analyze(context, cancellationToken);
         if (!genericAttributeAnalysisResult.IsSuccess)
@@ -69,6 +69,6 @@ internal static class ParamAnalyzer
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private static int HasValue(this TypeParameter[] typeParameters) => 
+    private static int HasValue(this TypeParameter[] typeParameters) =>
         typeParameters.Length > 0 ? 1 : 0;
 }

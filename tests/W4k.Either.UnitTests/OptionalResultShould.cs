@@ -15,7 +15,7 @@ public class OptionalResultShould
         Assert.Equal(value, result.Value);
         Assert.Throws<InvalidOperationException>(() => result.Error);
     }
-    
+
     [Fact]
     public void CreateSuccessResultWithoutValue()
     {
@@ -24,10 +24,10 @@ public class OptionalResultShould
         Assert.True(result.IsSuccess);
         Assert.False(result.HasValue);
         Assert.False(result.IsFailed);
-        
+
         Assert.Equal(default, result.Value);
     }
-    
+
     [Fact]
     public void CreateFailedResult()
     {
@@ -41,29 +41,29 @@ public class OptionalResultShould
         Assert.Throws<InvalidOperationException>(() => result.Value);
         Assert.Equal(error, result.Error);
     }
-    
+
     [Fact]
     public void DeconstructSuccessResultWithValue()
     {
         var result = OptionalResult.Success<string, IError>("le success");
 
         var (v, e) = result;
-        
+
         Assert.NotNull(v);
         Assert.Null(e);
     }
-    
+
     [Fact]
     public void DeconstructSuccessResultWithoutValue()
     {
         var result = OptionalResult.Empty<string, IError>();
 
         var (v, e) = result;
-        
+
         Assert.Null(v);
         Assert.Null(e);
-    }    
-    
+    }
+
     [Fact]
     public void DeconstructFailedResultWithValue()
     {
@@ -73,8 +73,8 @@ public class OptionalResultShould
 
         Assert.Null(v);
         Assert.NotNull(e);
-    }      
-    
+    }
+
     private interface IError
     {
         public string Message { get; }

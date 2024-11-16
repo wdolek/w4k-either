@@ -22,7 +22,7 @@ namespace MyLittleEither.MyLittleEitherMonad
 
         return Verify(output).UseDirectory("Snapshots");
     }
-    
+
     [Fact]
     public Task GenerateUsingGenericAttribute()
     {
@@ -42,7 +42,7 @@ namespace MyLittleEither.MyLittleEitherMonad
 
         return Verify(output).UseDirectory("Snapshots");
     }
-    
+
     [Fact]
     public Task GenerateUsingGenericTypeParams()
     {

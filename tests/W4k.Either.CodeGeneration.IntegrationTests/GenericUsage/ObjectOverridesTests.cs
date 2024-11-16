@@ -19,7 +19,7 @@ public class ObjectOverridesTests
     public static TheoryData<UnconstrainedEither<Scrooge?, Unit>, int> GenerateForHashCode()
     {
         var scrooge = new Scrooge(Money: 315_360_000_000_000_000);
-        
+
         return new()
         {
             { (Scrooge?)null, 0 },

@@ -19,10 +19,10 @@ internal sealed class TransformationResult
         Attribute = null!;
         ParametrizationKind = ParametrizationKind.Unknown;
         TypeParameters = Array.Empty<TypeParameter>();
-        
+
         Diagnostics.Add(diagnostic);
-    }    
-    
+    }
+
     private TransformationResult(
         TypeKind typeKind,
         Declaration? typeDeclaration,
@@ -39,7 +39,7 @@ internal sealed class TransformationResult
         Attribute = attribute;
         ParametrizationKind = parametrizationKind;
         TypeParameters = typeParameters;
-    }    
+    }
 
     [MemberNotNullWhen(true, nameof(TypeDeclaration))]
     [MemberNotNullWhen(true, nameof(Attribute))]
@@ -60,7 +60,7 @@ internal sealed class TransformationResult
         ParametrizationKind parametrizationKind,
         TypeParameter[] typeParameters) =>
         new(typeKind, typeDeclaration, containingTypeDeclaration, attribute, parametrizationKind, typeParameters);
-    
+
     public static TransformationResult Invalid(Diagnostic diagnostic) =>
         new(TypeKind.Unknown, diagnostic);
 }

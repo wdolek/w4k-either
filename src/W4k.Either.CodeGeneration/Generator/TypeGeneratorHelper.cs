@@ -15,7 +15,7 @@ internal static class TypeGeneratorHelper
 
         sb.Append(typeName);
         sb.Append('<');
-        
+
         for (var i = 0; i < typeParameters.Length; i++)
         {
             var typeParameter = typeParameters[i];
@@ -27,15 +27,15 @@ internal static class TypeGeneratorHelper
 
             if (i < typeParameters.Length - 1)
             {
-                sb.Append(", ");                
+                sb.Append(", ");
             }
         }
-        
+
         sb.Append('>');
-        
+
         return sb.ToString();
     }
-    
+
     public static string GetTypeParamName(TypeParameter[] typeParameters)
     {
         var candidateNames = CandidateNames;

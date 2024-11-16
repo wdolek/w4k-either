@@ -41,7 +41,7 @@ internal static class AttributeFinder
         }
 
         return AttributeFindResult.Found(foundAttribute);
-    }    
+    }
 }
 
 internal readonly struct AttributeFindResult
@@ -70,7 +70,7 @@ internal readonly struct AttributeFindResult
 
         return new AttributeFindResult(null, diagnostic);
     }
-    
-    public static AttributeFindResult NotFound() => 
+
+    public static AttributeFindResult NotFound() =>
         new(null, null);
 }

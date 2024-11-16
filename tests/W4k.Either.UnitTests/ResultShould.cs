@@ -10,7 +10,7 @@ public class ResultShould
         Assert.True(result.IsSuccess);
         Assert.False(result.IsFailed);
     }
-    
+
     [Fact]
     public void CreateFailedResultWithoutValue()
     {
@@ -19,10 +19,10 @@ public class ResultShould
 
         Assert.False(result.IsSuccess);
         Assert.True(result.IsFailed);
-        
+
         Assert.Equal(error, result.Error);
     }
-    
+
     [Fact]
     public void CreateSuccessResultWithValue()
     {
@@ -31,11 +31,11 @@ public class ResultShould
 
         Assert.True(result.IsSuccess);
         Assert.False(result.IsFailed);
-        
+
         Assert.Equal(value, result.Value);
         Assert.Throws<InvalidOperationException>(() => result.Error);
     }
-    
+
     [Fact]
     public void CreateFailedResultWithValue()
     {
@@ -55,11 +55,11 @@ public class ResultShould
         var result = Result.Success<string, IError>("le success");
 
         var (v, e) = result;
-        
+
         Assert.NotNull(v);
         Assert.Null(e);
     }
-    
+
     [Fact]
     public void DeconstructFailedResultWithValue()
     {
@@ -69,7 +69,7 @@ public class ResultShould
 
         Assert.Null(v);
         Assert.NotNull(e);
-    }    
+    }
 
     private interface IError
     {

@@ -24,7 +24,7 @@ internal readonly struct ParamAnalysisResult
     public static ParamAnalysisResult Empty(ParametrizationKind kind) =>
         new(true, kind, Array.Empty<TypeParameter>(), null);
 
-    public static ParamAnalysisResult Success(ParametrizationKind kind, TypeParameter[] typeParameters) => 
+    public static ParamAnalysisResult Success(ParametrizationKind kind, TypeParameter[] typeParameters) =>
         new(true, kind, typeParameters, null);
 
     public static ParamAnalysisResult Failure(ParametrizationKind kind, Diagnostic diagnostic) =>

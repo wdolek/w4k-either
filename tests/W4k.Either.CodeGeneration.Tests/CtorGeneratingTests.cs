@@ -35,7 +35,7 @@ namespace MyLittleEither.MyLittleEitherMonad
 
         return Verify(output).UseDirectory("Snapshots");
     }
-    
+
     [Fact]
     public Task GenerateOnlyCtorNotDeclaredByUser2()
     {
@@ -60,5 +60,5 @@ namespace MyLittleEither.MyLittleEitherMonad
         Assert.Empty(diagnostics);
 
         return Verify(output).UseDirectory("Snapshots");
-    }    
+    }
 }
