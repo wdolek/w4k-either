@@ -7,10 +7,6 @@
     <IsPackable>false</IsPackable>
     <RootNamespace>W4k.Either.CodeGeneration</RootNamespace>
   </PropertyGroup>
-  
-  <ItemGroup>
-    <Using Include="Xunit" />
-  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.CodeAnalysis.Analyzers">

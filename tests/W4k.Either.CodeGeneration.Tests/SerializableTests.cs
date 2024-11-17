@@ -1,6 +1,5 @@
 ﻿namespace W4k.Either.CodeGeneration;
 
-[UsesVerify]
 public class SerializableTests
 {
     [Fact]
