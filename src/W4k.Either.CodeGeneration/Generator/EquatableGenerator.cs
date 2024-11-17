@@ -105,10 +105,12 @@ internal sealed class EquatableGenerator : IMemberCodeGenerator
 
         return hasEqualsDeclared;
 
-        static bool IsEqualsMethod(IMethodSymbol method, INamedTypeSymbol type) =>
-            method.Name == GetObjectDataMethodName
-            && method.Parameters.Length == 1
-            && method.Parameters[0].Equals(type, SymbolEqualityComparer.Default);
+        static bool IsEqualsMethod(IMethodSymbol method, INamedTypeSymbol type)
+        {
+            return method.Name == GetObjectDataMethodName
+                   && method.Parameters.Length == 1
+                   && method.Parameters[0].Equals(type, SymbolEqualityComparer.Default);
+        }
 
         static bool IsExplicitlyImplemented(IMethodSymbol method, INamedTypeSymbol type)
         {

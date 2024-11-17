@@ -112,9 +112,10 @@ internal sealed class SerializableGenerator : IMemberCodeGenerator
 
         return hasGetObjectDataDeclared;
 
-        static bool IsGetObjectDataMethod(IMethodSymbol method) =>
-            method.Name == GetObjectDataMethodName
-            && HasSerializableParameters(method.Parameters);
+        static bool IsGetObjectDataMethod(IMethodSymbol method)
+        {
+            return method.Name == GetObjectDataMethodName && HasSerializableParameters(method.Parameters);
+        }
 
         static bool IsExplicitlyImplemented(IMethodSymbol method)
         {

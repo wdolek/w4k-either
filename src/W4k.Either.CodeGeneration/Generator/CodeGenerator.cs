@@ -8,8 +8,8 @@ internal sealed class CodeGenerator
     public CodeGenerator(GeneratorContext context)
     {
         _context = context;
-        _memberGenerators = new IMemberCodeGenerator[]
-        {
+        _memberGenerators =
+        [
             new FieldsGenerator(context),
             new ConstructorsGenerator(context),
             new SerializableGenerator(context),
@@ -21,8 +21,8 @@ internal sealed class CodeGenerator
             new BindGenerator(context),
             new MapGenerator(context),
             new MatchGenerator(context),
-            new SwitchGenerator(context),
-        };
+            new SwitchGenerator(context)
+        ];
     }
 
     public void Generate(IndentedWriter writer)

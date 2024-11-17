@@ -24,8 +24,7 @@ internal static class GenericAttributeAnalyzer
         {
             cancellationToken.ThrowIfCancellationRequested();
 
-            var typeSymbol = attrTypeParams[i] as INamedTypeSymbol;
-            if (typeSymbol == null)
+            if (attrTypeParams[i] is not INamedTypeSymbol typeSymbol)
             {
                 continue;
             }

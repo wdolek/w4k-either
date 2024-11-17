@@ -7,7 +7,7 @@ namespace W4k.Either.Generator;
 
 internal static class TypeGeneratorHelper
 {
-    private static readonly string[] CandidateNames = { "TNew", "TBound" };
+    private static readonly string[] CandidateNames = ["TNew", "TBound"];
 
     public static string GetTypeName(string typeName, TypeParameter[] typeParameters, int replaceIndex, string replaceTypeParamName)
     {

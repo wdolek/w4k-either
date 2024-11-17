@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using Microsoft.CodeAnalysis;
 using W4k.Either.TypeDeclaration;
@@ -18,7 +17,7 @@ internal sealed class TransformationResult
         ContainingTypeDeclaration = null;
         Attribute = null!;
         ParametrizationKind = ParametrizationKind.Unknown;
-        TypeParameters = Array.Empty<TypeParameter>();
+        TypeParameters = [];
 
         Diagnostics.Add(diagnostic);
     }
@@ -50,7 +49,7 @@ internal sealed class TransformationResult
     public AttributeData? Attribute { get; }
     public ParametrizationKind ParametrizationKind { get; }
     public TypeParameter[] TypeParameters { get; }
-    public List<Diagnostic> Diagnostics { get; } = new();
+    public List<Diagnostic> Diagnostics { get; } = [];
 
     public static TransformationResult Valid(
         TypeKind typeKind,

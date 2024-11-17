@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using Microsoft.CodeAnalysis;
 using W4k.Either.TypeParametrization;
@@ -10,7 +9,7 @@ internal sealed class ConstructorsGenerator : IMemberCodeGenerator
 {
     private readonly GeneratorContext _context;
 
-    private TypeParameter[] _generateCtorForTypes = Array.Empty<TypeParameter>();
+    private TypeParameter[] _generateCtorForTypes = [];
 
     public ConstructorsGenerator(GeneratorContext context)
     {
@@ -107,7 +106,7 @@ internal sealed class ConstructorsGenerator : IMemberCodeGenerator
         // NB! we expect that type parameters are unique, so we can use simple array comparison
         if (source.Length == subtract.Count)
         {
-            return Array.Empty<TypeParameter>();
+            return [];
         }
 
         var result = new List<TypeParameter>(source.Length - subtract.Count);
