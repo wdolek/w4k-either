@@ -1,6 +1,6 @@
 ﻿<Project>
 
-  <Target Name="EnsureNet60OrHigher" BeforeTargets="PrepareForBuild">
+  <Target Name="EnsureNet80OrHigher" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
       <_MinimumSupportedTargetVersion>8.0</_MinimumSupportedTargetVersion>
     </PropertyGroup>
