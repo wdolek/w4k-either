@@ -57,7 +57,7 @@
     <None Include="$(OutputPath)\netstandard2.0\W4k.Either.Shared.xml" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false" />
 
     <!-- Library -->
-    <!-- intentionally not including any `netstandard2.0` assemblies, `EnsureNet60OrHigher` target won't allow anything below net8.0+ anyway -->
+    <!-- intentionally not including any `netstandard2.0` assemblies, `EnsureNet80OrHigher` target won't allow anything below net8.0+ anyway -->
     <None Include="$(OutputPath)\net8.0\W4k.Either.Shared.dll" Pack="true" PackagePath="lib\net8.0" Visible="true" />
     <None Include="$(OutputPath)\net8.0\W4k.Either.Shared.pdb" Pack="true" PackagePath="lib\net8.0" Visible="true" />
     <None Include="$(OutputPath)\net8.0\W4k.Either.Shared.xml" Pack="true" PackagePath="lib\net8.0" Visible="true" />
