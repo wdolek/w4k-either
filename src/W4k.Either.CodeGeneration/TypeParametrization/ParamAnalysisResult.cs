@@ -1,5 +1,4 @@
-﻿using System;
-using System.Diagnostics.CodeAnalysis;
+﻿using System.Diagnostics.CodeAnalysis;
 using Microsoft.CodeAnalysis;
 
 namespace W4k.Either.TypeParametrization;
@@ -22,13 +21,13 @@ internal readonly struct ParamAnalysisResult
     public Diagnostic? Diagnostic { get; }
 
     public static ParamAnalysisResult Empty(ParametrizationKind kind) =>
-        new(true, kind, Array.Empty<TypeParameter>(), null);
+        new(true, kind, [], null);
 
-    public static ParamAnalysisResult Success(ParametrizationKind kind, TypeParameter[] typeParameters) => 
+    public static ParamAnalysisResult Success(ParametrizationKind kind, TypeParameter[] typeParameters) =>
         new(true, kind, typeParameters, null);
 
     public static ParamAnalysisResult Failure(ParametrizationKind kind, Diagnostic diagnostic) =>
-        new(false, kind, Array.Empty<TypeParameter>(), diagnostic);
+        new(false, kind, [], diagnostic);
 }
 
 internal enum ParametrizationKind

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Diagnostics.CodeAnalysis;
-using System.Runtime.CompilerServices;
 
 namespace W4k.Either;
 
@@ -24,15 +23,4 @@ public static class ThrowHelper
     /// <exception cref="InvalidOperationException">Thrown when this method is called, indicating an invalid state.</exception>
     [DoesNotReturn]
     public static T ThrowOnInvalidState<T>() => throw new InvalidOperationException();
-
-    internal static void ThrowIfNull([NotNull] object? argument, [CallerArgumentExpression("argument")] string? paramName = null)
-    {
-        if (argument is null)
-        {
-            Throw(paramName);
-        }
-    }
-
-    [DoesNotReturn]
-    private static void Throw(string? paramName) => throw new ArgumentNullException(paramName);
 }

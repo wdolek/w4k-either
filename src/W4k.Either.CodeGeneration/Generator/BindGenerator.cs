@@ -12,8 +12,8 @@ internal sealed class BindGenerator : IMemberCodeGenerator
         _context = context;
     }
 
-    public bool CanGenerate() => 
-        _context.ParametrizationKind == ParametrizationKind.Generic 
+    public bool CanGenerate() =>
+        _context.ParametrizationKind == ParametrizationKind.Generic
         && !_context.Skip.Contains("Bind*");
 
     public void Generate(IndentedWriter writer)
@@ -21,19 +21,19 @@ internal sealed class BindGenerator : IMemberCodeGenerator
         var typeSymbolName = _context.TypeDeclaration.TypeSymbol.Name;
         var typeParameters = _context.TypeParameters;
         var newTypeParamName = TypeGeneratorHelper.GetTypeParamName(typeParameters);
-        
+
         foreach (var typeParam in typeParameters)
         {
             if (!_context.Skip.Contains("Bind"))
             {
                 WriteBind(writer, typeParam, typeSymbolName, typeParameters, newTypeParamName);
             }
-            
+
             if (!_context.Skip.Contains("Bind<TState>"))
             {
                 WriteBindWithState(writer, typeParam, typeSymbolName, typeParameters, newTypeParamName);
             }
-        }        
+        }
     }
 
     private static void WriteBind(
@@ -75,7 +75,7 @@ internal sealed class BindGenerator : IMemberCodeGenerator
         writer.AppendIndentedLine("}");
         writer.AppendLineBreak();
     }
-    
+
     private static void WriteBindWithState(
         IndentedWriter writer,
         TypeParameter typeParam,

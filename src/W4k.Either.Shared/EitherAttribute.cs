@@ -41,8 +41,10 @@ public sealed class EitherAttribute : EitherBaseAttribute
     /// <param name="t2">Type of second value.</param>
     public EitherAttribute(Type t1, Type t2)
     {
-        ThrowHelper.ThrowIfNull(t1);
-        ThrowHelper.ThrowIfNull(t2);
+#if NET8_0_OR_GREATER
+        ArgumentNullException.ThrowIfNull(t1);
+        ArgumentNullException.ThrowIfNull(t2);
+#endif
     }
 
     /// <summary>
@@ -57,9 +59,11 @@ public sealed class EitherAttribute : EitherBaseAttribute
     /// <param name="t3">Type of third value.</param>
     public EitherAttribute(Type t1, Type t2, Type t3)
     {
-        ThrowHelper.ThrowIfNull(t1);
-        ThrowHelper.ThrowIfNull(t2);
-        ThrowHelper.ThrowIfNull(t3);
+#if NET8_0_OR_GREATER
+        ArgumentNullException.ThrowIfNull(t1);
+        ArgumentNullException.ThrowIfNull(t2);
+        ArgumentNullException.ThrowIfNull(t3);
+#endif
     }
 
     /// <summary>
@@ -75,10 +79,12 @@ public sealed class EitherAttribute : EitherBaseAttribute
     /// <param name="t4">Type of fourth value.</param>
     public EitherAttribute(Type t1, Type t2, Type t3, Type t4)
     {
-        ThrowHelper.ThrowIfNull(t1);
-        ThrowHelper.ThrowIfNull(t2);
-        ThrowHelper.ThrowIfNull(t3);
-        ThrowHelper.ThrowIfNull(t4);
+#if NET8_0_OR_GREATER
+        ArgumentNullException.ThrowIfNull(t1);
+        ArgumentNullException.ThrowIfNull(t2);
+        ArgumentNullException.ThrowIfNull(t3);
+        ArgumentNullException.ThrowIfNull(t4);
+#endif
     }
 
     /// <summary>
@@ -95,11 +101,13 @@ public sealed class EitherAttribute : EitherBaseAttribute
     /// <param name="t5">Type of fifth value.</param>
     public EitherAttribute(Type t1, Type t2, Type t3, Type t4, Type t5)
     {
-        ThrowHelper.ThrowIfNull(t1);
-        ThrowHelper.ThrowIfNull(t2);
-        ThrowHelper.ThrowIfNull(t3);
-        ThrowHelper.ThrowIfNull(t4);
-        ThrowHelper.ThrowIfNull(t5);
+#if NET8_0_OR_GREATER
+        ArgumentNullException.ThrowIfNull(t1);
+        ArgumentNullException.ThrowIfNull(t2);
+        ArgumentNullException.ThrowIfNull(t3);
+        ArgumentNullException.ThrowIfNull(t4);
+        ArgumentNullException.ThrowIfNull(t5);
+#endif
     }
 
     /// <summary>
@@ -117,12 +125,14 @@ public sealed class EitherAttribute : EitherBaseAttribute
     /// <param name="t6">Type of sixth value.</param>
     public EitherAttribute(Type t1, Type t2, Type t3, Type t4, Type t5, Type t6)
     {
-        ThrowHelper.ThrowIfNull(t1);
-        ThrowHelper.ThrowIfNull(t2);
-        ThrowHelper.ThrowIfNull(t3);
-        ThrowHelper.ThrowIfNull(t4);
-        ThrowHelper.ThrowIfNull(t5);
-        ThrowHelper.ThrowIfNull(t6);
+#if NET8_0_OR_GREATER
+        ArgumentNullException.ThrowIfNull(t1);
+        ArgumentNullException.ThrowIfNull(t2);
+        ArgumentNullException.ThrowIfNull(t3);
+        ArgumentNullException.ThrowIfNull(t4);
+        ArgumentNullException.ThrowIfNull(t5);
+        ArgumentNullException.ThrowIfNull(t6);
+#endif
     }
 
     /// <summary>
@@ -141,13 +151,15 @@ public sealed class EitherAttribute : EitherBaseAttribute
     /// <param name="t7">Type of seventh value.</param>
     public EitherAttribute(Type t1, Type t2, Type t3, Type t4, Type t5, Type t6, Type t7)
     {
-        ThrowHelper.ThrowIfNull(t1);
-        ThrowHelper.ThrowIfNull(t2);
-        ThrowHelper.ThrowIfNull(t3);
-        ThrowHelper.ThrowIfNull(t4);
-        ThrowHelper.ThrowIfNull(t5);
-        ThrowHelper.ThrowIfNull(t6);
-        ThrowHelper.ThrowIfNull(t7);
+#if NET8_0_OR_GREATER
+        ArgumentNullException.ThrowIfNull(t1);
+        ArgumentNullException.ThrowIfNull(t2);
+        ArgumentNullException.ThrowIfNull(t3);
+        ArgumentNullException.ThrowIfNull(t4);
+        ArgumentNullException.ThrowIfNull(t5);
+        ArgumentNullException.ThrowIfNull(t6);
+        ArgumentNullException.ThrowIfNull(t7);
+#endif
     }
 
     /// <summary>
@@ -167,14 +179,16 @@ public sealed class EitherAttribute : EitherBaseAttribute
     /// <param name="t8">Type of eighth value.</param>
     public EitherAttribute(Type t1, Type t2, Type t3, Type t4, Type t5, Type t6, Type t7, Type t8)
     {
-        ThrowHelper.ThrowIfNull(t1);
-        ThrowHelper.ThrowIfNull(t2);
-        ThrowHelper.ThrowIfNull(t3);
-        ThrowHelper.ThrowIfNull(t4);
-        ThrowHelper.ThrowIfNull(t5);
-        ThrowHelper.ThrowIfNull(t6);
-        ThrowHelper.ThrowIfNull(t7);
-        ThrowHelper.ThrowIfNull(t8);
+#if NET8_0_OR_GREATER
+        ArgumentNullException.ThrowIfNull(t1);
+        ArgumentNullException.ThrowIfNull(t2);
+        ArgumentNullException.ThrowIfNull(t3);
+        ArgumentNullException.ThrowIfNull(t4);
+        ArgumentNullException.ThrowIfNull(t5);
+        ArgumentNullException.ThrowIfNull(t6);
+        ArgumentNullException.ThrowIfNull(t7);
+        ArgumentNullException.ThrowIfNull(t8);
+#endif
     }
 }
 
@@ -319,5 +333,5 @@ public abstract class EitherBaseAttribute : Attribute
     /// <summary>
     /// Gets or sets member names to skip by the source generator.
     /// </summary>
-    public string[] Skip { get; set; } = Array.Empty<string>();
+    public string[] Skip { get; set; } = [];
 }

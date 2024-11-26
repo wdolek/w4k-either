@@ -8,7 +8,7 @@ public class EitherShould
         Either<int, string> either = 42;
         Assert.True(either.IsLeft);
     }
-    
+
     [Fact]
     public void BeRight()
     {

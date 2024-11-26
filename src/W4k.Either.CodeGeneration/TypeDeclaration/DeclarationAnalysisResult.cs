@@ -12,7 +12,7 @@ internal sealed class DeclarationAnalysisResult
         TypeDeclaration = typeDeclaration;
         Diagnostic = diagnostic;
     }
-    
+
     [MemberNotNullWhen(false, nameof(Diagnostic))]
     public bool IsValid { get; }
 
@@ -21,13 +21,13 @@ internal sealed class DeclarationAnalysisResult
 
     public Declaration? TypeDeclaration { get; }
     public Diagnostic? Diagnostic { get; }
-    
+
     public static DeclarationAnalysisResult Valid(Declaration typeDeclaration) =>
         new(true, true, typeDeclaration, null);
-    
+
     public static DeclarationAnalysisResult None() =>
         new(true, false, null, null);
-    
+
     public static DeclarationAnalysisResult Invalid(Diagnostic diagnostic) =>
         new(false, false, null, diagnostic);
 }

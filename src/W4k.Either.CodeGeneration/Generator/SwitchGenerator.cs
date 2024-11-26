@@ -39,7 +39,7 @@ internal sealed class SwitchGenerator : IMemberCodeGenerator
     {
         var typeParams = _context.TypeParameters;
         var arity = typeParams.Length;
-        
+
         writer.AppendIndentedLine("public void Switch(");
 
         // parameters
@@ -51,8 +51,8 @@ internal sealed class SwitchGenerator : IMemberCodeGenerator
                     ? ","
                     : ")");
             writer.AppendLineBreak();
-        }        
-        
+        }
+
         writer.AppendIndentedLine("{");
         writer.AppendIndentedLine("    Match(");
 
@@ -69,12 +69,12 @@ internal sealed class SwitchGenerator : IMemberCodeGenerator
         writer.AppendIndentedLine("}");
         writer.AppendLineBreak();
     }
-    
+
     private void WriteSwitchWithState(IndentedWriter writer)
     {
         var typeParams = _context.TypeParameters;
         var arity = typeParams.Length;
-        
+
         writer.AppendIndentedLine("public void Switch<TState>(");
 
         // parameters
@@ -87,8 +87,8 @@ internal sealed class SwitchGenerator : IMemberCodeGenerator
                     ? ","
                     : ")");
             writer.AppendLineBreak();
-        }      
-        
+        }
+
         writer.AppendIndentedLine("{");
         writer.AppendIndentedLine("    Match(");
         writer.AppendIndentedLine("        state,");
@@ -106,12 +106,12 @@ internal sealed class SwitchGenerator : IMemberCodeGenerator
         writer.AppendIndentedLine("}");
         writer.AppendLineBreak();
     }
-    
+
     private void WriteAsyncSwitch(IndentedWriter writer)
     {
         var typeParams = _context.TypeParameters;
         var arity = typeParams.Length;
-        
+
         writer.AppendIndentedLine("public global::System.Threading.Tasks.Task SwitchAsync(");
 
         // parameters
@@ -133,12 +133,12 @@ internal sealed class SwitchGenerator : IMemberCodeGenerator
         writer.AppendIndentedLine("}");
         writer.AppendLineBreak();
     }
-    
+
     private void WriteAsyncSwitchWithState(IndentedWriter writer)
     {
         var typeParams = _context.TypeParameters;
         var arity = typeParams.Length;
-        
+
         writer.AppendIndentedLine("public global::System.Threading.Tasks.Task SwitchAsync<TState>(");
 
         // parameters

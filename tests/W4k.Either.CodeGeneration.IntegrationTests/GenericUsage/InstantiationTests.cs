@@ -8,7 +8,7 @@ public class InstantiationTests
         var either = new UnconstrainedEither<Scrooge, Unit>(null);
         Assert.Equal(1, either.State);
     }
-    
+
     [Fact]
     public void AllowNullForNullableRefConstraint()
     {

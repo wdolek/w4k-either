@@ -18,7 +18,7 @@ public class SwitchTests
             (state, _) => Assert.Equal(42, state),
             (_, _) => Assert.Fail("Should not be called"));
     }
-    
+
     [Fact]
     public async Task SwitchAccordingStateAsync()
     {

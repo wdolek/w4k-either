@@ -26,7 +26,7 @@ public static class Maybe
     /// </summary>
     /// <typeparam name="T">The type of the value (which is not present).</typeparam>
     /// <returns>An empty Maybe struct.</returns>
-    public static Maybe<T> None<T>() 
+    public static Maybe<T> None<T>()
         where T : notnull
         => new();
 }

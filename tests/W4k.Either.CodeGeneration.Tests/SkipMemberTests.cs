@@ -1,6 +1,5 @@
 ﻿namespace W4k.Either.CodeGeneration;
 
-[UsesVerify]
 public class SkipMemberTests
 {
     [Fact]
@@ -22,7 +21,7 @@ namespace MyLittleEither.MyLittleEitherMonad
 
         return Verify(output).UseDirectory("Snapshots");
     }
-    
+
     [Fact]
     public Task SkipWithAttrTypeParams()
     {
@@ -41,8 +40,8 @@ namespace MyLittleEither.MyLittleEitherMonad
         Assert.Empty(diagnostics);
 
         return Verify(output).UseDirectory("Snapshots");
-    }    
-    
+    }
+
     [Fact]
     public Task SkipWithGenericAttr()
     {

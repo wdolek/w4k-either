@@ -12,10 +12,10 @@ public class PatternMatchingTests
             Scrooge v => v,
             _ => null,
         };
-        
+
         Assert.NotNull(scrooge);
     }
-    
+
     [Fact]
     public void CaseShouldReturnCorrectStateForValueType()
     {
@@ -26,7 +26,7 @@ public class PatternMatchingTests
             Duckula d => d,
             _ => default,
         };
-        
+
         Assert.True(duckula.IsKetchupLover);
-    }    
+    }
 }

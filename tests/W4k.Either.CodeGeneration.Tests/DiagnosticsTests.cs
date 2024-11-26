@@ -25,7 +25,7 @@ namespace MyLittleEither.MyLittleEitherMonad
     {
     }
 }";
-        
+
         const string containingNotPartial = @"
 // class not partial
 using W4k.Either;
@@ -40,7 +40,7 @@ namespace MyLittleEither.MyLittleEitherMonad
         }
     }
 }";
-        
+
         const string ambiguousTypeParams = @"
 // ambiguous type params #1
 using W4k.Either;
@@ -52,7 +52,7 @@ namespace MyLittleEither.MyLittleEitherMonad
     {
     }
 }";
-        
+
         const string ambiguousTypeParamsWithGenericAttr = @"
 // ambiguous type params #2
 using W4k.Either;
@@ -64,7 +64,7 @@ namespace MyLittleEither.MyLittleEitherMonad
     {
     }
 }";
-        
+
         const string ambiguousTypeParamsWithGenericAttrAndOtherAttr = @"
 // ambiguous type params #3
 using W4k.Either;
@@ -77,7 +77,7 @@ namespace MyLittleEither.MyLittleEitherMonad
     {
     }
 }";
-        
+
         const string noTypeParam = @"
 // no type parametrization
 using W4k.Either;
@@ -89,7 +89,7 @@ namespace MyLittleEither.MyLittleEitherMonad
     {
     }
 }";
-        
+
         const string typesNotUnique = @"
 // types not unique
 using W4k.Either;
@@ -101,7 +101,7 @@ namespace MyLittleEither.MyLittleEitherMonad
     {
     }
 }";
-        
+
         const string attrWithOpenGenerics = @"
 // attr with open generics
 using W4k.Either;

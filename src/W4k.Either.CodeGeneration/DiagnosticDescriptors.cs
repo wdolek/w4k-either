@@ -27,7 +27,7 @@ internal static class DiagnosticDescriptors
         category: "Usage",
         defaultSeverity: DiagnosticSeverity.Error,
         isEnabledByDefault: true);
-    
+
     public static readonly DiagnosticDescriptor TypeMustBeUnique = new(
         id: "W4KE005",
         title: "Using one type twice is not allowed",
@@ -35,7 +35,7 @@ internal static class DiagnosticDescriptors
         category: "Usage",
         defaultSeverity: DiagnosticSeverity.Error,
         isEnabledByDefault: true);
-    
+
     public static readonly DiagnosticDescriptor TypeParameterMustBeBound = new(
         id: "W4KE006",
         title: "Using open generics is not allowed",

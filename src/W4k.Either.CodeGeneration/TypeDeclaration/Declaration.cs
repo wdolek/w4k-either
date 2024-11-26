@@ -19,17 +19,17 @@ internal sealed class Declaration
         DeclaredTypeName = typeName;
         FullDeclaration = fullDeclaration;
     }
-    
+
     /// <summary>
     /// Gets named type symbol for type declaration.
     /// </summary>
     public INamedTypeSymbol TypeSymbol { get; }
-    
+
     /// <summary>
     /// Gets declared type name, including generic type parameters, e.g. <c>Either&lt;TLeft, TRight&gt;</c>.
     /// </summary>
     public string DeclaredTypeName { get; }
-    
+
     /// <summary>
     /// Gets full declaration of type, including access modifiers, e.g. <c>public partial struct Either&lt;TLeft, TRight&gt;</c>.
     /// </summary>

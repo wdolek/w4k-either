@@ -63,7 +63,6 @@ internal static class GenericAnalyzer
 
         // `class?` constraint or no constraint at all
         // (when no constraint is present, user is on its own) 
-        return typeParam.ReferenceTypeConstraintNullableAnnotation == NullableAnnotation.None
-            || typeParam.ReferenceTypeConstraintNullableAnnotation == NullableAnnotation.Annotated;
+        return typeParam.ReferenceTypeConstraintNullableAnnotation is NullableAnnotation.None or NullableAnnotation.Annotated;
     }
 }

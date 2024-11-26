@@ -14,7 +14,7 @@ internal static class GenericAttributeAnalyzer
         {
             return ParamAnalysisResult.Empty(ParametrizationKind.GenericAttribute);
         }
-        
+
         var attrTypeParams = attributeClass.TypeArguments;
 
         var typeParams = new TypeParameter[attrTypeParams.Length];
@@ -24,8 +24,7 @@ internal static class GenericAttributeAnalyzer
         {
             cancellationToken.ThrowIfCancellationRequested();
 
-            var typeSymbol = attrTypeParams[i] as INamedTypeSymbol;
-            if (typeSymbol == null)
+            if (attrTypeParams[i] is not INamedTypeSymbol typeSymbol)
             {
                 continue;
             }

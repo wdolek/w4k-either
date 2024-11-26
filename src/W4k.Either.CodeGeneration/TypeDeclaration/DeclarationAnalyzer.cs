@@ -14,7 +14,7 @@ internal static class DeclarationAnalyzer
         {
             return DeclarationAnalysisResult.None();
         }
-        
+
         var (declarationSyntax, isPartial) = FindDeclarationSyntax(typeSymbol, cancellationToken);
         if (!isPartial)
         {
@@ -22,23 +22,23 @@ internal static class DeclarationAnalyzer
                 descriptor: DiagnosticDescriptors.TypeMustBePartial,
                 location: typeSymbol.Locations[0],
                 messageArgs: typeSymbol.Name);
-            
+
             return DeclarationAnalysisResult.Invalid(diagnostic);
         }
 
         var (declaredTypeName, fullDeclaration) = GetDeclaration(declarationSyntax!);
         var typeDeclaration = new Declaration(typeSymbol, declaredTypeName, fullDeclaration);
-        
+
         return DeclarationAnalysisResult.Valid(typeDeclaration);
     }
-    
+
     private static (TypeDeclarationSyntax? DeclarationSyntax, bool IsPartial) FindDeclarationSyntax(
         INamedTypeSymbol typeSymbol,
         CancellationToken cancellationToken)
     {
         TypeDeclarationSyntax? foundTypeDeclarationSyntax = null;
         var isPartial = false;
-        
+
         foreach (var syntaxRef in typeSymbol.DeclaringSyntaxReferences)
         {
             var syntaxNode = syntaxRef.GetSyntax(cancellationToken);
@@ -80,11 +80,11 @@ internal static class DeclarationAnalyzer
         if (typeDeclaration.TypeParameterList is not null)
         {
             sb.Append(typeDeclaration.TypeParameterList);
-        }     
+        }
 
         var fullDeclaration = sb.ToString();
         var typeName = fullDeclaration.Substring(typeNamePos);
-        
+
         return (typeName, fullDeclaration);
     }
 }

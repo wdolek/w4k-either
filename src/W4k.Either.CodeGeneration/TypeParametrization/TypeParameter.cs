@@ -19,7 +19,7 @@ internal sealed class TypeParameter
         // type is unconstrained whenever it has no `class` or `struct` constraint
         // in such case, both `isReferenceType` and `isValueType` are false
         var isUnconstrained = !isReferenceType && !isValueType;
-            
+
         // treat unconstrained type as reference type
         IsReferenceType = isReferenceType || isUnconstrained;
 
@@ -39,10 +39,10 @@ internal sealed class TypeParameter
         {
             // non-nullable reference type -> use null-forgiving operator as we know value is not null
             true when !isNullable => FieldName + "!",
-                
+
             // non-nullable value type -> value type cannot be null
             false when !isNullable => FieldName,
-                
+
             // nullable (undetermined)
             _ => FieldName + "?",
         };
@@ -57,7 +57,7 @@ internal sealed class TypeParameter
     }
 
     public ITypeSymbol TypeSymbol { get; }
-    
+
     public int Index { get; }
 
     public bool IsNullable { get; }

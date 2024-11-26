@@ -1,6 +1,5 @@
 ﻿namespace W4k.Either.CodeGeneration;
 
-[UsesVerify]
 public class NullabilityTests
 {
     [Fact]
@@ -25,7 +24,7 @@ namespace MyLittleEither.MyLittleEitherMonad
 
         return Verify(output).UseDirectory("Snapshots");
     }
-    
+
     [Fact]
     [Trait("Usage", "Attribute")]
     [Trait("Nullable", "Disabled")]
@@ -48,7 +47,7 @@ namespace MyLittleEither.MyLittleEitherMonad
 
         return Verify(output).UseDirectory("Snapshots");
     }
-    
+
     [Fact]
     [Trait("Usage", "Generics")]
     [Trait("Nullable", "Enabled")]

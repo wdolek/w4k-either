@@ -32,7 +32,7 @@ internal readonly struct IndentedWriter
         _sb.Append(_indentation);
         _sb.Append(value);
     }
-    
+
     public void AppendLineBreak() => _sb.AppendLine();
 
     public void AppendIndentedLine(string line)
@@ -55,6 +55,6 @@ internal readonly struct IndentedWriter
             _sb.Remove(previousPos, 1);
         }
     }
-    
+
     public IndentedWriter Indent() => new(_sb, _indentBy, _level + 1);
 }

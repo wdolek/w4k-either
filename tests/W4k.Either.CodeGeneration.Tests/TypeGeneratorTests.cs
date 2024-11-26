@@ -1,6 +1,5 @@
 ﻿namespace W4k.Either.CodeGeneration;
 
-[UsesVerify]
 public class TypeGeneratorTests
 {
     [Fact]
@@ -22,7 +21,7 @@ namespace MyLittleEither.MyLittleEitherMonad
 
         return Verify(output).UseDirectory("Snapshots");
     }
-    
+
     [Fact]
     public Task GenerateClass()
     {

@@ -21,7 +21,7 @@ public class TryPickTests
         Assert.True(nanny.TryPick(out Nanny? nannyValue));
         Assert.False(nannyValue.HasValue);
     }
-    
+
     [Fact]
     public void ShouldPickCurrentStateWhenNullableDisabled()
     {
@@ -30,5 +30,5 @@ public class TryPickTests
         // current state, value is not set
         Assert.True(scrooge.TryPick(out Scrooge? scroogeValue));
         Assert.Null(scroogeValue);
-    }    
+    }
 }

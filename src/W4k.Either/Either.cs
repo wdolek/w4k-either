@@ -18,7 +18,7 @@ public readonly partial struct Either<TLeft, TRight> : IEquatable<Either<TLeft, 
     /// Gets a value indicating whether this instance is a Left value.
     /// </summary>
     public bool IsLeft => _idx == 1;
-    
+
     /// <summary>
     /// Gets a value indicating whether this instance is a Right value.
     /// </summary>

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using Microsoft.CodeAnalysis;
 using W4k.Either.TypeParametrization;
@@ -10,7 +9,7 @@ internal sealed class ConstructorsGenerator : IMemberCodeGenerator
 {
     private readonly GeneratorContext _context;
 
-    private TypeParameter[] _generateCtorForTypes = Array.Empty<TypeParameter>();
+    private TypeParameter[] _generateCtorForTypes = [];
 
     public ConstructorsGenerator(GeneratorContext context)
     {
@@ -49,7 +48,7 @@ internal sealed class ConstructorsGenerator : IMemberCodeGenerator
 
         // get difference between all type parameters and parameters of declared constructors
         _generateCtorForTypes = Except(typeParameters, declaredConstructorParams);
-        
+
         return _generateCtorForTypes.Length > 0;
     }
 
@@ -65,11 +64,11 @@ internal sealed class ConstructorsGenerator : IMemberCodeGenerator
 
             if (typeParam.IsNonNullableReferenceType)
             {
-                writer.AppendIndentedLine("    global::System.ArgumentNullException.ThrowIfNull(value);");                
+                writer.AppendIndentedLine("    global::System.ArgumentNullException.ThrowIfNull(value);");
             }
 
             writer.AppendIndentedLine($"    _idx = {typeParam.Index};");
-                
+
             foreach (var otherTypeParam in _context.TypeParameters)
             {
                 writer.AppendIndentedLine(
@@ -77,7 +76,7 @@ internal sealed class ConstructorsGenerator : IMemberCodeGenerator
                         ? $"    {otherTypeParam.FieldName} = value;"
                         : $"    {otherTypeParam.FieldName} = {otherTypeParam.AsDefault};");
             }
-                
+
             writer.AppendIndentedLine("}");
             writer.AppendLineBreak();
         }
@@ -101,15 +100,15 @@ internal sealed class ConstructorsGenerator : IMemberCodeGenerator
 
         return false;
     }
-    
+
     private static TypeParameter[] Except(TypeParameter[] source, List<TypeParameter> subtract)
     {
         // NB! we expect that type parameters are unique, so we can use simple array comparison
         if (source.Length == subtract.Count)
         {
-            return Array.Empty<TypeParameter>();
+            return [];
         }
-        
+
         var result = new List<TypeParameter>(source.Length - subtract.Count);
 
         // - intentionally not using HashSet<>: we expect lower number of elements so looping should be still faster

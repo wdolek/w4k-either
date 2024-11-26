@@ -1,6 +1,5 @@
 ﻿namespace W4k.Either.CodeGeneration;
 
-[UsesVerify]
 public class ParametrizationTests
 {
     [Fact]
@@ -22,7 +21,7 @@ namespace MyLittleEither.MyLittleEitherMonad
 
         return Verify(output).UseDirectory("Snapshots");
     }
-    
+
     [Fact]
     public Task GenerateUsingGenericAttribute()
     {
@@ -42,7 +41,7 @@ namespace MyLittleEither.MyLittleEitherMonad
 
         return Verify(output).UseDirectory("Snapshots");
     }
-    
+
     [Fact]
     public Task GenerateUsingGenericTypeParams()
     {

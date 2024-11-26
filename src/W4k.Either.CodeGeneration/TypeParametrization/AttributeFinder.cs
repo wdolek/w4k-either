@@ -35,13 +35,10 @@ internal static class AttributeFinder
             }
         }
 
-        if (foundAttribute is null)
-        {
-            return AttributeFindResult.NotFound();
-        }
-
-        return AttributeFindResult.Found(foundAttribute);
-    }    
+        return foundAttribute is null
+            ? AttributeFindResult.NotFound()
+            : AttributeFindResult.Found(foundAttribute);
+    }
 }
 
 internal readonly struct AttributeFindResult
@@ -70,7 +67,7 @@ internal readonly struct AttributeFindResult
 
         return new AttributeFindResult(null, diagnostic);
     }
-    
-    public static AttributeFindResult NotFound() => 
+
+    public static AttributeFindResult NotFound() =>
         new(null, null);
 }

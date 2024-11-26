@@ -41,7 +41,7 @@ internal sealed class SerializableGenerator : IMemberCodeGenerator
         {
             GenerateSerializableConstructor(writer);
         }
-        
+
         if (_generateGetObjectData)
         {
             GenerateGetObjectData(writer);
@@ -112,9 +112,10 @@ internal sealed class SerializableGenerator : IMemberCodeGenerator
 
         return hasGetObjectDataDeclared;
 
-        static bool IsGetObjectDataMethod(IMethodSymbol method) =>
-            method.Name == GetObjectDataMethodName
-            && HasSerializableParameters(method.Parameters);
+        static bool IsGetObjectDataMethod(IMethodSymbol method)
+        {
+            return method.Name == GetObjectDataMethodName && HasSerializableParameters(method.Parameters);
+        }
 
         static bool IsExplicitlyImplemented(IMethodSymbol method)
         {
@@ -153,7 +154,7 @@ internal sealed class SerializableGenerator : IMemberCodeGenerator
             var nullForgiving = typeParam.IsValueType && !typeParam.IsNullable
                 ? "!"
                 : string.Empty;
-            
+
             sb.AppendIndentedLine($"        case {typeParam.Index}:");
 
             foreach (var otherTypeParam in _context.TypeParameters)
@@ -166,14 +167,14 @@ internal sealed class SerializableGenerator : IMemberCodeGenerator
 
             sb.AppendIndentedLine("            break;");
         }
-        
+
         sb.AppendIndentedLine("        default:");
-        
+
         foreach (var otherTypeParam in _context.TypeParameters)
         {
             sb.AppendIndentedLine($"            {otherTypeParam.FieldName} = {otherTypeParam.AsDefault};");
-        }          
-        
+        }
+
         sb.AppendIndentedLine("            global::W4k.Either.ThrowHelper.ThrowOnInvalidState();");
         sb.AppendIndentedLine("        break;");
         sb.AppendIndentedLine("    }");
@@ -195,7 +196,7 @@ internal sealed class SerializableGenerator : IMemberCodeGenerator
             writer.AppendIndentedLine($"            info.AddValue(\"{typeParam.FieldName}\", {typeParam.FieldName});");
             writer.AppendIndentedLine("             break;");
         }
-        
+
         writer.AppendIndentedLine("        default:");
         writer.AppendIndentedLine("            global::W4k.Either.ThrowHelper.ThrowOnInvalidState();");
         writer.AppendIndentedLine("            break;");

@@ -7,7 +7,7 @@ public class InstantiationTests
     {
         Assert.Throws<ArgumentNullException>(() => new AttrTestEither((Scrooge)null!));
     }
-    
+
     [Fact]
     public void AllowNullWhenNullableDisabledForReferenceType()
     {

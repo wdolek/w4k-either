@@ -22,18 +22,18 @@ internal static class AttributeAnalyzerHelper
             {
                 continue;
             }
-                      
+
             var diagnostic = Diagnostic.Create(
                 descriptor: DiagnosticDescriptors.TypeMustBeUnique,
                 location: location,
                 messageArgs: typeSymbol.Name);
-                        
+
             return (true, diagnostic);
         }
 
         return (false, null);
     }
-    
+
     public static bool IsTypeNullable(INamedTypeSymbol typeSymbol, bool isNullRefTypesScopeEnabled)
     {
         // #nullable enable -> reference type is not nullable

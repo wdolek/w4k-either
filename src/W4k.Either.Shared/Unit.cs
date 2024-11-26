@@ -7,6 +7,8 @@ namespace W4k.Either;
 /// <summary>
 /// Unit type representing <c>void</c>.
 /// </summary>
+[SuppressMessage("Style", "IDE0060:Remove unused parameter", Justification = "`Unit` has no values to compare, yet left/right params are required for operators.")]
+[SuppressMessage("Performance", "CA1805:Do not initialize unnecessarily", Justification = "Being explicit with `Default` to not let Rider annoy me about unassigned readonly field.")]
 public readonly struct Unit : IEquatable<Unit>
 {
     /// <summary>

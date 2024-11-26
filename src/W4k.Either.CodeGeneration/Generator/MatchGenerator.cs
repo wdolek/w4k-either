@@ -33,7 +33,7 @@ internal sealed class MatchGenerator : IMemberCodeGenerator
             WriteAsyncMatchWithState(writer);
         }
     }
-    
+
     private void WriteMatch(IndentedWriter writer)
     {
         var typeParams = _context.TypeParameters;
@@ -49,10 +49,10 @@ internal sealed class MatchGenerator : IMemberCodeGenerator
                 typeParam.Index < arity
                     ? ","
                     : ")");
-            
+
             writer.AppendLineBreak();
         }
-        
+
         writer.AppendIndentedLine("{");
 
         // null checks
@@ -62,7 +62,7 @@ internal sealed class MatchGenerator : IMemberCodeGenerator
         }
 
         writer.AppendLineBreak();
-        
+
         // switch
         writer.AppendIndentedLine("    switch(_idx)");
         writer.AppendIndentedLine("    {");
@@ -79,7 +79,7 @@ internal sealed class MatchGenerator : IMemberCodeGenerator
         writer.AppendIndentedLine("}");
         writer.AppendLineBreak();
     }
-    
+
     private void WriteMatchWithState(IndentedWriter writer)
     {
         var typeParams = _context.TypeParameters;
@@ -97,8 +97,8 @@ internal sealed class MatchGenerator : IMemberCodeGenerator
                     ? ","
                     : ")");
             writer.AppendLineBreak();
-        }        
-        
+        }
+
         writer.AppendIndentedLine("{");
 
         // null checks
@@ -108,16 +108,16 @@ internal sealed class MatchGenerator : IMemberCodeGenerator
         }
 
         writer.AppendLineBreak();
-        
+
         // switch
         writer.AppendIndentedLine("    switch(_idx)");
         writer.AppendIndentedLine("    {");
-        
+
         foreach (var typeParam in typeParams)
         {
             writer.AppendIndentedLine($"        case {typeParam.Index}:");
             writer.AppendIndentedLine($"            return f{typeParam.Index}(state, {typeParam.AsFieldReceiver});");
-        }        
+        }
 
         writer.AppendIndentedLine("        default:");
         writer.AppendIndentedLine("            return global::W4k.Either.ThrowHelper.ThrowOnInvalidState<TResult>();");
@@ -125,7 +125,7 @@ internal sealed class MatchGenerator : IMemberCodeGenerator
         writer.AppendIndentedLine("}");
         writer.AppendLineBreak();
     }
-    
+
     private void WriteAsyncMatch(IndentedWriter writer)
     {
         var typeParams = _context.TypeParameters;
@@ -149,16 +149,16 @@ internal sealed class MatchGenerator : IMemberCodeGenerator
         }
 
         writer.AppendLineBreak();
-        
+
         // switch
         writer.AppendIndentedLine("    switch(_idx)");
         writer.AppendIndentedLine("    {");
-        
+
         foreach (var typeParam in typeParams)
         {
             writer.AppendIndentedLine($"        case {typeParam.Index}:");
             writer.AppendIndentedLine($"            return f{typeParam.Index}({typeParam.AsFieldReceiver}, cancellationToken);");
-        }        
+        }
 
         writer.AppendIndentedLine("        default:");
         writer.AppendIndentedLine("            return global::W4k.Either.ThrowHelper.ThrowOnInvalidState<global::System.Threading.Tasks.Task<TResult>>();");
@@ -166,7 +166,7 @@ internal sealed class MatchGenerator : IMemberCodeGenerator
         writer.AppendIndentedLine("}");
         writer.AppendLineBreak();
     }
-    
+
     private void WriteAsyncMatchWithState(IndentedWriter writer)
     {
         var typeParams = _context.TypeParameters;
@@ -191,11 +191,11 @@ internal sealed class MatchGenerator : IMemberCodeGenerator
         }
 
         writer.AppendLineBreak();
-        
+
         // switch
         writer.AppendIndentedLine("    switch(_idx)");
         writer.AppendIndentedLine("    {");
-        
+
         foreach (var typeParam in typeParams)
         {
             writer.AppendIndentedLine($"        case {typeParam.Index}:");
