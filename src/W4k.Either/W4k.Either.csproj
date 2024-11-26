@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>net8.0;net9.0</TargetFrameworks>
+    <TargetFrameworks>net8.0</TargetFrameworks>
     <EnablePackageValidation>true</EnablePackageValidation>
   </PropertyGroup>
 
@@ -37,9 +37,6 @@
     <!-- .NET 8.0 -->
     <None Include="$(OutputPath)\net8.0\W4k.Either.Shared.dll" Pack="true" PackagePath="lib\net8.0" Visible="true" />
     <None Include="$(OutputPath)\net8.0\W4k.Either.Shared.pdb" Pack="true" PackagePath="lib\net8.0" Visible="true" />
-    <!-- .NET 9.0 -->
-    <None Include="$(OutputPath)\net9.0\W4k.Either.Shared.dll" Pack="true" PackagePath="lib\net9.0" Visible="true" />
-    <None Include="$(OutputPath)\net9.0\W4k.Either.Shared.pdb" Pack="true" PackagePath="lib\net9.0" Visible="true" />
   </ItemGroup>
 
   <ItemGroup>
