@@ -10,7 +10,8 @@ namespace W4k.Either.Generator;
 
 internal sealed class GeneratorContext
 {
-    private const string SkipMembersPropertyName = "Skip";
+    [Obsolete] private const string SkipMembersPropertyName = "Skip";
+    private const string GenerateMembersPropertyName = "Generate";
 
     public GeneratorContext(TransformationResult transformationResult)
     {
@@ -25,6 +26,7 @@ internal sealed class GeneratorContext
         ParametrizationKind = transformationResult.ParametrizationKind;
         TypeParameters = transformationResult.TypeParameters;
         Skip = GetSkippedMembers(transformationResult.Attribute);
+        Generate = GetMembersToGenerate(transformationResult.Attribute);
     }
 
     public TypeKind TypeKind { get; }
@@ -32,7 +34,8 @@ internal sealed class GeneratorContext
     public Declaration? ContainingTypeDeclaration { get; }
     public ParametrizationKind ParametrizationKind { get; }
     public TypeParameter[] TypeParameters { get; }
-    public HashSet<string> Skip { get; set; }
+    [Obsolete] public HashSet<string> Skip { get; }
+    public Members Generate { get; }
 
     public string GetFileName()
     {
@@ -56,6 +59,7 @@ internal sealed class GeneratorContext
     private static void ThrowOnInvalidTransformationResult(string argName) =>
         throw new ArgumentException("Transformation result is invalid.", argName);
 
+    [Obsolete]
     private static HashSet<string> GetSkippedMembers(AttributeData attr)
     {
         var skip = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
@@ -75,5 +79,22 @@ internal sealed class GeneratorContext
         }
 
         return skip;
+    }
+
+    private static Members GetMembersToGenerate(AttributeData attr)
+    {
+        var generate = Members.All;
+        foreach (var arg in attr.NamedArguments)
+        {
+            if (!string.Equals(arg.Key, GenerateMembersPropertyName, StringComparison.Ordinal))
+            {
+                continue;
+            }
+
+            generate = (Members)arg.Value.Value!;
+            break;
+        }
+
+        return generate;
     }
 }

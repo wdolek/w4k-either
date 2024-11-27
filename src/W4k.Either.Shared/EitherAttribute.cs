@@ -333,5 +333,10 @@ public abstract class EitherBaseAttribute : Attribute
     /// <summary>
     /// Gets or sets member names to skip by the source generator.
     /// </summary>
-    public string[] Skip { get; set; } = [];
+    [Obsolete] public string[] Skip { get; set; } = [];
+
+    /// <summary>
+    /// Gets or sets members to generate, default is <see cref="Members.All"/>.
+    /// </summary>
+    public Members Generate { get; set; } = Members.All;
 }
