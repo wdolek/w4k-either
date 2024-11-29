@@ -5,7 +5,7 @@ public class MatchTests
     [Fact]
     public void MatchCurrentState()
     {
-        UnconstrainedEither<Scrooge, Unit> scrooge = new Scrooge(Money: 315_360_000_000_000_000);
+        UnconstrainedEither<Scrooge, ValueTuple> scrooge = new Scrooge(Money: 315_360_000_000_000_000);
 
         // simple match
         var isHuey = scrooge.Match(
@@ -26,7 +26,7 @@ public class MatchTests
     [Fact]
     public async Task MatchCurrentStateAsync()
     {
-        UnconstrainedEither<Scrooge, Unit> scrooge = new Scrooge(Money: 315_360_000_000_000_000);
+        UnconstrainedEither<Scrooge, ValueTuple> scrooge = new Scrooge(Money: 315_360_000_000_000_000);
 
         // async match
         var isHueyAsync = await scrooge.MatchAsync(

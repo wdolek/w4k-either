@@ -270,9 +270,9 @@ namespace MyLittleEither.MyLittleEitherMonad
             global::System.Action<int?> a3)
         {
             Match(
-                v => { a1(v); return global::W4k.Either.Unit.Default; },
-                v => { a2(v); return global::W4k.Either.Unit.Default; },
-                v => { a3(v); return global::W4k.Either.Unit.Default; });
+                v => { a1(v); return global::System.ValueTuple.Create(); },
+                v => { a2(v); return global::System.ValueTuple.Create(); },
+                v => { a3(v); return global::System.ValueTuple.Create(); });
         }
 
         public void Switch<TState>(
@@ -283,9 +283,9 @@ namespace MyLittleEither.MyLittleEitherMonad
         {
             Match(
                 state,
-                (s, v) => { a1(s, v); return global::W4k.Either.Unit.Default; },
-                (s, v) => { a2(s, v); return global::W4k.Either.Unit.Default; },
-                (s, v) => { a3(s, v); return global::W4k.Either.Unit.Default; });
+                (s, v) => { a1(s, v); return global::System.ValueTuple.Create(); },
+                (s, v) => { a2(s, v); return global::System.ValueTuple.Create(); },
+                (s, v) => { a3(s, v); return global::System.ValueTuple.Create(); });
         }
 
         public global::System.Threading.Tasks.Task SwitchAsync(
@@ -295,9 +295,9 @@ namespace MyLittleEither.MyLittleEitherMonad
             global::System.Threading.CancellationToken cancellationToken = default)
         {
             return MatchAsync(
-                async (v, ct) => { await a1(v, ct); return global::W4k.Either.Unit.Default; },
-                async (v, ct) => { await a2(v, ct); return global::W4k.Either.Unit.Default; },
-                async (v, ct) => { await a3(v, ct); return global::W4k.Either.Unit.Default; },
+                async (v, ct) => { await a1(v, ct); return System.ValueTuple.Create(); },
+                async (v, ct) => { await a2(v, ct); return System.ValueTuple.Create(); },
+                async (v, ct) => { await a3(v, ct); return System.ValueTuple.Create(); },
                 cancellationToken);
         }
 
@@ -310,9 +310,9 @@ namespace MyLittleEither.MyLittleEitherMonad
         {
             return MatchAsync(
                 state,
-                async (s, v, ct) => { await a1(s, v, ct); return global::W4k.Either.Unit.Default; },
-                async (s, v, ct) => { await a2(s, v, ct); return global::W4k.Either.Unit.Default; },
-                async (s, v, ct) => { await a3(s, v, ct); return global::W4k.Either.Unit.Default; },
+                async (s, v, ct) => { await a1(s, v, ct); return global::System.ValueTuple.Create(); },
+                async (s, v, ct) => { await a2(s, v, ct); return global::System.ValueTuple.Create(); },
+                async (s, v, ct) => { await a3(s, v, ct); return global::System.ValueTuple.Create(); },
                 cancellationToken);
         }
     }

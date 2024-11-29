@@ -4,19 +4,19 @@ public class ObjectOverridesTests
 {
     [Theory]
     [MemberData(nameof(GenerateForHashCode))]
-    public void ShouldReturnHashCodeOfInnerValueOrZero(UnconstrainedEither<Scrooge?, Unit> either, int expected)
+    public void ShouldReturnHashCodeOfInnerValueOrZero(UnconstrainedEither<Scrooge?, ValueTuple> either, int expected)
     {
         Assert.Equal(expected, either.GetHashCode());
     }
 
     [Theory]
     [MemberData(nameof(GenerateForToString))]
-    public void ShouldReturnStringRepresentationOfInnerValueOrEmptyString(UnconstrainedEither<Scrooge?, Unit> either, string expected)
+    public void ShouldReturnStringRepresentationOfInnerValueOrEmptyString(UnconstrainedEither<Scrooge?, ValueTuple> either, string expected)
     {
         Assert.Equal(expected, either.ToString());
     }
 
-    public static TheoryData<UnconstrainedEither<Scrooge?, Unit>, int> GenerateForHashCode()
+    public static TheoryData<UnconstrainedEither<Scrooge?, ValueTuple>, int> GenerateForHashCode()
     {
         var scrooge = new Scrooge(Money: 315_360_000_000_000_000);
 
@@ -27,7 +27,7 @@ public class ObjectOverridesTests
         };
     }
 
-    public static TheoryData<UnconstrainedEither<Scrooge?, Unit>, string> GenerateForToString()
+    public static TheoryData<UnconstrainedEither<Scrooge?, ValueTuple>, string> GenerateForToString()
     {
         var scrooge = new Scrooge(Money: 315_360_000_000_000_000);
 

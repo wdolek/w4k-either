@@ -5,7 +5,7 @@ public class SwitchTests
     [Fact]
     public void SwitchAccordingState()
     {
-        NotNullEither<Scrooge, Unit> huey = new Scrooge(Money: 315_360_000_000_000_000);
+        NotNullEither<Scrooge, ValueTuple> huey = new Scrooge(Money: 315_360_000_000_000_000);
 
         // simple switch
         huey.Switch(
@@ -22,7 +22,7 @@ public class SwitchTests
     [Fact]
     public async Task SwitchAccordingStateAsync()
     {
-        NotNullEither<Scrooge, Unit> scrooge = new Scrooge(Money: 315_360_000_000_000_000);
+        NotNullEither<Scrooge, ValueTuple> scrooge = new Scrooge(Money: 315_360_000_000_000_000);
 
         // async switch
         await scrooge.SwitchAsync(
