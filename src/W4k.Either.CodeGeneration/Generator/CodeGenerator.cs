@@ -51,12 +51,14 @@ internal sealed class CodeGenerator
 
     private void GenerateContainingType(IndentedWriter writer)
     {
+        // generating top-level type
         if (_context.ContainingTypeDeclaration is null)
         {
             GenerateType(writer);
             return;
         }
 
+        // generating nested type
         writer.AppendIndentedLine(_context.ContainingTypeDeclaration.FullDeclaration);
         writer.AppendIndentedLine("{");
 
