@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
 using Microsoft.CodeAnalysis;
@@ -10,7 +9,6 @@ namespace W4k.Either.Generator;
 
 internal sealed class GeneratorContext
 {
-    [Obsolete] private const string SkipMembersPropertyName = "Skip";
     private const string GenerateMembersPropertyName = "Generate";
 
     public GeneratorContext(TransformationResult transformationResult)
@@ -25,7 +23,6 @@ internal sealed class GeneratorContext
         ContainingTypeDeclaration = transformationResult.ContainingTypeDeclaration;
         ParametrizationKind = transformationResult.ParametrizationKind;
         TypeParameters = transformationResult.TypeParameters;
-        Skip = GetSkippedMembers(transformationResult.Attribute);
         Generate = GetMembersToGenerate(transformationResult.Attribute);
     }
 
@@ -34,7 +31,6 @@ internal sealed class GeneratorContext
     public Declaration? ContainingTypeDeclaration { get; }
     public ParametrizationKind ParametrizationKind { get; }
     public TypeParameter[] TypeParameters { get; }
-    [Obsolete] public HashSet<string> Skip { get; }
     public Members Generate { get; }
 
     public string GetFileName()
@@ -59,28 +55,6 @@ internal sealed class GeneratorContext
     private static void ThrowOnInvalidTransformationResult(string argName) =>
         throw new ArgumentException("Transformation result is invalid.", argName);
 
-    [Obsolete]
-    private static HashSet<string> GetSkippedMembers(AttributeData attr)
-    {
-        var skip = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
-        foreach (var arg in attr.NamedArguments)
-        {
-            if (!string.Equals(arg.Key, SkipMembersPropertyName, StringComparison.Ordinal))
-            {
-                continue;
-            }
-
-            foreach (var v in arg.Value.Values)
-            {
-                skip.Add((string)v.Value!);
-            }
-
-            break;
-        }
-
-        return skip;
-    }
-
     private static Members GetMembersToGenerate(AttributeData attr)
     {
         var generate = Members.All;
@@ -91,7 +65,11 @@ internal sealed class GeneratorContext
                 continue;
             }
 
-            generate = (Members)arg.Value.Value!;
+            var propertyValue = arg.Value.Value;
+            generate = propertyValue is not null
+                ? (Members)propertyValue
+                : Members.All;
+
             break;
         }
 

@@ -10,7 +10,7 @@ using W4k.Either;
 
 namespace MyLittleEither.MyLittleEitherMonad
 {
-    [Either(Skip = new [] { ""Case"", ""TryPick"", ""Switch*"" })]
+    [Either(Generate = Members.BindAll | Members.MapAll | Members.MatchAll)]
     public partial struct MyEither<TLeft, TRight>
     {
     }
@@ -30,7 +30,7 @@ using W4k.Either;
 
 namespace MyLittleEither.MyLittleEitherMonad
 {
-    [Either(typeof(string), typeof(int), Skip = new [] { ""SwitchAsync"", ""SwitchAsync<TState>"" })]
+    [Either(typeof(string), typeof(int), Generate = Members.Case | Members.TryPick | Members.BindAll | Members.MapAll | Members.MatchAll | Members.Switch | Members.SwitchWithState)]
     public partial struct StringOrInt
     {
     }
@@ -50,7 +50,7 @@ using W4k.Either;
 
 namespace MyLittleEither.MyLittleEitherMonad
 {
-    [Either<string, int>(Skip = new [] { ""Bind"", ""Map"", ""MatchAsync"", ""MatchAsync<TState>"" })]
+    [Either<string, int>(Generate = Members.Case | Members.TryPick | Members.BindWithState | Members.Switch | Members.SwitchWithState)]
     public partial struct StringOrInt
     {
     }

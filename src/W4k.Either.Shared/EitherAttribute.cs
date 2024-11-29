@@ -331,11 +331,6 @@ public sealed class EitherAttribute<T1, T2, T3, T4, T5, T6, T7, T8> : EitherBase
 public abstract class EitherBaseAttribute : Attribute
 {
     /// <summary>
-    /// Gets or sets member names to skip by the source generator.
-    /// </summary>
-    [Obsolete] public string[] Skip { get; set; } = [];
-
-    /// <summary>
     /// Gets or sets members to generate, default is <see cref="Members.All"/>.
     /// </summary>
     public Members Generate { get; set; } = Members.All;

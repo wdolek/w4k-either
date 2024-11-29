@@ -9,7 +9,7 @@ internal sealed class TryPickGenerator : IMemberCodeGenerator
         _context = context;
     }
 
-    public bool CanGenerate() => !_context.Skip.Contains("TryPick");
+    public bool CanGenerate() => _context.Generate.ShouldGenerate(Members.TryPick);
 
     public void Generate(IndentedWriter writer)
     {

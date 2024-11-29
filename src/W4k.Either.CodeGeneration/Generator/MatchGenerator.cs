@@ -9,26 +9,29 @@ internal sealed class MatchGenerator : IMemberCodeGenerator
         _context = context;
     }
 
-    public bool CanGenerate() => !_context.Skip.Contains("Match*");
+    public bool CanGenerate() => _context.Generate.ShouldGenerate(Members.Match)
+        || _context.Generate.ShouldGenerate(Members.MatchWithState)
+        || _context.Generate.ShouldGenerate(Members.MatchAsync)
+        || _context.Generate.ShouldGenerate(Members.MatchAsyncWithState);
 
     public void Generate(IndentedWriter writer)
     {
-        if (!_context.Skip.Contains("Match"))
+        if (_context.Generate.ShouldGenerate(Members.Match))
         {
             WriteMatch(writer);
         }
 
-        if (!_context.Skip.Contains("Match<TState>"))
+        if (_context.Generate.ShouldGenerate(Members.MatchWithState))
         {
             WriteMatchWithState(writer);
         }
 
-        if (!_context.Skip.Contains("MatchAsync"))
+        if (_context.Generate.ShouldGenerate(Members.MatchAsync))
         {
             WriteAsyncMatch(writer);
         }
 
-        if (!_context.Skip.Contains("MatchAsync<TState>"))
+        if (_context.Generate.ShouldGenerate(Members.MatchAsyncWithState))
         {
             WriteAsyncMatchWithState(writer);
         }
