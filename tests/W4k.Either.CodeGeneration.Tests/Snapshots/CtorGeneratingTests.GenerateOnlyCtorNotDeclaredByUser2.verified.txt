@@ -130,6 +130,36 @@ namespace MyLittleEither.MyLittleEitherMonad
             return false;
         }
 
+        [global::System.Diagnostics.Contracts.Pure]
+        public bool TryPick(out int value, out int? remainder)
+        {
+            if (_idx == 1)
+            {
+                value = _v1;
+                remainder = default;
+                return true;
+            }
+
+            value = default;
+            remainder = _v2;
+            return false;
+        }
+
+        [global::System.Diagnostics.Contracts.Pure]
+        public bool TryPick(out int? value, out int remainder)
+        {
+            if (_idx == 2)
+            {
+                value = _v2;
+                remainder = default;
+                return true;
+            }
+
+            value = default;
+            remainder = _v1;
+            return false;
+        }
+
         public TResult Match<TResult>(
             global::System.Func<int, TResult> f1,
             global::System.Func<int?, TResult> f2)

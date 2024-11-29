@@ -137,6 +137,36 @@ namespace MyLittleEither.MyLittleEitherMonad
             return false;
         }
 
+        [global::System.Diagnostics.Contracts.Pure]
+        public bool TryPick(out TLeft? value, out TRight? remainder)
+        {
+            if (_idx == 1)
+            {
+                value = _v1;
+                remainder = default;
+                return true;
+            }
+
+            value = default;
+            remainder = _v2;
+            return false;
+        }
+
+        [global::System.Diagnostics.Contracts.Pure]
+        public bool TryPick(out TRight? value, out TLeft? remainder)
+        {
+            if (_idx == 2)
+            {
+                value = _v2;
+                remainder = default;
+                return true;
+            }
+
+            value = default;
+            remainder = _v1;
+            return false;
+        }
+
         public MyValuableEither<TNew, TRight?> Bind<TNew>(global::System.Func<TLeft?, MyValuableEither<TNew, TRight?>> binder)
         {
             switch (_idx)
