@@ -11,7 +11,7 @@ public enum Members
     /// <summary>
     /// All members will be generated.
     /// </summary>
-    All = Case | TryPick | BindAll | MapAll | MatchAll | SwitchAll,
+    All = Case | TryPickAll | BindAll | MapAll | MatchAll | SwitchAll,
 
     /// <summary>
     /// <c>Case</c> property will be generated.
@@ -24,14 +24,27 @@ public enum Members
     TryPick = 1 << 1,
 
     /// <summary>
+    /// <c>TryPick</c> with second <langword>out</langword> parameter for the remainder will be generated.
+    /// </summary>
+    /// <remarks>
+    /// Generated only when arity of the <c>Either</c> type is equal to 2.
+    /// </remarks>
+    TryPickWithRemainder = 1 << 2,
+
+    /// <summary>
+    /// Both <c>TryPick</c> methods will be generated.
+    /// </summary>
+    TryPickAll = TryPick | TryPickWithRemainder,
+
+    /// <summary>
     /// <c>Bind</c> method will be generated.
     /// </summary>
-    Bind = 1 << 2,
+    Bind = 1 << 3,
 
     /// <summary>
     /// <b>Bind&lt;TState&gt;</b> method will be generated.
     /// </summary>
-    BindWithState = 1 << 3,
+    BindWithState = 1 << 4,
 
     /// <summary>
     /// Both <c>Bind</c> and <b>Bind&lt;TState&gt;</b> methods will be generated.
@@ -41,12 +54,12 @@ public enum Members
     /// <summary>
     /// <c>Map</c> method will be generated.
     /// </summary>
-    Map = 1 << 4,
+    Map = 1 << 5,
 
     /// <summary>
     /// <c>Map&lt;TState&gt;</c> method will be generated.
     /// </summary>
-    MapWithState = 1 << 5,
+    MapWithState = 1 << 6,
 
     /// <summary>
     /// Both <c>Map</c> and <c>Map&lt;TState&gt;</c> methods will be generated.
@@ -56,22 +69,22 @@ public enum Members
     /// <summary>
     /// <c>Match</c> method will be generated.
     /// </summary>
-    Match = 1 << 6,
+    Match = 1 << 7,
 
     /// <summary>
     /// <c>Match&lt;TState&gt;</c> method will be generated.
     /// </summary>
-    MatchWithState = 1 << 7,
+    MatchWithState = 1 << 8,
 
     /// <summary>
     /// <c>MatchAsync</c> method will be generated.
     /// </summary>
-    MatchAsync = 1 << 8,
+    MatchAsync = 1 << 9,
 
     /// <summary>
     /// <c>MatchAsync&lt;TState&gt;</c> method will be generated.
     /// </summary>
-    MatchAsyncWithState = 1 << 9,
+    MatchAsyncWithState = 1 << 10,
 
     /// <summary>
     /// All match methods will be generated.
@@ -84,7 +97,7 @@ public enum Members
     /// <remarks>
     /// <c>Switch</c> implies <c>Match</c> method will be generated as well.
     /// </remarks>
-    Switch = 1 << 10 | Match,
+    Switch = 1 << 11 | Match,
 
     /// <summary>
     /// <c>Switch&lt;TState&gt;</c> method will be generated.
@@ -92,7 +105,7 @@ public enum Members
     /// <remarks>
     /// <c>Switch&lt;TState&gt;</c> implies <c>Match&lt;TState&gt;</c> method will be generated as well.
     /// </remarks>
-    SwitchWithState = 1 << 11 | MatchWithState,
+    SwitchWithState = 1 << 12 | MatchWithState,
 
     /// <summary>
     /// <c>SwitchAsync</c> method will be generated.
@@ -100,7 +113,7 @@ public enum Members
     /// <remarks>
     /// <c>SwitchAsync</c> implies <c>MatchAsync</c> method will be generated as well.
     /// </remarks>
-    SwitchAsync = 1 << 12 | MatchAsync,
+    SwitchAsync = 1 << 13 | MatchAsync,
 
     /// <summary>
     /// <c>SwitchAsync&lt;TState&gt;</c> method will be generated.
@@ -108,7 +121,7 @@ public enum Members
     /// <remarks>
     /// <c>SwitchAsync&lt;TState&gt;</c> implies <c>MatchAsync&lt;TState&gt;</c> method will be generated as well.
     /// </remarks>
-    SwitchAsyncWithState = 11 << 13 | MatchAsyncWithState,
+    SwitchAsyncWithState = 11 << 14 | MatchAsyncWithState,
 
     /// <summary>
     /// All switch methods will be generated.
