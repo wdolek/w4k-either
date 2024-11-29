@@ -14,7 +14,7 @@ internal sealed class BindGenerator : IMemberCodeGenerator
 
     public bool CanGenerate() =>
         _context.ParametrizationKind == ParametrizationKind.Generic
-        && !_context.Skip.Contains("Bind*");
+        && (_context.Generate.ShouldGenerate(Members.Bind) || _context.Generate.ShouldGenerate(Members.BindWithState));
 
     public void Generate(IndentedWriter writer)
     {
@@ -24,12 +24,12 @@ internal sealed class BindGenerator : IMemberCodeGenerator
 
         foreach (var typeParam in typeParameters)
         {
-            if (!_context.Skip.Contains("Bind"))
+            if (_context.Generate.ShouldGenerate(Members.Bind))
             {
                 WriteBind(writer, typeParam, typeSymbolName, typeParameters, newTypeParamName);
             }
 
-            if (!_context.Skip.Contains("Bind<TState>"))
+            if (_context.Generate.ShouldGenerate(Members.BindWithState))
             {
                 WriteBindWithState(writer, typeParam, typeSymbolName, typeParameters, newTypeParamName);
             }

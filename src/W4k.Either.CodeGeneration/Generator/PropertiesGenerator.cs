@@ -9,7 +9,7 @@ internal sealed class PropertiesGenerator : IMemberCodeGenerator
         _context = context;
     }
 
-    public bool CanGenerate() => !_context.Skip.Contains("Case");
+    public bool CanGenerate() => _context.Generate.ShouldGenerate(Members.Case);
 
     public void Generate(IndentedWriter sb)
     {

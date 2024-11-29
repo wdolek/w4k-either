@@ -9,27 +9,29 @@ internal sealed class SwitchGenerator : IMemberCodeGenerator
         _context = context;
     }
 
-    // `Switch` depends on `Match` - if `Match` is skipped, we can't generate `Switch`
-    public bool CanGenerate() => !(_context.Skip.Contains("Switch*") || _context.Skip.Contains("Match*"));
+    public bool CanGenerate() => _context.Generate.ShouldGenerate(Members.Switch)
+        || _context.Generate.ShouldGenerate(Members.SwitchWithState)
+        || _context.Generate.ShouldGenerate(Members.SwitchAsync)
+        || _context.Generate.ShouldGenerate(Members.SwitchAsyncWithState);
 
     public void Generate(IndentedWriter writer)
     {
-        if (!(_context.Skip.Contains("Switch") || _context.Skip.Contains("Match")))
+        if (_context.Generate.ShouldGenerate(Members.Switch))
         {
             WriteSwitch(writer);
         }
 
-        if (!(_context.Skip.Contains("Switch<TState>") || _context.Skip.Contains("Match<TState>")))
+        if (_context.Generate.ShouldGenerate(Members.SwitchWithState))
         {
             WriteSwitchWithState(writer);
         }
 
-        if (!(_context.Skip.Contains("SwitchAsync") || _context.Skip.Contains("MatchAsync")))
+        if (_context.Generate.ShouldGenerate(Members.SwitchAsync))
         {
             WriteAsyncSwitch(writer);
         }
 
-        if (!(_context.Skip.Contains("SwitchAsync<TState>") || _context.Skip.Contains("MatchAsync<TState>")))
+        if (_context.Generate.ShouldGenerate(Members.SwitchAsyncWithState))
         {
             WriteAsyncSwitchWithState(writer);
         }

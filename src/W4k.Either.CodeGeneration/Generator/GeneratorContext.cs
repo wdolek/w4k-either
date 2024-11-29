@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
 using Microsoft.CodeAnalysis;
@@ -10,7 +9,7 @@ namespace W4k.Either.Generator;
 
 internal sealed class GeneratorContext
 {
-    private const string SkipMembersPropertyName = "Skip";
+    private const string GenerateMembersPropertyName = "Generate";
 
     public GeneratorContext(TransformationResult transformationResult)
     {
@@ -24,7 +23,7 @@ internal sealed class GeneratorContext
         ContainingTypeDeclaration = transformationResult.ContainingTypeDeclaration;
         ParametrizationKind = transformationResult.ParametrizationKind;
         TypeParameters = transformationResult.TypeParameters;
-        Skip = GetSkippedMembers(transformationResult.Attribute);
+        Generate = GetMembersToGenerate(transformationResult.Attribute);
     }
 
     public TypeKind TypeKind { get; }
@@ -32,7 +31,7 @@ internal sealed class GeneratorContext
     public Declaration? ContainingTypeDeclaration { get; }
     public ParametrizationKind ParametrizationKind { get; }
     public TypeParameter[] TypeParameters { get; }
-    public HashSet<string> Skip { get; set; }
+    public Members Generate { get; }
 
     public string GetFileName()
     {
@@ -56,24 +55,24 @@ internal sealed class GeneratorContext
     private static void ThrowOnInvalidTransformationResult(string argName) =>
         throw new ArgumentException("Transformation result is invalid.", argName);
 
-    private static HashSet<string> GetSkippedMembers(AttributeData attr)
+    private static Members GetMembersToGenerate(AttributeData attr)
     {
-        var skip = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+        var generate = Members.All;
         foreach (var arg in attr.NamedArguments)
         {
-            if (!string.Equals(arg.Key, SkipMembersPropertyName, StringComparison.Ordinal))
+            if (!string.Equals(arg.Key, GenerateMembersPropertyName, StringComparison.Ordinal))
             {
                 continue;
             }
 
-            foreach (var v in arg.Value.Values)
-            {
-                skip.Add((string)v.Value!);
-            }
+            var propertyValue = arg.Value.Value;
+            generate = propertyValue is not null
+                ? (Members)propertyValue
+                : Members.All;
 
             break;
         }
 
-        return skip;
+        return generate;
     }
 }

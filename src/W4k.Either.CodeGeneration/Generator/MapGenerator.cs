@@ -14,7 +14,7 @@ internal sealed class MapGenerator : IMemberCodeGenerator
 
     public bool CanGenerate() =>
         _context.ParametrizationKind == ParametrizationKind.Generic
-        && !_context.Skip.Contains("Map*");
+        && (_context.Generate.ShouldGenerate(Members.Map) || _context.Generate.ShouldGenerate(Members.MapWithState));
 
     public void Generate(IndentedWriter writer)
     {
@@ -24,12 +24,12 @@ internal sealed class MapGenerator : IMemberCodeGenerator
 
         foreach (var typeParam in typeParameters)
         {
-            if (!_context.Skip.Contains("Map"))
+            if (_context.Generate.ShouldGenerate(Members.Map))
             {
                 WriteMap(writer, typeParam, typeSymbolName, typeParameters, newTypeParamName);
             }
 
-            if (!_context.Skip.Contains("Map<TState>"))
+            if (_context.Generate.ShouldGenerate(Members.MapWithState))
             {
                 WriteMapWithState(writer, typeParam, typeSymbolName, typeParameters, newTypeParamName);
             }
