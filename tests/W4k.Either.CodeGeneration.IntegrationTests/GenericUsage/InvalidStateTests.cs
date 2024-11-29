@@ -5,20 +5,20 @@ public class InvalidStateTests
     [Fact]
     public void AllowInstantiateDefault()
     {
-        var eitherCtor = new UnconstrainedEither<Scrooge, Unit>();
+        var eitherCtor = new UnconstrainedEither<Scrooge, ValueTuple>();
         Assert.Equal(0, eitherCtor.State);
 
-        UnconstrainedEither<Scrooge, Unit> eitherDefault = default;
+        UnconstrainedEither<Scrooge, ValueTuple> eitherDefault = default;
         Assert.Equal(0, eitherDefault.State);
     }
 
     [Fact]
     public void ShouldBeEquatable()
     {
-        var valid = new UnconstrainedEither<Scrooge, Unit>(new Scrooge(Money: 315_360_000_000_000_000));
+        var valid = new UnconstrainedEither<Scrooge, ValueTuple>(new Scrooge(Money: 315_360_000_000_000_000));
 
-        var invalid1 = new UnconstrainedEither<Scrooge, Unit>();
-        var invalid2 = new UnconstrainedEither<Scrooge, Unit>();
+        var invalid1 = new UnconstrainedEither<Scrooge, ValueTuple>();
+        var invalid2 = new UnconstrainedEither<Scrooge, ValueTuple>();
 
         Assert.False(valid == invalid1);
         Assert.False(valid.Equals((object?)invalid1));
@@ -32,63 +32,63 @@ public class InvalidStateTests
     [Fact]
     public void DisallowPatternMatching()
     {
-        var invalid = new UnconstrainedEither<Scrooge, Unit>();
+        var invalid = new UnconstrainedEither<Scrooge, ValueTuple>();
         Assert.Throws<InvalidOperationException>(() => invalid.Case);
     }
 
     [Fact]
     public void DisallowGettingHashCode()
     {
-        var invalid = new UnconstrainedEither<Scrooge, Unit>();
+        var invalid = new UnconstrainedEither<Scrooge, ValueTuple>();
         Assert.Throws<InvalidOperationException>(() => invalid.GetHashCode());
     }
 
     [Fact]
     public void DisallowToString()
     {
-        var invalid = new UnconstrainedEither<Scrooge, Unit>();
+        var invalid = new UnconstrainedEither<Scrooge, ValueTuple>();
         Assert.Throws<InvalidOperationException>(() => invalid.ToString());
     }
 
     [Fact]
     public void DisAllowTryPick()
     {
-        var invalid = new UnconstrainedEither<Scrooge, Unit>();
+        var invalid = new UnconstrainedEither<Scrooge, ValueTuple>();
         Assert.False(invalid.TryPick(out Scrooge? _));
     }
 
     [Fact]
     public async Task DisallowMatch()
     {
-        var invalid = new UnconstrainedEither<Scrooge, Unit>();
+        var invalid = new UnconstrainedEither<Scrooge, ValueTuple>();
 
         Assert.Throws<InvalidOperationException>(
             () => invalid.Match(
-                _ => Unit.Default,
-                _ => Unit.Default));
+                _ => ValueTuple.Create(),
+                _ => ValueTuple.Create()));
 
         Assert.Throws<InvalidOperationException>(
             () => invalid.Match(
                 -1,
-                (_, _) => Unit.Default,
-                (_, _) => Unit.Default));
+                (_, _) => ValueTuple.Create(),
+                (_, _) => ValueTuple.Create()));
 
         await Assert.ThrowsAsync<InvalidOperationException>(
             () => invalid.MatchAsync(
-                (_, _) => Task.FromResult(Unit.Default),
-                (_, _) => Task.FromResult(Unit.Default)));
+                (_, _) => Task.FromResult(ValueTuple.Create()),
+                (_, _) => Task.FromResult(ValueTuple.Create())));
 
         await Assert.ThrowsAsync<InvalidOperationException>(
             () => invalid.MatchAsync(
                 -1,
-                (_, _, _) => Task.FromResult(Unit.Default),
-                (_, _, _) => Task.FromResult(Unit.Default)));
+                (_, _, _) => Task.FromResult(ValueTuple.Create()),
+                (_, _, _) => Task.FromResult(ValueTuple.Create())));
     }
 
     [Fact]
     public async Task DisallowSwitch()
     {
-        var invalid = new UnconstrainedEither<Scrooge, Unit>();
+        var invalid = new UnconstrainedEither<Scrooge, ValueTuple>();
 
         Assert.Throws<InvalidOperationException>(
             () => invalid.Switch(
