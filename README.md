@@ -3,7 +3,6 @@
 ![W4k.Either Build](https://github.com/wdolek/w4k-either/workflows/Build%20and%20test/badge.svg) 
 [![NuGet Version](https://img.shields.io/nuget/v/W4k.Either?label=W4k.Either)](https://www.nuget.org/packages/W4k.Either)
 [![NuGet Version](https://img.shields.io/nuget/v/W4k.Either.CodeGeneration?label=W4k.Either.CodeGeneration)](https://www.nuget.org/packages/W4k.Either.CodeGeneration)
-[![CodeQL](https://github.com/wdolek/w4k-either/actions/workflows/github-code-scanning/codeql/badge.svg)](https://github.com/wdolek/w4k-either/security/code-scanning)
 
 ## Why?
 

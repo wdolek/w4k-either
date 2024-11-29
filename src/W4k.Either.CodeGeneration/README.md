@@ -106,48 +106,22 @@ Notice that value fields starts at `1`, as well as state index value:
 
 You can declare any constructor you want, but keep in mind you need to initialize the monad properly - always set `_idx` and `_v#` fields.
 
-### Skip generating (some) members
+### Generate just some members
 
-When decorating your type by `[Either]` attribute, it's possible to let generator know that you want to skip (some) members
-normally generated. This is done by specifying `Skip` property of the attribute:
+When decorating your type by `[Either]` attribute, it's possible to let generator know that you don't need all members
+normally generated. This is done by specifying `Generate` property of the attribute:
 
 ```csharp
-[Either(Skip = new[] { "Case", "Switch*" })]
+[Either(Generate = Members.TryPick | Members.MatchAll)]
 public partial readonly struct ThisOrThat<TLeft, TRight>
 {
 }
 ```
 
-Code above generates type while skipping generating `Case` property and all `Switch` methods.
+Code above generates type with only `TryPick` method and all `Match*` methods. You can combine members using bitwise operations.
+See [`Members` enum](../W4k.Either.Shared/Members.cs) for all possible values.
 
-Members you can omit from being generated:
-
-| Member name / alias     | Skip generating...                                                  |
-|-------------------------|---------------------------------------------------------------------|
-| `"Case"`                | `Case` property                                                     |
-| `"TryPick"`             | `TryPick` method                                                    |
-|                         |                                                                     |
-| `"Bind*"`               | all `Bind` methods                                                  |
-| `"Bind"`                | `Bind` method                                                       |
-| `"Bind<TState>"`        | `Bind` method override with provided state                          |
-|                         |                                                                     |
-| `"Map*"`                | all `Map` methods                                                   |
-| `"Map"`                 | `Map` method                                                        |
-| `"Map<TState>"`         | `Map` method override with provided state                           |
-|                         |                                                                     |
-| `"Match*"`              | all `Match`, `MatchAsync`, `Switch` and `SwitchAsync` methods       |
-| `"Match"`               | `Match` and `Switch` method                                         |
-| `"Match<TState>"`       | `Match` and `Switch` method override with provided state            |
-| `"MatchAsync"`          | `MatchAsync` and `SwitchAsync` method                               |
-| `"MatchAsync<TState>"`  | `MatchAsync` and `SwitchAsync` method overrides with provided state |
-|                         |                                                                     |
-| `"Switch*"`             | all `Switch` and `SwitchAsync` methods                              |
-| `"Switch"`              | `Switch` method                                                     |
-| `"Switch<TState>"`      | `Switch` method override with provided state                        |
-| `"SwitchAsync"`         | `SwitchAsync` method                                                |
-| `"SwitchAsync<TState>"` | `SwitchAsync` method override with provided state                   |
-
-`Switch` method implementation relies on `Match`, thus skipping generation of `Match` will also skip `Switch` method.
+Keep in mind: When generating any `Switch*` method, it implies it's `Match*` counterpart will be generated as well.
 
 ---
 
