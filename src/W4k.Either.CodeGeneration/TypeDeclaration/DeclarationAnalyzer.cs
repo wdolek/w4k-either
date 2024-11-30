@@ -15,11 +15,22 @@ internal static class DeclarationAnalyzer
             return DeclarationAnalysisResult.None();
         }
 
-        var (declarationSyntax, isPartial) = FindDeclarationSyntax(typeSymbol, cancellationToken);
+        var (declarationSyntax, isPartial, isStatic) = FindDeclarationSyntax(typeSymbol, cancellationToken);
+
         if (!isPartial)
         {
             var diagnostic = Diagnostic.Create(
                 descriptor: DiagnosticDescriptors.TypeMustBePartial,
+                location: typeSymbol.Locations[0],
+                messageArgs: typeSymbol.Name);
+
+            return DeclarationAnalysisResult.Invalid(diagnostic);
+        }
+
+        if (isStatic)
+        {
+            var diagnostic = Diagnostic.Create(
+                descriptor: DiagnosticDescriptors.TypeCannotBeStatic,
                 location: typeSymbol.Locations[0],
                 messageArgs: typeSymbol.Name);
 
@@ -32,11 +43,13 @@ internal static class DeclarationAnalyzer
         return DeclarationAnalysisResult.Valid(typeDeclaration);
     }
 
-    private static (TypeDeclarationSyntax? DeclarationSyntax, bool IsPartial) FindDeclarationSyntax(
+    private static (TypeDeclarationSyntax? DeclarationSyntax, bool IsPartial, bool IsStatic) FindDeclarationSyntax(
         INamedTypeSymbol typeSymbol,
         CancellationToken cancellationToken)
     {
         TypeDeclarationSyntax? foundTypeDeclarationSyntax = null;
+        var modifiersFound = 0;
+        var isStatic = false;
         var isPartial = false;
 
         foreach (var syntaxRef in typeSymbol.DeclaringSyntaxReferences)
@@ -46,15 +59,27 @@ internal static class DeclarationAnalyzer
             {
                 foundTypeDeclarationSyntax = typeDeclarationSyntax;
 
+                if (typeDeclarationSyntax.Modifiers.Any(SyntaxKind.StaticKeyword))
+                {
+                    isStatic = true;
+                    ++modifiersFound;
+                }
+
                 if (typeDeclarationSyntax.Modifiers.Any(SyntaxKind.PartialKeyword))
                 {
                     isPartial = true;
+                    ++modifiersFound;
+                }
+
+                // don't check modifiers which are irrelevant for analyzer
+                if (modifiersFound == 2)
+                {
                     break;
                 }
             }
         }
 
-        return (foundTypeDeclarationSyntax, isPartial);
+        return (foundTypeDeclarationSyntax, isPartial, isStatic);
     }
 
     private static (string DeclaredTypeName, string FullDeclaration) GetDeclaration(TypeDeclarationSyntax typeDeclaration)

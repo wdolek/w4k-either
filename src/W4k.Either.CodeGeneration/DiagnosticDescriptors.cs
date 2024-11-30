@@ -12,6 +12,14 @@ internal static class DiagnosticDescriptors
         defaultSeverity: DiagnosticSeverity.Error,
         isEnabledByDefault: true);
 
+    public static readonly DiagnosticDescriptor TypeCannotBeStatic = new(
+        id: "W4KE002",
+        title: "Type must not be static",
+        messageFormat: "The type '{0}' cannot be static",
+        category: "Usage",
+        defaultSeverity: DiagnosticSeverity.Error,
+        isEnabledByDefault: true);
+
     public static readonly DiagnosticDescriptor AmbiguousTypeParameters = new(
         id: "W4KE003",
         title: "Ambiguous type parameters",
