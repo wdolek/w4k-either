@@ -41,12 +41,20 @@ internal sealed class CodeGenerator
 
     private void GenerateNamespace(IndentedWriter writer)
     {
-        writer.AppendIndentedLine($"namespace {_context.TypeDeclaration.TargetNamespace}");
-        writer.AppendIndentedLine("{");
+        var ns = _context.TypeDeclaration.TargetNamespace;
+        if (string.IsNullOrEmpty(ns))
+        {
+            GenerateContainingType(writer);
+        }
+        else
+        {
+            writer.AppendIndentedLine($"namespace {ns}");
+            writer.AppendIndentedLine("{");
 
-        GenerateContainingType(writer.Indent());
+            GenerateContainingType(writer.Indent());
 
-        writer.AppendIndentedLine("}");
+            writer.AppendIndentedLine("}");
+        }
     }
 
     private void GenerateContainingType(IndentedWriter writer)
