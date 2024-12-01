@@ -25,7 +25,7 @@ They are designed to be used in functional programming style, but can be used in
 | [`Result<TValue, TError>`](#result)                  | Result representation with a value                                      |
 | [`OptionalResult<TValue, TError>`](#optional_result) | Optional result with a value (similar to Result<Maybe<TValue>, TError>) |
 
-All types are generated using [`W4k.Either.CodeGeneration` package](https://www.nuget.org/packages/W4k.Either.CodeGeneration/).
+All types are generated using [`W4k.Either.CodeGeneration`](../W4k.Either.CodeGeneration).
 
 ## Usage
 

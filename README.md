@@ -1,4 +1,4 @@
-# W4k.Either
+# W4k.Either /ˈaɪ.ðə<sup>r</sup>/
 
 ![W4k.Either Build](https://github.com/wdolek/w4k-either/workflows/Build%20and%20test/badge.svg) 
 [![NuGet Version](https://img.shields.io/nuget/v/W4k.Either?label=W4k.Either)](https://www.nuget.org/packages/W4k.Either)
