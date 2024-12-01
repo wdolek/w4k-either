@@ -12,11 +12,11 @@
   </PropertyGroup>
 
   <PropertyGroup>
-    <VersionPrefix>1.0.0</VersionPrefix>
+    <VersionPrefix>2.0.0</VersionPrefix>
     <Authors>Zdenek Havlin</Authors>
-    <Description>Source generator for creating discriminated union-like value type.</Description>
+    <Description>A source generator for creating discriminated union-like value types in C#. This tool simplifies the creation of Either types, enabling developers to define custom types with ease and ensuring type safety in functional programming patterns.</Description>
     <PackageId>W4k.Either.CodeGeneration</PackageId>
-    <PackageTags>C#, Functional, Code Generation, Language Extension, Monad, Either, Maybe, Result, OptionalResult, Discriminated Union</PackageTags>
+    <PackageTags>C#, Source Generator, Code Generation, Functional Programming, Either, Discriminated Union, Maybe, Result, Optional, Monad, Roslyn</PackageTags>
     <PackageProjectUrl>https://github.com/wdolek/w4k-either</PackageProjectUrl>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageIconUrl>https://github.com/wdolek/w4k-either/blob/main/images/either_128px.png?raw=true</PackageIconUrl>

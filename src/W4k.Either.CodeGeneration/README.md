@@ -3,7 +3,7 @@
 :warning: Code generator - despite targeting `netstandard2.0` - requires project to use at least `net8.0` (due to features used in generated code).
 
 All types distributed with `W4k.Either` package are generated using _this_ source generator.
-To see how to use those types and what is being generated, please refer to [`W4k.Either`](https://www.nuget.org/packages/W4k.Either/) package
+To see how to use those types and what is being generated, please refer to [`W4k.Either`](../W4k.Either) package
 or find generated code snapshots in [tests](../../tests/W4k.Either.CodeGeneration.Tests/Snapshots).
 
 The `W4k.Either.CodeGeneration` package enables you to generate your own types with custom logic. It generates types in two ways:
