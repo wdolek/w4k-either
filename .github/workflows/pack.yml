@@ -44,11 +44,11 @@ jobs:
     - name: Test
       run: dotnet test --no-build --configuration Release --verbosity normal
 
-    - name: Pack `W4k.Either`
-      run: dotnet pack --no-build --configuration Release -p:Version=${{ github.event.inputs.version }} -o artifacts src/W4k.Either
+    - name: Pack `Either`
+      run: dotnet pack --no-build --configuration Release -p:Version=${{ github.event.inputs.version }} -o artifacts src/Either
 
-    - name: Pack `W4k.Either.CodeGeneration`
-      run: dotnet pack --no-build --configuration Release -p:Version=${{ github.event.inputs.version }} -o artifacts src/W4k.Either.CodeGeneration
+    - name: Pack `Either.CodeGeneration`
+      run: dotnet pack --no-build --configuration Release -p:Version=${{ github.event.inputs.version }} -o artifacts src/Either.CodeGeneration
 
     - name: Upload artifact
       uses: actions/upload-artifact@v4

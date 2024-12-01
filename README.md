@@ -1,8 +1,10 @@
-# W4k.Either
+# Either /ˈaɪ.ðə<sup>r</sup>/
 
-![W4k.Either Build](https://github.com/wdolek/w4k-either/workflows/Build%20and%20test/badge.svg) 
-[![NuGet Version](https://img.shields.io/nuget/v/W4k.Either?label=W4k.Either)](https://www.nuget.org/packages/W4k.Either)
-[![NuGet Version](https://img.shields.io/nuget/v/W4k.Either.CodeGeneration?label=W4k.Either.CodeGeneration)](https://www.nuget.org/packages/W4k.Either.CodeGeneration)
+![Either Build](https://github.com/wdolek/w4k-either/workflows/Build%20and%20test/badge.svg) 
+[![NuGet Version](https://img.shields.io/nuget/v/Either?label=Either)](https://www.nuget.org/packages/Either)
+[![NuGet Version](https://img.shields.io/nuget/v/Either.CodeGeneration?label=Either.CodeGeneration)](https://www.nuget.org/packages/Either.CodeGeneration)
+
+(formerly known as `W4k.Either`)
 
 ## Why?
 
@@ -18,8 +20,8 @@ A more practical solution is to use this project.
 
 This project is source for two packages:
 
-- [`W4k.Either`](src/W4k.Either): Predefined types that can be used to represent discriminated union.
-- [`W4k.Either.CodeGeneration`](src/W4k.Either.CodeGeneration): Provides source generator that can be used to generate your own types with custom logic/rules.
+- [`Either`](src/Either): Predefined types that can be used to represent discriminated union.
+- [`Either.CodeGeneration`](src/Either.CodeGeneration): Provides source generator that can be used to generate your own types with custom logic/rules.
 
 Please follow links above to get more information about each package.
 
@@ -57,7 +59,7 @@ var message = result.Match(
 | `Result<TValue, TError>`         | Result representation with a value                                      |
 | `OptionalResult<TValue, TError>` | Optional result with a value (similar to Result<Maybe<TValue>, TError>) |
 
-More details about each type can be found [here](./src/W4k.Either/README.md).
+More details about each type can be found [here](./src/Either/README.md).
 
 ## Generating own types
 
@@ -70,7 +72,7 @@ public readonly partial struct Gelf<TCamille, TCat, TCrichton>
 }
 ```
 
-Please follow [this](./src/W4k.Either.CodeGeneration/README.md) link to get more information.
+Please follow [this](./src/Either.CodeGeneration/README.md) link to get more information.
 
 ## Alternative/similar packages
 

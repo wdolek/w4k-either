@@ -1,0 +1,11 @@
+﻿<Project>
+
+  <Target Name="EnsureNet80OrHigher" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <_MinimumSupportedTargetVersion>8.0</_MinimumSupportedTargetVersion>
+    </PropertyGroup>
+    <Message Importance="low" Text="Either.CodeGeneration: Minimum supported target version: $(_MinimumSupportedTargetVersion)" />
+    <Error Condition="$([MSBuild]::VersionLessThan($(TargetFrameworkVersion), $(_MinimumSupportedTargetVersion)))" Text="Either.CodeGeneration requires the consuming project to target .NET 8.0 or higher."/>
+  </Target>
+
+</Project>
