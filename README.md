@@ -82,6 +82,7 @@ Listed alphabetically
 - [dunet](https://github.com/domn1995/dunet): Simple source generator for discriminated unions in C#
 - [ErrorOr](https://github.com/amantinband/error-or): A simple, fluent discriminated union of an error or a result
 - [FluentResults](https://github.com/altmann/FluentResults): A lightweight .NET library to handle errors and failures in a fluent way
+- [Funcky](https://github.com/polyadic/funcky): Funcky is a functional library for C#; [Funcky.DiscriminatedUnion](https://github.com/polyadic/funcky-discriminated-union)
 - [FxKit](https://github.com/taxfyle/FxKit): A library for C# to enable functional, railway-oriented programming using common abstract data types
 - [LanguageExt](https://github.com/louthy/language-ext): Provides functional-programming "base class" library
 - [Nut.Result](https://github.com/Archway-SharedLib/Nut.Results): Provides an object in .NET that represents the result of a simple process
