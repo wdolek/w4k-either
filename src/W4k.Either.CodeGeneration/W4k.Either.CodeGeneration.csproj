@@ -5,7 +5,7 @@
   </ItemGroup>
 
   <PropertyGroup>
-    <TargetFrameworks>netstandard2.0;net8.0</TargetFrameworks>
+    <TargetFrameworks>netstandard2.0;net8.0;net9.0;net10.0</TargetFrameworks>
     <NoWarn>NU5128,RS2007</NoWarn>
     <EnablePackageValidation>true</EnablePackageValidation>
     <RootNamespace>W4k.Either</RootNamespace>
@@ -39,8 +39,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.CodeAnalysis.Analyzers" Version="3.11.0" PrivateAssets="All" />
-    <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.11.0" PrivateAssets="All" />
+    <PackageReference Include="Microsoft.CodeAnalysis.Analyzers" PrivateAssets="All" />
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp" PrivateAssets="All" />
   </ItemGroup>
 
   <ItemGroup>
@@ -61,6 +61,14 @@
     <None Include="$(OutputPath)\net8.0\W4k.Either.Shared.dll" Pack="true" PackagePath="lib\net8.0" Visible="true" />
     <None Include="$(OutputPath)\net8.0\W4k.Either.Shared.pdb" Pack="true" PackagePath="lib\net8.0" Visible="true" />
     <None Include="$(OutputPath)\net8.0\W4k.Either.Shared.xml" Pack="true" PackagePath="lib\net8.0" Visible="true" />
+
+    <None Include="$(OutputPath)\net9.0\W4k.Either.Shared.dll" Pack="true" PackagePath="lib\net9.0" Visible="true" />
+    <None Include="$(OutputPath)\net9.0\W4k.Either.Shared.pdb" Pack="true" PackagePath="lib\net9.0" Visible="true" />
+    <None Include="$(OutputPath)\net9.0\W4k.Either.Shared.xml" Pack="true" PackagePath="lib\net9.0" Visible="true" />
+
+    <None Include="$(OutputPath)\net10.0\W4k.Either.Shared.dll" Pack="true" PackagePath="lib\net10.0" Visible="true" />
+    <None Include="$(OutputPath)\net10.0\W4k.Either.Shared.pdb" Pack="true" PackagePath="lib\net10.0" Visible="true" />
+    <None Include="$(OutputPath)\net10.0\W4k.Either.Shared.xml" Pack="true" PackagePath="lib\net10.0" Visible="true" />
   </ItemGroup>
 
   <ItemGroup>
