@@ -1,12 +1,12 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net8.0</TargetFramework>
+    <TargetFrameworks>net8.0;net9.0;net10.0</TargetFrameworks>
     <EnablePackageValidation>true</EnablePackageValidation>
   </PropertyGroup>
 
   <PropertyGroup>
-    <VersionPrefix>2.0.0</VersionPrefix>
+    <VersionPrefix>2.1.0</VersionPrefix>
     <Authors>Zdenek Havlin</Authors>
     <Description>An Either type for C#, inspired by functional programming. This sum type represents values of two or more possible types, providing a robust way to handle multiple outcomes in a type-safe manner.</Description>
     <PackageId>W4k.Either</PackageId>
@@ -37,6 +37,14 @@
     <!-- .NET 8.0 -->
     <None Include="$(OutputPath)\W4k.Either.Shared.dll" Pack="true" PackagePath="lib\net8.0" Visible="true" />
     <None Include="$(OutputPath)\W4k.Either.Shared.pdb" Pack="true" PackagePath="lib\net8.0" Visible="true" />
+
+    <!-- .NET 9.0 -->
+    <None Include="$(OutputPath)\W4k.Either.Shared.dll" Pack="true" PackagePath="lib\net9.0" Visible="true" />
+    <None Include="$(OutputPath)\W4k.Either.Shared.pdb" Pack="true" PackagePath="lib\net9.0" Visible="true" />
+
+    <!-- .NET 10.0 -->
+    <None Include="$(OutputPath)\W4k.Either.Shared.dll" Pack="true" PackagePath="lib\net10.0" Visible="true" />
+    <None Include="$(OutputPath)\W4k.Either.Shared.pdb" Pack="true" PackagePath="lib\net10.0" Visible="true" />
   </ItemGroup>
 
   <ItemGroup>
